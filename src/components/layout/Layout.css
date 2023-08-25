@@ -1,0 +1,24 @@
+.layout { 
+  height: 100%;
+  border: 2px solid black;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); 
+  grid-template-rows: 10% 87% 3%; 
+}
+
+.layout> * {
+  border: 2px solid black;
+}
+
+.layout>header, footer {
+  grid-column: span 12;
+}
+
+.layout>aside {
+  grid-column: span 2;
+}
+
+.layout>main {
+  grid-column: span 10;   
+} 
+

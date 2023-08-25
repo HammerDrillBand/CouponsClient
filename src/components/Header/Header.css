@@ -1,0 +1,71 @@
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    background-image: url(background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.HeaderContent {
+    display: flex;
+    align-items: center;
+}
+
+.Logo {
+    display: inline-block;
+    padding: 2%;
+    max-height: 96%;
+    border-radius: 50%;
+}
+
+.HeaderModal {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid;
+    border-color: rgb(165, 126, 42);
+    margin-right: auto;
+    margin-left: auto;
+    background-color: rgba(46, 22, 2, 0.8);
+    border-radius: 50%;
+    box-shadow: -10px 5px 10px rgb(39, 3, 3), -10px 5px 50px rgb(39, 10, 9);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.HeaderButton {
+    margin-right: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    float: right;
+    background-color: rgb(186, 218, 168);
+}
+
+.WelcomeContainer {
+    display: inline-block;
+    align-items: center;
+    margin-right: auto;
+    /* Pushes Welcome to the center */
+}
+
+.Welcome {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(70, 70, 70);
+    font-size: 20px;
+    font-weight: 600;
+    text-shadow: 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white;
+}
+
+.ButtonContainer {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Moves the login/register buttons to the right */
+}
