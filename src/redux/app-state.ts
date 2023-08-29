@@ -7,8 +7,9 @@ export class AppState {
     public categories: ICategory[] = [];
     public coupons: ICoupon[] = [];
     public isLoggedIn: boolean = false;
-    public FilteredByCompanyId: number[] = [];
-    public FilteredByMinPrice: number = 0;
-    public FilteredByMaxPrice: number = 999999;
     public FilteredByCategoryId: number[] = [];
+    public FilteredByCompanyId: number[] = [];
+    public maxPrice: number = 0;
+    public FilteredByMinPrice: number = 0;
+    public FilteredByMaxPrice: number = 0;
 }

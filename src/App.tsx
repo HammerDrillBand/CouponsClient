@@ -6,33 +6,28 @@ import { ICoupon } from './models/ICoupon';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { ActionType } from './redux/action-type';
+import { ICategory } from './models/ICategory';
 
 function App() {
-
-  const [coupons, setCoupons] = useState<ICoupon[]>([]);
-  const [companies, setCompanies] = useState<ICompany[]>([]);
-  const [categories, setCategories] = useState<ICoupon[]>([]);
   let dispatch = useDispatch();
 
   useEffect(() => {
     getInitialData();
-  }, []);
+  });
 
   async function getInitialData() {
     try {
       let responseCoupons = await axios.get("http://localhost:8080/coupons");
-      let coupons = responseCoupons.data;
-      setCoupons(coupons);
+      let coupons: ICoupon[] = responseCoupons.data;
 
       let responseCategories = await axios.get("http://localhost:8080/categories");
-      let categories = responseCategories.data;
-      setCategories(categories);
+      let categories: ICategory[] = responseCategories.data;
 
       let responseCompanies = await axios.get("http://localhost:8080/companies");
-      let companies = responseCompanies.data;
-      setCompanies(companies);
+      let companies: ICompany[] = responseCompanies.data;
 
-      dispatch({type: ActionType.PageLoaded, payload: {coupons, companies, categories}});
+      let maxPrice = Math.max(...coupons.map(coupon => coupon.price));
+      dispatch({ type: ActionType.PageLoaded, payload: { coupons, companies, categories, maxPrice } });
     } catch (error: any) {
       alert(error.response.data.errorMessage);
     }

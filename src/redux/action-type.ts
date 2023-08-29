@@ -1,7 +1,8 @@
 export enum ActionType {
     PageLoaded,
     Login,
+    FilterByCategoryIds,
     FilterByCompanyIds,
-    FilterByPrice,
-    FilterByCategoryIds
+    FilterByMinPrice,
+    FilterByMaxPrice,
 }

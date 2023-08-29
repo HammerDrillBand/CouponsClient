@@ -12,19 +12,22 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
             newAppState.coupons = action.payload.coupons;
             newAppState.companies = action.payload.companies;
             newAppState.categories = action.payload.categories;
+            newAppState.maxPrice = action.payload.maxPrice;
             break;
         case ActionType.Login:
             newAppState.isLoggedIn = action.payload.isLoggedIn;
             break;
+        case ActionType.FilterByCategoryIds:
+            newAppState.FilteredByCategoryId = action.payload.selectedCategories;
+            break;
         case ActionType.FilterByCompanyIds:
             newAppState.FilteredByCompanyId = action.payload.selectedCompanies;
             break;
-        case ActionType.FilterByPrice:
-            newAppState.FilteredByMinPrice = action.payload.MinPrice;
-            newAppState.FilteredByMaxPrice = action.payload.MaxPrice;
+        case ActionType.FilterByMinPrice:
+            newAppState.FilteredByMinPrice = action.payload.minPrice;
             break;
-        case ActionType.FilterByCategoryIds:
-            newAppState.FilteredByCategoryId = action.payload.selectedCategories;
+        case ActionType.FilterByMaxPrice:
+            newAppState.FilteredByMaxPrice = action.payload.maxPrice;
             break;
     }
 
