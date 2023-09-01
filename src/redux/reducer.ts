@@ -7,15 +7,19 @@ const appStateInitialValue = new AppState();
 export function reduce(oldAppState: AppState = appStateInitialValue, action: Action): AppState {
     const newAppState = { ...oldAppState };
 
-    switch (action.type) {
+    switch (action.type) {        
         case ActionType.PageLoaded:
             newAppState.coupons = action.payload.coupons;
             newAppState.companies = action.payload.companies;
             newAppState.categories = action.payload.categories;
             newAppState.maxPrice = action.payload.maxPrice;
+            newAppState.FilteredByMaxPrice = action.payload.maxPrice;
             break;
         case ActionType.Login:
-            newAppState.isLoggedIn = action.payload.isLoggedIn;
+            newAppState.isLoggedIn = true;
+            break;
+        case ActionType.Logout:
+            newAppState.isLoggedIn = false;
             break;
         case ActionType.FilterByCategoryIds:
             newAppState.FilteredByCategoryId = action.payload.selectedCategories;
@@ -28,6 +32,9 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
             break;
         case ActionType.FilterByMaxPrice:
             newAppState.FilteredByMaxPrice = action.payload.maxPrice;
+            break;
+        case ActionType.AddPurchase:
+            newAppState.purchase = action.payload.purchase;
             break;
     }
 

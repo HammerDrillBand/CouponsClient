@@ -14,7 +14,6 @@ function Register() {
     let dispatch = useDispatch();
 
     async function onRegisterClicked() {
-        debugger;
         if (password === passwordVerification) {
             let userType: string = 'CUSTOMER'
             let newUserDetails: IUser = { username, password, userType };

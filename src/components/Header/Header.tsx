@@ -11,13 +11,12 @@ import { ActionType } from "../../redux/action-type";
 function Header() {
 
     let dispatch = useDispatch();
+    let isLoggedIn: boolean = useSelector((state: AppState) => state.isLoggedIn);
 
     let [loginModalIsOpen, setLoginIsOpen] = useState(false);
     let [registerModalIsOpen, setRegisterIsOpen] = useState(false);
-    let isLoggedIn = useSelector((state: AppState) => state.isLoggedIn);
 
     useEffect(() => {
-        // Check if user is logged in, and if so, close the login modal
         if (isLoggedIn) {
             setLoginIsOpen(false);
             setRegisterIsOpen(false);
@@ -26,24 +25,27 @@ function Header() {
 
     function openLoginModal() {
         setLoginIsOpen(true);
-    }
+    };
 
     function closeLoginModal() {
         setLoginIsOpen(false);
-    }
+    };
 
     function openRegisterModal() {
         setRegisterIsOpen(true);
-    }
+    };
 
     function closeRegisterModal() {
         setRegisterIsOpen(false);
-    }
+    };
 
     function userLoggedOut() {
-        isLoggedIn = false;
-        dispatch({ type: ActionType.Login, payload: { isLoggedIn } });
-    }
+        dispatch({ type: ActionType.Logout });
+    };
+
+    function seeUserPurchases() {
+
+    };
 
     return (
         <div className="Header">
@@ -62,8 +64,10 @@ function Header() {
 
             </div>
             {isLoggedIn && (
-                <button className="HeaderButton" onClick={userLoggedOut}>Logout</button>
-            )}
+                <div className="ButtonContainer">
+                    <button className="HeaderButton" onClick={userLoggedOut}>Logout</button>
+                    <button className="HeaderButton" onClick={seeUserPurchases}>My Purchases</button>
+                </div>)}
 
             <Modal className='HeaderModal' isOpen={loginModalIsOpen} onRequestClose={closeLoginModal}>
                 <Login />

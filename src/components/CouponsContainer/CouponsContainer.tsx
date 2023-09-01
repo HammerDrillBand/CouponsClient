@@ -34,13 +34,7 @@ function CouponsContainer() {
         filteredCoupons = filteredCoupons.filter(coupon => selectedCompanyIds.includes(coupon.companyId));
     }
 
-    if (selectedMinPrice !== 0) {
-        filteredCoupons = filteredCoupons.filter(coupon => coupon.price >= selectedMinPrice);
-    }
-
-    if (selectedMaxPrice !== 0) {
-        filteredCoupons = filteredCoupons.filter(coupon => coupon.price <= selectedMaxPrice);
-    }
+    filteredCoupons = filteredCoupons.filter(coupon => coupon.price >= selectedMinPrice && coupon.price <= selectedMaxPrice);
 
     function formatDate(date: string): string {
         let formattedDate = moment(date);

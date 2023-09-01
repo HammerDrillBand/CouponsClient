@@ -10,7 +10,6 @@
     font-size: 20px;
 }
 #name{
-    /* line-height: 100px; */
     font-size: 2em;
     font-family:Georgia, 'Times New Roman', Times, serif;
 }
@@ -31,4 +30,13 @@
     z-index: 1000;
     text-align: center;
     color: aliceblue;
+}
+#number{
+    display: inline-block;
+}
+.disabled-button {
+    background-color: #ccc; /* Change the background color */
+    color: #888; /* Change the text color */
+    cursor: not-allowed; /* Change the cursor style */
+    /* Add any other styling you want for disabled buttons */
 }

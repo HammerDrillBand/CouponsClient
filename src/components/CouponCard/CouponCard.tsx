@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ICoupon } from '../../models/ICoupon';
 import './CouponCard.css'
 import Modal from 'react-modal';
+import { IPurchase } from '../../models/IPurchase';
+import axios from 'axios';
 
 function CouponCard(props: ICoupon) {
 
     Modal.setAppElement('#root');
 
-    const [modalIsOpen, setIsOpen] = useState(false);
+    let [availableAmount, setAvailableAmount] = useState(props.amount);
+
+    useEffect(() => {
+        setAvailableAmount(props.amount);
+        closeModal()
+    }, [props.amount]);
+
+    let [modalIsOpen, setIsOpen] = useState(false);
+    let [quantity, setQuantity] = useState(0);
 
     function openModal() {
         setIsOpen(true);
@@ -17,11 +27,26 @@ function CouponCard(props: ICoupon) {
         setIsOpen(false);
     }
 
+
+    async function onPurchaseClicked() {
+        let newPurchase: IPurchase = {
+            couponId: props.id,
+            amount: quantity
+        }
+        await axios.post("http://localhost:8080/purchases", newPurchase)
+            .then(() => {
+                alert("Thank you for your purchase")
+            })
+            .catch(error => {
+                alert(error.response.data.errorMessage);
+            })
+    }
+
     return (
         <div className='CouponCard'>
             <span id='name'><br /><br /><br />{props.name}</span><br />
             <span id='price'>NIS {props.price}</span><br /><br />
-            <span id='quantity'>Available amount: {props.amount}</span><br /><br />
+            <span id='quantity'>Available amount: {availableAmount}</span><br /><br />
             <button onClick={openModal}>Get This</button>
 
             <Modal className='Modal' isOpen={modalIsOpen} onRequestClose={closeModal}>
@@ -31,8 +56,20 @@ function CouponCard(props: ICoupon) {
                 <span id='endDate'> to: {props.endDate}</span><br /><br />
                 <span id='category'>Category: {props.categoryName}</span><br /><br />
                 <span id='company'>Provided by: {props.companyName}</span><br /><br />
-                <span id='quantity'>Available amount: {props.amount}</span><br /><br />
+                <span id='quantity'>Available amount: {availableAmount}</span><br /><br />
                 <span id='price'>NIS {props.price}</span><br /><br />
+                <input type="number"
+                    id="number"
+                    value={quantity}
+                    step={1}
+                    min={0}
+                    max={props.amount}
+                    onChange={event => setQuantity(+event.target.value)} /><br />
+                <button onClick={onPurchaseClicked}
+                    disabled={quantity > availableAmount}
+                    className={quantity > availableAmount ? 'disabled-button' : ''}>
+                    Buy now
+                </button><br />
                 <button onClick={closeModal}>Cancel and return</button>
             </Modal>
         </div>
@@ -40,3 +77,4 @@ function CouponCard(props: ICoupon) {
 }
 
 export default CouponCard;
+
