@@ -1,13 +1,15 @@
 import { AppState } from "./app-state";
 import { Action } from "./action";
 import { ActionType } from "./action-type";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
 const appStateInitialValue = new AppState();
 
 export function reduce(oldAppState: AppState = appStateInitialValue, action: Action): AppState {
     const newAppState = { ...oldAppState };
 
-    switch (action.type) {        
+    switch (action.type) {
         case ActionType.PageLoaded:
             newAppState.coupons = action.payload.coupons;
             newAppState.companies = action.payload.companies;
@@ -34,7 +36,7 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
             newAppState.FilteredByMaxPrice = action.payload.maxPrice;
             break;
         case ActionType.AddPurchase:
-            newAppState.purchase = action.payload.purchase;
+            newAppState.coupons = action.payload.coupons;
             break;
     }
 

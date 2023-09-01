@@ -12,14 +12,17 @@ function Login() {
     // let navigate = useNavigate();
 
     async function onLoginClicked() {
-        let loginDetails = { username, password }
+        login(username, password);
+    }
+
+    async function login(username: string, password: string) {
+        let loginDetails = { username, password };
         try {
             let response = await axios.post("http://localhost:8080/users/login", loginDetails);
             let serverResponse = response.data;
             let token = 'Bearer ' + serverResponse;
             axios.defaults.headers.common['Authorization'] = token;
             localStorage.setItem('authToken', token);
-            let isLoggedIn: boolean = true;
             dispatch({ type: ActionType.Login });
             // navigate('/coupons');
         }

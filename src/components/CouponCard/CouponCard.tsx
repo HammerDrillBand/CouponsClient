@@ -4,8 +4,12 @@ import './CouponCard.css'
 import Modal from 'react-modal';
 import { IPurchase } from '../../models/IPurchase';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { ActionType } from '../../redux/action-type';
 
 function CouponCard(props: ICoupon) {
+
+    let dispatch = useDispatch();
 
     Modal.setAppElement('#root');
 
@@ -14,7 +18,7 @@ function CouponCard(props: ICoupon) {
     useEffect(() => {
         setAvailableAmount(props.amount);
         closeModal()
-    }, [props.amount]);
+    }, [availableAmount]);
 
     let [modalIsOpen, setIsOpen] = useState(false);
     let [quantity, setQuantity] = useState(0);
@@ -27,15 +31,18 @@ function CouponCard(props: ICoupon) {
         setIsOpen(false);
     }
 
-
     async function onPurchaseClicked() {
         let newPurchase: IPurchase = {
             couponId: props.id,
             amount: quantity
         }
         await axios.post("http://localhost:8080/purchases", newPurchase)
-            .then(() => {
-                alert("Thank you for your purchase")
+            .then(async () => {
+                alert("Thank you for your purchase");
+                closeModal();
+                let responseCoupons = await axios.get("http://localhost:8080/coupons");
+                let coupons: ICoupon[] = responseCoupons.data;
+                dispatch({ type: ActionType.AddPurchase, payload: { coupons } });
             })
             .catch(error => {
                 alert(error.response.data.errorMessage);

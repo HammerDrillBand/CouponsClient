@@ -4,7 +4,6 @@ import axios from 'axios';
 import './Register.css';
 import { useDispatch } from 'react-redux';
 import { ActionType } from '../../redux/action-type';
-import Login from '../Login/Login';
 import { IUser } from '../../models/IUser';
 
 function Register() {
@@ -18,15 +17,12 @@ function Register() {
             let userType: string = 'CUSTOMER'
             let newUserDetails: IUser = { username, password, userType };
             try {
-                let newUserId = await axios.post("http://localhost:8080/users", newUserDetails);
+                await axios.post("http://localhost:8080/users", newUserDetails);
                 let response = await axios.post("http://localhost:8080/users/login", { username, password });
                 let serverResponse = response.data;
                 let token = 'Bearer ' + serverResponse.token;
                 axios.defaults.headers.common['Authorization'] = token;
-                localStorage.setItem('token', token);
-                localStorage.setItem('username', username);
-                let isLoggedIn: boolean = true;
-                dispatch({ type: ActionType.Login, payload: { isLoggedIn } });
+                dispatch({ type: ActionType.Login });
             }
             catch (error: any) {
                 alert(error.response.data.errorMessage);
