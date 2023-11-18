@@ -1,8 +1,6 @@
 import { AppState } from "./app-state";
 import { Action } from "./action";
 import { ActionType } from "./action-type";
-import axios from "axios";
-import { useDispatch } from "react-redux";
 
 const appStateInitialValue = new AppState();
 
@@ -16,6 +14,7 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
             newAppState.categories = action.payload.categories;
             newAppState.maxPrice = action.payload.maxPrice;
             newAppState.FilteredByMaxPrice = action.payload.maxPrice;
+            newAppState.isLoading = false;
             break;
         case ActionType.Login:
             newAppState.isLoggedIn = true;
@@ -35,8 +34,37 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
         case ActionType.FilterByMaxPrice:
             newAppState.FilteredByMaxPrice = action.payload.maxPrice;
             break;
-        case ActionType.AddPurchase:
+        case ActionType.UpdateCoupons:
             newAppState.coupons = action.payload.coupons;
+            break;
+        case ActionType.UpdateUsers:
+            newAppState.coupons = action.payload.users;
+            break;
+        case ActionType.EditCoupon:
+            newAppState.editedCoupon = action.payload.editedCoupon;
+            break;
+        case ActionType.EditUser:
+            newAppState.editedUser = action.payload.editedUser;
+            break;
+        case ActionType.resetEditedCoupon:
+            return {
+                ...oldAppState,
+                editedCoupon: {
+                    id: -1,
+                    name: "",
+                    description: "",
+                    startDate: "",
+                    endDate: "",
+                    amount: -1,
+                    price: -1,
+                    categoryId: -1,
+                    categoryName: "",
+                    companyId: -1,
+                    companyName: "",
+                    isAvailable: false,
+                    imageData: ""
+                },
+            };
             break;
     }
 

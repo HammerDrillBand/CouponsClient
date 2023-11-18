@@ -4,20 +4,24 @@ import './CouponCard.css'
 import Modal from 'react-modal';
 import { IPurchase } from '../../models/IPurchase';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ActionType } from '../../redux/action-type';
+import { AppState } from '../../redux/app-state';
+import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode'
 
 function CouponCard(props: ICoupon) {
 
     let dispatch = useDispatch();
+    let navigate = useNavigate();
 
     Modal.setAppElement('#root');
-
     let [availableAmount, setAvailableAmount] = useState(props.amount);
+    let isLoggedIn: boolean = useSelector((state: AppState) => state.isLoggedIn);
 
     useEffect(() => {
         setAvailableAmount(props.amount);
-        closeModal()
+        closeModal();
     }, [availableAmount]);
 
     let [modalIsOpen, setIsOpen] = useState(false);
@@ -25,16 +29,27 @@ function CouponCard(props: ICoupon) {
 
     function openModal() {
         setIsOpen(true);
-    }
+    };
 
     function closeModal() {
         setIsOpen(false);
-    }
+    };
+
 
     async function onPurchaseClicked() {
         let newPurchase: IPurchase = {
             couponId: props.id,
-            amount: quantity
+            amount: quantity,
+            id: 0,
+            userId: 0,
+            username: '',
+            date: '',
+            couponName: '',
+            couponDescription: '',
+            categoryId: 0,
+            categoryName: '',
+            companyId: 0,
+            companyName: ''
         }
         await axios.post("http://localhost:8080/purchases", newPurchase)
             .then(async () => {
@@ -42,19 +57,59 @@ function CouponCard(props: ICoupon) {
                 closeModal();
                 let responseCoupons = await axios.get("http://localhost:8080/coupons");
                 let coupons: ICoupon[] = responseCoupons.data;
-                dispatch({ type: ActionType.AddPurchase, payload: { coupons } });
+                dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
             })
             .catch(error => {
                 alert(error.response.data.errorMessage);
             })
+    };
+
+    function onEditClicked() {
+        let editedCoupon: ICoupon = {
+            id: props.id,
+            name: props.name,
+            description: props.description,
+            startDate: props.startDate,
+            endDate: props.endDate,
+            amount: props.amount,
+            price: props.price,
+            categoryId: props.categoryId,
+            categoryName: props.categoryName,
+            companyId: props.companyId,
+            companyName: props.companyName,
+            isAvailable: props.isAvailable,
+            imageData: props.imageData
+        }
+
+        dispatch({ type: ActionType.EditCoupon, payload: { editedCoupon } });
+        navigate(`/coupon_editor?couponId=${editedCoupon.id}`);
+    };
+
+    let imageDataByte64: string = props.imageData;
+    let imageDataUrl = `data:image/jpeg;base64,${imageDataByte64}`;
+
+    let backgroundStyle = {
+      backgroundImage: `url(${imageDataUrl})`,
+    };  
+
+    function getUserType(): string | null {
+        let storedToken = localStorage.getItem('authToken');
+        if (storedToken) {
+            axios.defaults.headers.common['Authorization'] = storedToken;
+            let decodedToken: any = jwt_decode(storedToken);
+            let decodedTokenData = JSON.parse(decodedToken.sub);
+            let userTypeFromToken = decodedTokenData.userType;
+            return userTypeFromToken;
+        }
+        return null;
     }
 
     return (
-        <div className='CouponCard'>
+        <div className='CouponCard' style={backgroundStyle}>
             <span id='name'><br /><br /><br />{props.name}</span><br />
             <span id='price'>NIS {props.price}</span><br /><br />
             <span id='quantity'>Available amount: {availableAmount}</span><br /><br />
-            <button onClick={openModal}>Get This</button>
+            <button onClick={openModal}>More Details</button>
 
             <Modal className='Modal' isOpen={modalIsOpen} onRequestClose={closeModal}>
                 <span id='name'><br />{props.name}</span><br /><br />
@@ -65,18 +120,28 @@ function CouponCard(props: ICoupon) {
                 <span id='company'>Provided by: {props.companyName}</span><br /><br />
                 <span id='quantity'>Available amount: {availableAmount}</span><br /><br />
                 <span id='price'>NIS {props.price}</span><br /><br />
-                <input type="number"
-                    id="number"
-                    value={quantity}
-                    step={1}
-                    min={0}
-                    max={props.amount}
-                    onChange={event => setQuantity(+event.target.value)} /><br />
-                <button onClick={onPurchaseClicked}
-                    disabled={quantity > availableAmount}
-                    className={quantity > availableAmount ? 'disabled-button' : ''}>
-                    Buy now
-                </button><br />
+                {getUserType() == "CUSTOMER" ? (
+                    <>
+                        <input type="number"
+                            id="number"
+                            value={quantity}
+                            step={1}
+                            min={0}
+                            max={props.amount}
+                            onChange={event => setQuantity(+event.target.value)} /><br />
+                        <button
+                            onClick={onPurchaseClicked}
+                            disabled={!isLoggedIn || props.amount === 0 || quantity > availableAmount}
+                            className={!isLoggedIn || quantity > availableAmount ? 'disabled-button' : ''}>
+                            Buy now
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <button onClick={onEditClicked}>Edit</button>
+                    </>
+                )}
+                <br />
                 <button onClick={closeModal}>Cancel and return</button>
             </Modal>
         </div>

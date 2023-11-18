@@ -6,5 +6,10 @@ export enum ActionType {
     FilterByCompanyIds,
     FilterByMinPrice,
     FilterByMaxPrice,
-    AddPurchase
+    UpdateCoupons,
+    UpdateUsers,
+    LoadingComplete,
+    EditCoupon,
+    EditUser,
+    resetEditedCoupon
 }

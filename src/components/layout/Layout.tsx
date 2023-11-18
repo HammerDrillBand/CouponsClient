@@ -4,22 +4,44 @@ import Footer from '../Footer/Footer';
 import { Route, Routes } from 'react-router-dom';
 import CouponsContainer from '../CouponsContainer/CouponsContainer';
 import FiltersMenu from '../FiltersMenu/FiltersMenu';
+import PurchasesList from '../PurchasesList/PurchasesList';
+import CouponEditor from '../CouponEditor/CouponEditor';
+import { useState } from 'react';
+import UsersList from '../UsersList/UsersList';
+import UserEditor from '../UserEditor/UserEditor';
 
 function Layout() {
+  let [showFiltersMenu, setShowFiltersMenu] = useState(true);
+
+  let toggleFiltersMenu = () => {
+    setShowFiltersMenu(!showFiltersMenu);
+  };
+
   return (
     <section className="layout">
       <header>
         <Header />
       </header>
 
-      <aside>
-        <FiltersMenu/>
+      <aside className="filters-menu-container">
+        <div className={`filters-menu ${showFiltersMenu ? 'visible' : 'hidden'}`}>
+          <FiltersMenu />
+        </div>
+        <button className="roll-button" onClick={toggleFiltersMenu}>
+          {showFiltersMenu ? '⮜' : '⮞'}
+        </button>
       </aside>
 
-      <main>
-        <Routes>
-          <Route path='/' element={<CouponsContainer />} />
-        </Routes>
+      <main className={showFiltersMenu ? 'main-with-filters' : 'main-full-width'}>
+        <div className="main-content">
+          <Routes>
+            <Route path='/' element={<CouponsContainer />} />
+            <Route path="/purchases" element={<PurchasesList />} />
+            <Route path="/coupon_editor" element={<CouponEditor />} />
+            <Route path="/users" element={<UsersList />} />
+            <Route path="/user_editor" element={<UserEditor />} />
+          </Routes>
+        </div>
       </main>
 
       <footer>

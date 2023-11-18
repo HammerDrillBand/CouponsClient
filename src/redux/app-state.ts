@@ -2,6 +2,7 @@ import { ICategory } from "../models/ICategory";
 import { ICompany } from "../models/ICompany";
 import { ICoupon } from "../models/ICoupon";
 import { EmptyPurchase, IPurchase } from "../models/IPurchase";
+import { IUser } from "../models/IUser";
 
 export class AppState {
     public companies: ICompany[] = [];
@@ -14,4 +15,27 @@ export class AppState {
     public FilteredByMinPrice: number = 0;
     public FilteredByMaxPrice: number = 0;
     public purchase: IPurchase | EmptyPurchase = {};
+    public isLoading: boolean = true;
+    public editedCoupon: ICoupon = {
+        id: -1,
+        name: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        amount: -1,
+        price: -1,
+        categoryId: -1,
+        categoryName: "",
+        companyId: -1,
+        companyName: "",
+        isAvailable: false,
+        imageData: ""
+    };
+    public editedUser: IUser = {
+        id: -1,
+        username: "",
+        password: "",
+        userType: "",
+        companyId: -1
+    }
 }

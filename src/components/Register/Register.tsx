@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
 import './Register.css';
 import { useDispatch } from 'react-redux';
 import { ActionType } from '../../redux/action-type';
-import { IUser } from '../../models/IUser';
+import { INewUser } from '../../models/IUser';
+
 
 function Register() {
     let [username, setUsername] = useState("");
@@ -15,13 +15,16 @@ function Register() {
     async function onRegisterClicked() {
         if (password === passwordVerification) {
             let userType: string = 'CUSTOMER'
-            let newUserDetails: IUser = { username, password, userType };
+            let newUserDetails: INewUser = { username, password, userType };
             try {
                 await axios.post("http://localhost:8080/users", newUserDetails);
                 let response = await axios.post("http://localhost:8080/users/login", { username, password });
                 let serverResponse = response.data;
                 let token = 'Bearer ' + serverResponse.token;
                 axios.defaults.headers.common['Authorization'] = token;
+                localStorage.setItem('authToken', token);
+                localStorage.setItem('username', username);
+
                 dispatch({ type: ActionType.Login });
             }
             catch (error: any) {
@@ -30,7 +33,6 @@ function Register() {
         } else {
             alert('The passwords entered are not identical')
         }
-
     }
 
     return (

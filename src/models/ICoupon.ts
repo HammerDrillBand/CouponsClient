@@ -10,4 +10,6 @@ export interface ICoupon {
     categoryName: string;
     companyId: number;
     companyName: string;
+    isAvailable: boolean;
+    imageData: string;
 }

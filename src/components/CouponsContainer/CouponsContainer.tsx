@@ -23,7 +23,6 @@ function CouponsContainer() {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-
     let filteredCoupons: ICoupon[] = coupons;
 
     if (selectedCategoryIds.length > 0) {
@@ -46,7 +45,8 @@ function CouponsContainer() {
         <div className="CouponsContainer">
             <div>
                 {filteredCoupons.length > 0 ? (
-                    filteredCoupons.map((coupon) =>
+                    filteredCoupons
+                    .map((coupon) =>
                         <CouponCard
                             key={coupon.id}
                             id={coupon.id}
@@ -59,7 +59,9 @@ function CouponsContainer() {
                             categoryId={coupon.categoryId}
                             categoryName={coupon.categoryName}
                             companyId={coupon.companyId}
-                            companyName={coupon.companyName} />
+                            companyName={coupon.companyName}
+                            isAvailable={coupon.isAvailable}
+                            imageData={coupon.imageData}/>
                     )
                 ) : (
                     <p>No coupons available for your selection</p>

@@ -1,21 +1,17 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
-// import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { ActionType } from '../../redux/action-type';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     let [username, setUsername] = useState("");
     let [password, setPassword] = useState("");
     let dispatch = useDispatch();
-    // let navigate = useNavigate();
+    let navigate = useNavigate();
 
     async function onLoginClicked() {
-        login(username, password);
-    }
-
-    async function login(username: string, password: string) {
         let loginDetails = { username, password };
         try {
             let response = await axios.post("http://localhost:8080/users/login", loginDetails);
@@ -23,8 +19,11 @@ function Login() {
             let token = 'Bearer ' + serverResponse;
             axios.defaults.headers.common['Authorization'] = token;
             localStorage.setItem('authToken', token);
+            localStorage.setItem('username', username);
+
             dispatch({ type: ActionType.Login });
-            // navigate('/coupons');
+            navigate('/');
+            window.location.reload();
         }
         catch (error: any) {
             alert(error.response.data.errorMessage);
