@@ -53,20 +53,6 @@ function UserEditor() {
         });
     };
 
-    // async function onSaveChangesClicked() {
-    //     await axios.put(`http://localhost:8080/users`, formData)
-    //         .then(async () => {
-    //             let responseUsers = await axios.get(`http://localhost:8080/users`);
-    //             let users: IUser[] = responseUsers.data;
-    //             dispatch({ type: ActionType.UpdateUsers, payload: { users } });
-    //             alert("user updated successfully");
-    //             navigate(`/`)
-    //         })
-    //         .catch(error => {
-    //             alert(error.response.data.errorMessage);
-    //         })
-    // };
-
     async function onSaveChangesClicked() {
         try {
             if (isNewUser) {
@@ -74,7 +60,7 @@ function UserEditor() {
             } else {
                 await axios.put(`http://localhost:8080/users`, formData);
             }
-    
+
             let responseUsers = await axios.get(`http://localhost:8080/users`);
             let users: IUser[] = responseUsers.data;
             dispatch({ type: ActionType.UpdateUsers, payload: { users } });
@@ -87,7 +73,7 @@ function UserEditor() {
 
 
     function getCompanyNameById(companyId: number): string | undefined {
-        let company = companies.find((company) => company.id === companyId);
+        let company: ICompany | undefined = companies.find((company) => company.id === companyId);
         return company ? company.name : undefined;
     };
 

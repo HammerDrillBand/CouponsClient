@@ -1,0 +1,26 @@
+TheMuse:
+    - General
+        - Make separate 'Put' and 'Post' functions in editors @done
+        - Color-code the different resources in the menu
+        - make filters menu dissappear when irrelevant
+        - Add remaining 'Add' and 'List' buttons in menu for resources when editors are completed
+        - Add delete option for all resources, according to permissions @HighPriority
+        - Add pegination with limited amount of each resource per page
+        - Notify if no changes made and unable to press 'Save Changes' button in resources (Make boolean variable isChangesMade)(Done in coupons) @HighPriority
+    - Resources
+        - Coupons
+            - isAvailable
+                - Missing references on server side (Controller, DAL, DTO, Logic etc.) @HighPriority @done
+                - Variable name returned from server is "available' instead of 'isAvailable' @HighPriority
+            - In the Put 'Put' and 'Post' methods, make the object of type 'Coupon' instead of 'CouponForClient' @HighPriority @done
+            - Add company identification when the admin is in the CouponEditor @HighPriority @done
+            - Make unavailable coupons not visible to the customers (Axios request instead of get all, get available. Already exists in DAL)
+            - Admin cannot update coupon because the server reviews the companyId in the login details. should check user type and if company, insert the company ID @done
+        - Users
+            - Finish the UsersEditor in accordance with all changes done in the CouponsEditor
+            - Make password editable
+        - Companies
+            - Create CompaniesEditor
+        - Categories
+            - Create CategoriesEditor
+        - Purchases

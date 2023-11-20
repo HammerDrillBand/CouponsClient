@@ -49,7 +49,8 @@ function App() {
 
   async function getInitialData() {
     try {
-      let responseCategories = await axios.get("http://localhost:8080/categories");
+      debugger;
+      let responseCategories = await axios.get('http://localhost:8080/categories');
       categories = responseCategories.data;
 
       if (getUserType() == 'COMPANY') {
@@ -67,7 +68,6 @@ function App() {
       }
 
       let maxPrice = Math.max(...coupons.map(coupon => coupon.price));
-
       dispatch({ type: ActionType.PageLoaded, payload: { coupons, companies, categories, maxPrice } });
     } catch (error: any) {
       alert(error.response.data.errorMessage);
