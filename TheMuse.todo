@@ -16,6 +16,7 @@ TheMuse:
             - Add company identification when the admin is in the CouponEditor @HighPriority @done
             - Make unavailable coupons not visible to the customers (Axios request instead of get all, get available. Already exists in DAL)
             - Admin cannot update coupon because the server reviews the companyId in the login details. should check user type and if company, insert the company ID @done
+            - Make deletion/clearing image possible
         - Users
             - Finish the UsersEditor in accordance with all changes done in the CouponsEditor
             - Make password editable
