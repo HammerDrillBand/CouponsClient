@@ -37,5 +37,17 @@ export class AppState {
         password: "",
         userType: "",
         companyId: -1
-    }
+    };
+    public editedCompany: ICompany = {
+        id: -1,
+        name: "",
+        companyType: "",
+        registryNumber: -1,
+        address: "",
+        contactEmail: ""
+    };
+    public editedCategory: ICategory = {
+        id: -1,
+        name: ""
+    };
 }

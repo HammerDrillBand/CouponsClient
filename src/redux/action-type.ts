@@ -11,5 +11,8 @@ export enum ActionType {
     LoadingComplete,
     EditCoupon,
     EditUser,
-    resetEditedCoupon
+    resetEditedCoupon,
+    resetEditedUser,
+    resetEditedCompany,
+    resetEditedCategory
 }

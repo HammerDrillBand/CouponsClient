@@ -1,16 +1,24 @@
 import './Layout.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import CouponsContainer from '../CouponsContainer/CouponsContainer';
 import FiltersMenu from '../FiltersMenu/FiltersMenu';
 import PurchasesList from '../PurchasesList/PurchasesList';
 import CouponEditor from '../CouponEditor/CouponEditor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UsersList from '../UsersList/UsersList';
 import UserEditor from '../UserEditor/UserEditor';
 
 function Layout() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (performance.navigation.type !== 1) return;
+
+    navigate('/');
+  }, []);
+
   let [showFiltersMenu, setShowFiltersMenu] = useState(true);
 
   let toggleFiltersMenu = () => {
@@ -36,10 +44,14 @@ function Layout() {
         <div className="main-content">
           <Routes>
             <Route path='/' element={<CouponsContainer />} />
-            <Route path="/purchases" element={<PurchasesList />} />
             <Route path="/coupon_editor" element={<CouponEditor />} />
+            <Route path="/purchases" element={<PurchasesList />} />
             <Route path="/users" element={<UsersList />} />
             <Route path="/user_editor" element={<UserEditor />} />
+            <Route path="/companies" element={<UsersList />} />
+            <Route path="/company_editor" element={<UserEditor />} />
+            <Route path="/categories" element={<UsersList />} />
+            <Route path="/category_editor" element={<UserEditor />} />
           </Routes>
         </div>
       </main>

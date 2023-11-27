@@ -3,26 +3,36 @@ import './FiltersMenu.css'
 import { AppState } from '../../redux/app-state';
 import { useEffect, useState } from 'react';
 import { ActionType } from '../../redux/action-type';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import jwt_decode from 'jwt-decode'
+import { ICategory } from '../../models/ICategory';
+import { ICompany } from '../../models/ICompany';
 
 function FiltersMenu() {
 
     let dispatch = useDispatch();
-    let categories = useSelector((state: AppState) => state.categories);
-    let companies = useSelector((state: AppState) => state.companies);
-    let maxCouponPrice = useSelector((state: AppState) => state.maxPrice);
-    let isLoading = useSelector((state: AppState) => state.isLoading);
+    const navigate = useNavigate();
+    let categories: ICategory[] = useSelector((state: AppState) => state.categories);
+    let companies: ICompany[] = useSelector((state: AppState) => state.companies);
+    let maxCouponPrice: number = useSelector((state: AppState) => state.maxPrice);
+    let isLoading: boolean = useSelector((state: AppState) => state.isLoading);
 
-    let [minPrice, setMinPrice] = useState(0);
-    let [maxPrice, setMaxPrice] = useState(0);
+    let [minPrice, setMinPrice] = useState<number>(0);
+    let [maxPrice, setMaxPrice] = useState<number>(0);
     let [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     let [selectedCompanies, setSelectedCompanies] = useState<number[]>([]);
 
     let location = useLocation();
-    let isCouponsRoute = location.pathname === '/';
-    let isUserEditorRoute = location.pathname === '/users';
+    let isCouponsRoute: boolean = location.pathname === '/';
+    // let isCouponEditorRoute: boolean = location.pathname === '/coupon_editor';
+    let isUsersRoute: boolean = location.pathname === '/users';
+    // let isUserEditorRoute: boolean = location.pathname === '/user_editor';
+    let isCompaniesRoute: boolean = location.pathname === '/companies';
+    // let isCompanyEditorRoute: boolean = location.pathname === '/comapny_editor';
+    let isCategoriesRoute: boolean = location.pathname === '/categories';
+    // let isCategoryEditorRoute: boolean = location.pathname === '/category_editor';
+
 
     useEffect(() => {
         if (maxCouponPrice > 0) {
@@ -33,7 +43,7 @@ function FiltersMenu() {
 
     if (categories.length === 0 || companies.length === 0 || maxCouponPrice === 0) {
         return <div>Loading...</div>;
-    }
+    };
 
     function categorySelectionChanged(categoryId: number) {
         let updatedSelectedCategories = selectedCategories.includes(categoryId)
@@ -42,7 +52,7 @@ function FiltersMenu() {
 
         setSelectedCategories(updatedSelectedCategories);
         dispatch({ type: ActionType.FilterByCategoryIds, payload: { selectedCategories: updatedSelectedCategories } });
-    }
+    };
 
     function companySelectionChanged(companyId: number) {
         let updatedSelectedCompanies = selectedCompanies.includes(companyId)
@@ -51,21 +61,21 @@ function FiltersMenu() {
 
         setSelectedCompanies(updatedSelectedCompanies);
         dispatch({ type: ActionType.FilterByCompanyIds, payload: { selectedCompanies: updatedSelectedCompanies } });
-    }
+    };
 
     function minPriceChanged(newMinPrice: number) {
         setMinPrice(newMinPrice);
         dispatch({ type: ActionType.FilterByMinPrice, payload: { minPrice: newMinPrice } });
-    }
+    };
 
     function maxPriceChanged(newMaxPrice: number) {
         setMaxPrice(newMaxPrice);
         dispatch({ type: ActionType.FilterByMaxPrice, payload: { maxPrice: newMaxPrice } });
-    }
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
-    }
+    };
 
     function getUserType(): string | null {
         let storedToken = localStorage.getItem('authToken');
@@ -77,12 +87,53 @@ function FiltersMenu() {
             return userTypeFromToken;
         }
         return null;
-    }
+    };
+
+    function goToCouponCreator() {
+        dispatch({ type: ActionType.resetEditedCoupon });
+        navigate('/coupon_editor');
+    };
+
+    function goToUserCreator() {
+        dispatch({ type: ActionType.resetEditedUser });
+        navigate('/user_editor');
+    };
+
+    function goToCompanyCreator() {
+        dispatch({ type: ActionType.resetEditedCompany });
+        navigate('/company_editor');
+    };
+
+    function goToCategoryCreator() {
+        dispatch({ type: ActionType.resetEditedCategory });
+        navigate('/category_editor');
+    };
 
     return (
-        <div>
-            {!isUserEditorRoute && (
-                <>
+        <>
+            {(getUserType() == "ADMIN" || getUserType() == "COMPANY") && (
+                isCouponsRoute && (
+                    <button onClick={goToCouponCreator}>Add New Coupon</button>
+                )
+            )}
+            {(getUserType() == "ADMIN" || getUserType() == "COMPANY") && (
+                isUsersRoute && (
+                    <button onClick={goToUserCreator}>Add New User</button>
+                )
+            )}
+            {(getUserType() == "ADMIN" || getUserType() == "COMPANY") && (
+                isCompaniesRoute && (
+                    <button onClick={goToCompanyCreator}>Add New Company</button>
+                )
+            )}
+            {(getUserType() == "ADMIN" || getUserType() == "COMPANY") && (
+                isCategoriesRoute && (
+                    <button onClick={goToCategoryCreator}>Add New Category</button>
+                )
+            )}
+
+            {/* {!isUserEditorRoute && (
+                <> */}
                     <h2>Select Category</h2>
                     {categories.map(category => (
                         <div key={category.id}>
@@ -97,8 +148,8 @@ function FiltersMenu() {
                             </label>
                         </div>
                     ))}
-                </>
-            )}
+                {/* </>
+            )} */}
 
             {getUserType() !== 'COMPANY' && (
                 <>
@@ -120,7 +171,7 @@ function FiltersMenu() {
             )}
 
             {isCouponsRoute && (
-                <div>
+                <>
                     <h2>Select Price</h2>
                     <div className="range-slider-container">
                         <div className="slider">
@@ -142,9 +193,9 @@ function FiltersMenu() {
                             />
                         </div>
                     </div>
-                </div>
+                </>
             )}
-        </div>
+        </>
     );
 };
 

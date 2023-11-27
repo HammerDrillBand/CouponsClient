@@ -55,7 +55,7 @@ function CouponCard(props: ICoupon) {
             .then(async () => {
                 alert("Thank you for your purchase");
                 closeModal();
-                let responseCoupons = await axios.get("http://localhost:8080/coupons");
+                let responseCoupons = await axios.get("http://localhost:8080/coupons/available");
                 let coupons: ICoupon[] = responseCoupons.data;
                 dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
             })
@@ -138,7 +138,9 @@ function CouponCard(props: ICoupon) {
                     </>
                 ) : (
                     <>
-                        <button onClick={onEditClicked}>Edit</button>
+                        {getUserType() == "ADMIN" || getUserType() == "COMPANY" ? (
+                            <button onClick={onEditClicked}>Edit</button>
+                        ) : null}
                     </>
                 )}
                 <br />

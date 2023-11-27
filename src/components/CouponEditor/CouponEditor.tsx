@@ -50,7 +50,7 @@ function CouponEditor() {
 
     if (isLoading) {
         return <div>Loading...</div>;
-    }
+    };
 
     let inputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
         let { name, value } = event.target;
@@ -60,14 +60,6 @@ function CouponEditor() {
         });
         setIsChangesMade(true);
     };
-
-    // let selectionChanged = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    //     let { name, value } = event.target;
-    //     setFormData({
-    //         ...formData,
-    //         [name]: value,
-    //     });
-    // };
 
     let selectionChanged = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         let { name, value, type } = event.target;
@@ -82,14 +74,11 @@ function CouponEditor() {
                 ...formData,
                 [name]: value,
             });
-        }
+        };
         setIsChangesMade(true);
     };
 
-
     let imageInputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChangesMade(true);
-
         let file = event.target.files && event.target.files[0];
         if (file) {
             let reader = new FileReader();
@@ -114,7 +103,7 @@ function CouponEditor() {
             startDate: formattedStartDate,
             endDate: formattedEndDate,
         }));
-    }
+    };
 
     async function onSaveChangesClicked() {
         let shortCoupon = {
@@ -129,7 +118,7 @@ function CouponEditor() {
             companyId: formData.companyId,
             isAvailable: formData.isAvailable,
             imageData: formData.imageData
-        }
+        };
         try {
             if (isNewCoupon) {
                 await axios.post(`http://localhost:8080/coupons`, shortCoupon);
@@ -137,20 +126,30 @@ function CouponEditor() {
                 await axios.put(`http://localhost:8080/coupons`, shortCoupon);
             }
 
-            let responseCoupons;
-            if (getUserType() == 'COMPANY') {
-                responseCoupons = await axios.get(`http://localhost:8080/coupons/byCompanyId?companyId=${getCompanyId()}`);
+            updateCouponsState();
+
+            if (isNewCoupon) {
+                alert("Coupon created successfully");
             } else {
-                responseCoupons = await axios.get(`http://localhost:8080/coupons`);
+                alert("Coupon updated successfully");
             }
-            let coupons: ICoupon[] = responseCoupons.data;
-            dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
-            debugger;
-            alert("Coupon updated successfully");
             navigate(`/`);
         } catch (error: any) {
             alert(error.response.data.errorMessage);
-        }
+        };
+    };
+
+    async function onDeleteCouponClicked() {
+        try {
+            await axios.delete(`http://localhost:8080/coupons/${formData.id}`);
+
+            updateCouponsState();
+
+            alert("Coupon deleted successfully");
+            navigate(`/`);
+        } catch (error: any) {
+            alert(error.response.data.errorMessage);
+        };
     };
 
     function getCompanyId(): number | null {
@@ -161,9 +160,9 @@ function CouponEditor() {
             let decodedTokenData = JSON.parse(decodedToken.sub);
             let companyIdFromToken = decodedTokenData.companyId;
             return companyIdFromToken;
-        }
+        };
         return null;
-    }
+    };
 
     function getUserType(): string | null {
         let storedToken = localStorage.getItem('authToken');
@@ -173,13 +172,34 @@ function CouponEditor() {
             let decodedTokenData = JSON.parse(decodedToken.sub);
             let userTypeFromToken = decodedTokenData.userType;
             return userTypeFromToken;
-        }
+        };
         return null;
-    }
+    };
 
     function getCompanyNameById(companyId: number): string | undefined {
         let company: ICompany | undefined = companies.find((company) => company.id === companyId);
         return company ? company.name : undefined;
+    }
+
+    function clearImageData() {
+        setFormData({
+            ...formData,
+            imageData: ''
+        });
+        setIsChangesMade(true);
+    };
+
+    async function updateCouponsState() {
+        let responseCoupons;
+        if (getUserType() == 'COMPANY') {
+            responseCoupons = await axios.get(`http://localhost:8080/coupons/byCompanyId?companyId=${getCompanyId()}`);
+        } else if (getUserType() == 'ADMIN') {
+            responseCoupons = await axios.get('http://localhost:8080/coupons');
+        } else {
+            responseCoupons = await axios.get('http://localhost:8080/coupons/available');
+        }
+        let coupons: ICoupon[] = responseCoupons.data;
+        dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
     };
 
     return (
@@ -207,7 +227,7 @@ function CouponEditor() {
                                 onChange={selectionChanged}
                             >
                                 {companies.map((company) => (
-                                    <option key={company.id} value={company.name}>
+                                    <option key={company.id} value={company.id}>
                                         {company.name}
                                     </option>
                                 ))}
@@ -306,6 +326,7 @@ function CouponEditor() {
                                 className='coupon-image'
                             />
                         )}
+                        <button onClick={clearImageData}>Clear Image</button>
                     </div>
                     <div>
                         <label>Currently available:</label>
@@ -322,12 +343,17 @@ function CouponEditor() {
                         disabled={!isChangesMade}>
                         Save Changes
                     </button>
+                    {!isNewCoupon && (
+                        <button onClick={onDeleteCouponClicked}>
+                            Delete This Coupon
+                        </button>
+                    )}
                 </>
             ) : (
                 <div>Why are you even here?!</div>
             )}
         </div>
     );
-}
+};
 
 export default CouponEditor;

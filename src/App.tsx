@@ -49,7 +49,6 @@ function App() {
 
   async function getInitialData() {
     try {
-      debugger;
       let responseCategories = await axios.get('http://localhost:8080/categories');
       categories = responseCategories.data;
 
@@ -59,12 +58,18 @@ function App() {
 
         let responseCoupons = await axios.get(`http://localhost:8080/coupons/byCompanyId?companyId=${getCompanyId()}`);
         coupons = responseCoupons.data;
-      } else {
+      } else if (getUserType() == 'ADMIN') {
         let responseCompanies = await axios.get('http://localhost:8080/companies');
         companies = responseCompanies.data;
 
         let responseCoupons = await axios.get('http://localhost:8080/coupons');
         coupons = responseCoupons.data;
+      } else {
+        let responseCompanies = await axios.get('http://localhost:8080/companies');
+        companies = responseCompanies.data;
+
+        let responseCoupons = await axios.get('http://localhost:8080/coupons/available');
+        coupons = responseCoupons?.data || [];
       }
 
       let maxPrice = Math.max(...coupons.map(coupon => coupon.price));

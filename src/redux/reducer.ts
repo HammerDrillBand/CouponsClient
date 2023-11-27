@@ -5,7 +5,7 @@ import { ActionType } from "./action-type";
 const appStateInitialValue = new AppState();
 
 export function reduce(oldAppState: AppState = appStateInitialValue, action: Action): AppState {
-    const newAppState = { ...oldAppState };
+    let newAppState = { ...oldAppState };
 
     switch (action.type) {
         case ActionType.PageLoaded:
@@ -47,26 +47,48 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
             newAppState.editedUser = action.payload.editedUser;
             break;
         case ActionType.resetEditedCoupon:
-            return {
-                ...oldAppState,
-                editedCoupon: {
-                    id: -1,
-                    name: "",
-                    description: "",
-                    startDate: "",
-                    endDate: "",
-                    amount: -1,
-                    price: -1,
-                    categoryId: -1,
-                    categoryName: "",
-                    companyId: -1,
-                    companyName: "",
-                    isAvailable: false,
-                    imageData: ""
-                },
+            newAppState.editedCoupon =
+            {
+                id: -1,
+                name: "",
+                description: "",
+                startDate: "",
+                endDate: "",
+                amount: -1,
+                price: -1,
+                categoryId: -1,
+                categoryName: "",
+                companyId: -1,
+                companyName: "",
+                isAvailable: false,
+                imageData: ""
+            };
+            break;
+        case ActionType.resetEditedUser:
+            newAppState.editedUser = {
+                id: -1,
+                username: "",
+                password: "",
+                userType: "",
+                companyId: -1
+            };
+            break;
+        case ActionType.resetEditedCompany:
+            newAppState.editedCompany = {
+                id: -1,
+                name: "",
+                companyType: "",
+                registryNumber: -1,
+                address: "",
+                contactEmail: ""
+            };
+            break;
+        case ActionType.resetEditedCategory:
+            newAppState.editedCategory = {
+                id: -1,
+                name: ""
             };
             break;
     }
-
     return newAppState;
 }

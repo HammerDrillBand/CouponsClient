@@ -7,7 +7,7 @@ import Register from "../Register/Register";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../redux/app-state";
 import { ActionType } from "../../redux/action-type";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from 'jwt-decode'
 
@@ -16,9 +16,6 @@ function Header() {
     let dispatch = useDispatch();
     let navigate = useNavigate();
     let isLoggedIn: boolean = useSelector((state: AppState) => state.isLoggedIn);
-
-    let location = useLocation();
-    let isPurchasesRoute = location.pathname === '/purchases';
 
     let [loginModalIsOpen, setLoginIsOpen] = useState(false);
     let [registerModalIsOpen, setRegisterIsOpen] = useState(false);
@@ -68,12 +65,16 @@ function Header() {
         navigate('/')
     }
 
-    function goToCouponCreator() {
-        navigate('/coupon_editor')
-    }
-
     function goToUsersList() {
         navigate('/users')
+    }
+
+    function goToCompaniesList() {
+        navigate('/companies')
+    }
+
+    function goToCategoriesList() {
+        navigate('/categories')
     }
 
     function getUserType(): string | null {
@@ -127,22 +128,21 @@ function Header() {
                         <button className="HeaderButton" onClick={openLoginModal}>Login</button>
                     </div>
                 )}
-
             </div>
 
             {isLoggedIn && (
                 <div className="dropdown">
                     <button className="dropbtn">Menu</button>
                     <div className="dropdown-content">
-                        <a href="#" onClick={goToHome}>View Coupons</a>
-                        {getUserType() != 'CUSTOMER' && (
-                            <a href="#" onClick={goToCouponCreator}>Create New Coupon</a>
-                        )}
+                        <a href="#" onClick={goToHome}>Coupons</a>
                         {getUserType() == 'ADMIN' && (
-                            <a href="#" onClick={goToUsersList}>View Users</a>
+                            <>
+                                <a href="#" onClick={goToUsersList}>Users</a>
+                                <a href="#" onClick={goToCompaniesList}>Companies</a>
+                                <a href="#" onClick={goToCategoriesList}>Categories</a>
+                            </>
                         )}
                         <a href="#" onClick={seeUserPurchases}>Purchases History</a>
-
                         <a href="#" onClick={userLoggedOut}>Logout</a>
                     </div>
                 </div>)}
