@@ -9,6 +9,10 @@ import CouponEditor from '../CouponEditor/CouponEditor';
 import { useEffect, useState } from 'react';
 import UsersList from '../UsersList/UsersList';
 import UserEditor from '../UserEditor/UserEditor';
+import CompaniesList from '../CompaniesList/CompaniesList';
+import CompanyEditor from '../CompanyEditor/CompanyEditor';
+import CategoriesList from '../CategoriesList/CategoriesList';
+import CategoryEditor from '../CategoryEditor/CategoryEditor';
 
 function Layout() {
   const navigate = useNavigate();
@@ -48,10 +52,10 @@ function Layout() {
             <Route path="/purchases" element={<PurchasesList />} />
             <Route path="/users" element={<UsersList />} />
             <Route path="/user_editor" element={<UserEditor />} />
-            <Route path="/companies" element={<UsersList />} />
-            <Route path="/company_editor" element={<UserEditor />} />
-            <Route path="/categories" element={<UsersList />} />
-            <Route path="/category_editor" element={<UserEditor />} />
+            <Route path="/companies" element={<CompaniesList />} />
+            <Route path="/company_editor" element={<CompanyEditor />} />
+            <Route path="/categories" element={<CategoriesList />} />
+            <Route path="/category_editor" element={<CategoryEditor />} />
           </Routes>
         </div>
       </main>

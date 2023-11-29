@@ -16,11 +16,14 @@ function UserEditor() {
 
     let user: IUser = useSelector((state: AppState) => state.editedUser);
     let companies: ICompany[] = useSelector((state: AppState) => state.companies);
-    let UserTypes = ["ADMIN", "COMPANY", "CUSTOMER"];
+    let userTypes = ["ADMIN", "COMPANY", "CUSTOMER"];
+    let [isChangesMade, setIsChangesMade] = useState<boolean>(false);
+    let [isChangingPassword, setIsChangingPassword] = useState<boolean>(false);
 
     useEffect(() => {
+        dispatch({ type: ActionType.resetEditedUser })
         setIsLoading(false);
-    }, [user, companies]);
+    }, []);
 
     let [formData, setFormData] = useState<IUser>({
         id: user.id,
@@ -31,7 +34,7 @@ function UserEditor() {
     });
 
     let [isLoading, setIsLoading] = useState(true);
-    let isNewUser: boolean = formData.id != -1;
+    let isNewUser: boolean = formData.id == -1;
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -43,6 +46,7 @@ function UserEditor() {
             ...formData,
             [name]: value,
         });
+        setIsChangesMade(true);
     };
 
     let selectionChanged = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -51,30 +55,56 @@ function UserEditor() {
             ...formData,
             [name]: value,
         });
+        setIsChangesMade(true);
     };
 
     async function onSaveChangesClicked() {
+        debugger;
+        let adaptedUser = {
+            id: formData.id,
+            username: formData.username,
+            password: formData.password,
+            ...(formData.userType == 'COMPANY' && { companyId: formData.companyId }),
+            userType: formData.userType,
+        };
+    
         try {
             if (isNewUser) {
-                await axios.post(`http://localhost:8080/users`, formData);
+                await axios.post(`http://localhost:8080/users`, adaptedUser);
             } else {
-                await axios.put(`http://localhost:8080/users`, formData);
+                await axios.put(`http://localhost:8080/users`, adaptedUser);
             }
-
-            let responseUsers = await axios.get(`http://localhost:8080/users`);
-            let users: IUser[] = responseUsers.data;
-            dispatch({ type: ActionType.UpdateUsers, payload: { users } });
-            alert("User updated successfully");
-            navigate(`/`);
+    
+            updateUsersState();
+    
+            if (isNewUser) {
+                alert("User created successfully");
+            } else {
+                alert("User updated successfully");
+            }
+            navigate(`/users`);
         } catch (error: any) {
             alert(error.response.data.errorMessage);
         }
     };
+    
+    async function onDeleteClicked() {
+        try {
+            await axios.delete(`http://localhost:8080/users/${formData.id}`);
 
+            updateUsersState();
 
-    function getCompanyNameById(companyId: number): string | undefined {
-        let company: ICompany | undefined = companies.find((company) => company.id === companyId);
-        return company ? company.name : undefined;
+            alert("User deleted successfully");
+            navigate(`/users`);
+        } catch (error: any) {
+            alert(error.response.data.errorMessage);
+        };
+    };
+
+    async function updateUsersState() {
+        let responseUsers = await axios.get(`http://localhost:8080/users`);
+        let users: IUser[] = responseUsers.data;
+        dispatch({ type: ActionType.UpdateUsers, payload: { users } });
     };
 
     function getUserType(): string | null {
@@ -87,15 +117,22 @@ function UserEditor() {
             return userTypeFromToken;
         }
         return null;
-    }
+    };
+
+    function getCompanyNameById(companyId: number): string | undefined {
+        let company: ICompany | undefined = companies.find((company) => company.id === companyId);
+        return company ? company.name : undefined;
+    };
 
     return (
         <div className='UserEditor'>
             {getUserType() == 'ADMIN' ? (
                 <>
-                    <div>
-                        <label>User #: {formData.id}</label>
-                    </div>
+                    {!isNewUser && (
+                        <div>
+                            <label>User #: {formData.id}</label>
+                        </div>
+                    )}
                     <div>
                         <label>Username:</label>
                         <input
@@ -106,16 +143,21 @@ function UserEditor() {
                             onChange={userInputChanged}
                         />
                     </div>
-                    {/* <div>
-                        <label>Password:</label>
-                        <input
-                            type='password'
-                            id='password'
-                            name='password'
-                            value={formData.password}
-                            onChange={userInputChanged}
-                        />
-                    </div> */}
+                    {(isChangingPassword || isNewUser) ?
+                        <div>
+                            <label>Password:</label>
+                            <input
+                                type='password'
+                                id='password'
+                                name='password'
+                                value={formData.password}
+                                onChange={userInputChanged}
+                            />
+                        </div>
+                        :
+                        <button onClick={() => setIsChangingPassword(true)}>
+                            Change Password
+                        </button>}
                     <div>
                         <label>User Type:</label>
                         <select
@@ -124,7 +166,8 @@ function UserEditor() {
                             value={formData.userType}
                             onChange={selectionChanged}
                         >
-                            {UserTypes.map((type, index) => (
+                            <option value=''> </option>
+                            {userTypes.map((type, index) => (
                                 <option key={index} value={type}>
                                     {type}
                                 </option>
@@ -140,15 +183,26 @@ function UserEditor() {
                                 value={getCompanyNameById(formData.companyId)}
                                 onChange={selectionChanged}
                             >
+                                <option value=''> </option>
                                 {companies.map((company) => (
-                                    <option key={company.id} value={company.name}>
+                                    <option key={company.id} value={company.id}>
                                         {company.name}
                                     </option>
                                 ))}
                             </select>
                         </div>
                     )}
-                    <button onClick={onSaveChangesClicked}>Save Changes</button>
+                    <button
+                        onClick={onSaveChangesClicked}
+                        disabled={!isChangesMade}>
+                        Save Changes
+                    </button>
+                    {!isNewUser && (
+                        <button onClick={onDeleteClicked}>
+                            Delete This User
+                        </button>
+                    )}
+
                 </>
             ) : (
                 <div>Why are you even here?!</div>

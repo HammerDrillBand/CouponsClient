@@ -4,6 +4,7 @@ TheMuse:
         - make filters menu dissappear when irrelevant
         - Add remaining 'Add' and 'List' buttons in menu for resources when editors are completed @done
         - Add pegination with limited amount of each resource per page
+        - make Admin able to edit and add on server side, like done for Coupons
     - Resources
         - Coupons
             - isAvailable @done
@@ -21,10 +22,10 @@ TheMuse:
             - Make separate 'Put' and 'Post' functions in editors @done
             - Notify if no changes made and unable to press 'Save Changes' button in resources (Make boolean variable isChangesMade)(Done in coupons) @HighPriority @done
         - Users
-            - Finish the UsersEditor in accordance with all changes done in the CouponsEditor
-            - Make password editable
+            - Finish the UsersEditor in accordance with all changes done in the CouponsEditor @done
+            - Make password editable @done
         - Companies
-            - Create CompaniesEditor
+            - Create CompaniesEditor and CompaniesList @done
         - Categories
-            - Create CategoriesEditor
+            - Create CategoriesEditor and CategoriesList @done
         - Purchases

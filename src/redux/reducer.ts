@@ -40,12 +40,25 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
         case ActionType.UpdateUsers:
             newAppState.coupons = action.payload.users;
             break;
+        case ActionType.UpdateCompanies:
+            newAppState.companies = action.payload.companies;
+            break;
+        case ActionType.UpdateCategories:
+            newAppState.categories = action.payload.categories;
+            break;
         case ActionType.EditCoupon:
             newAppState.editedCoupon = action.payload.editedCoupon;
             break;
         case ActionType.EditUser:
             newAppState.editedUser = action.payload.editedUser;
             break;
+        case ActionType.EditCompany:
+            newAppState.editedCompany = action.payload.editedCompany;
+            break;
+        case ActionType.EditCategory:
+            newAppState.editedCategory = action.payload.editedCategory;
+            break;
+
         case ActionType.resetEditedCoupon:
             newAppState.editedCoupon =
             {

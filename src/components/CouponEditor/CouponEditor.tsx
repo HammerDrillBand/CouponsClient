@@ -21,12 +21,9 @@ function CouponEditor() {
     let [isChangesMade, setIsChangesMade] = useState<boolean>(false);
 
     useEffect(() => {
-        setIsLoading(false);
         formatDates();
-
-        return () => {
-            dispatch({ type: ActionType.resetEditedCoupon });
-        };
+        dispatch({ type: ActionType.resetEditedCoupon });
+        setIsLoading(false);
     }, []);
 
     let [formData, setFormData] = useState<ICoupon>({
@@ -95,6 +92,14 @@ function CouponEditor() {
         setIsChangesMade(true);
     };
 
+    function clearImageData() {
+        setFormData({
+            ...formData,
+            imageData: ''
+        });
+        setIsChangesMade(true);
+    };
+
     function formatDates() {
         let formattedStartDate = formData.startDate.split('/').reverse().join('-');
         let formattedEndDate = formData.endDate.split('/').reverse().join('-');
@@ -139,7 +144,7 @@ function CouponEditor() {
         };
     };
 
-    async function onDeleteCouponClicked() {
+    async function onDeleteClicked() {
         try {
             await axios.delete(`http://localhost:8080/coupons/${formData.id}`);
 
@@ -150,6 +155,19 @@ function CouponEditor() {
         } catch (error: any) {
             alert(error.response.data.errorMessage);
         };
+    };
+
+    async function updateCouponsState() {
+        let responseCoupons;
+        if (getUserType() == 'COMPANY') {
+            responseCoupons = await axios.get(`http://localhost:8080/coupons/byCompanyId?companyId=${getCompanyId()}`);
+        } else if (getUserType() == 'ADMIN') {
+            responseCoupons = await axios.get('http://localhost:8080/coupons');
+        } else {
+            responseCoupons = await axios.get('http://localhost:8080/coupons/available');
+        }
+        let coupons: ICoupon[] = responseCoupons.data;
+        dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
     };
 
     function getCompanyId(): number | null {
@@ -179,27 +197,6 @@ function CouponEditor() {
     function getCompanyNameById(companyId: number): string | undefined {
         let company: ICompany | undefined = companies.find((company) => company.id === companyId);
         return company ? company.name : undefined;
-    }
-
-    function clearImageData() {
-        setFormData({
-            ...formData,
-            imageData: ''
-        });
-        setIsChangesMade(true);
-    };
-
-    async function updateCouponsState() {
-        let responseCoupons;
-        if (getUserType() == 'COMPANY') {
-            responseCoupons = await axios.get(`http://localhost:8080/coupons/byCompanyId?companyId=${getCompanyId()}`);
-        } else if (getUserType() == 'ADMIN') {
-            responseCoupons = await axios.get('http://localhost:8080/coupons');
-        } else {
-            responseCoupons = await axios.get('http://localhost:8080/coupons/available');
-        }
-        let coupons: ICoupon[] = responseCoupons.data;
-        dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
     };
 
     return (
@@ -280,7 +277,7 @@ function CouponEditor() {
                             type='number'
                             id='amount'
                             name='amount'
-                            value={coupon.amount > 0 ? 0 : formData.amount}
+                            value={formData.amount < 0 ? 0 : formData.amount}
                             onChange={inputChanged}
                         />
                     </div>
@@ -290,7 +287,7 @@ function CouponEditor() {
                             type='number'
                             id='price'
                             name='price'
-                            value={coupon.price > 0 ? 0 : formData.price}
+                            value={formData.price < 0 ? 0 : formData.price}
                             onChange={inputChanged}
                         />
                     </div>
@@ -344,7 +341,7 @@ function CouponEditor() {
                         Save Changes
                     </button>
                     {!isNewCoupon && (
-                        <button onClick={onDeleteCouponClicked}>
+                        <button onClick={onDeleteClicked}>
                             Delete This Coupon
                         </button>
                     )}

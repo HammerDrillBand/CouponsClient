@@ -18,7 +18,6 @@ function UsersList() {
     let selectedCompanyIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCompanyId);
     let companies: ICompany[] = useSelector<AppState, ICompany[]>((state: AppState) => state.companies);
 
-
     useEffect(() => {
         getUsers();
     }, [selectedCompanyIds]);
@@ -34,29 +33,28 @@ function UsersList() {
             console.error("Error fetching users:", error);
             setIsLoading(false)
         }
-    }
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
-    }
+    };
 
     let filteredUsers: IUser[] = users;
 
     if (selectedCompanyIds.length > 0) {
         filteredUsers = filteredUsers.filter(user => selectedCompanyIds.includes(user.companyId));
-    }
+    };
 
     function onEditClicked(id: number) {
-        debugger;
         let editedUser: IUser | undefined = users.find(user => user.id === id);
         dispatch({ type: ActionType.EditUser, payload: { editedUser } });
         navigate(`/user_editor?userId=${id}`);
-    }
+    };
 
     function getCompanyName(companyId: number): string {
         let company = companies.find(company => company.id === companyId);
         return company ? company.name : 'N/A';
-    }
+    };
 
     return (
         <div className="UsersList">
