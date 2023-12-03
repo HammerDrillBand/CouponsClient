@@ -223,6 +223,7 @@ function CouponEditor() {
                                 value={getCompanyNameById(formData.companyId)}
                                 onChange={selectionChanged}
                             >
+                                <option value=''>Select Company</option>
                                 {companies.map((company) => (
                                     <option key={company.id} value={company.id}>
                                         {company.name}

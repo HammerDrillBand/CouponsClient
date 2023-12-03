@@ -38,7 +38,7 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
             newAppState.coupons = action.payload.coupons;
             break;
         case ActionType.UpdateUsers:
-            newAppState.coupons = action.payload.users;
+            newAppState.users = action.payload.users;
             break;
         case ActionType.UpdateCompanies:
             newAppState.companies = action.payload.companies;

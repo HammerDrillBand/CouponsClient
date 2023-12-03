@@ -136,7 +136,7 @@ function CompanyEditor() {
                             value={formData.companyType}
                             onChange={selectionChanged}
                         >
-                            <option value=''> </option>
+                            <option value=''>Select Company Type</option>
                             {ComapnyTypes.map((type, index) => (
                                 <option key={index} value={type}>
                                     {type}

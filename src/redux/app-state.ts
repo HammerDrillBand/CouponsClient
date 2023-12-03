@@ -8,6 +8,7 @@ export class AppState {
     public companies: ICompany[] = [];
     public categories: ICategory[] = [];
     public coupons: ICoupon[] = [];
+    public users: IUser[] = [];
     public isLoggedIn: boolean = false;
     public FilteredByCategoryId: number[] = [];
     public FilteredByCompanyId: number[] = [];

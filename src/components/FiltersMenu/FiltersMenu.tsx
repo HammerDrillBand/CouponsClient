@@ -25,13 +25,9 @@ function FiltersMenu() {
 
     let location = useLocation();
     let isCouponsRoute: boolean = location.pathname === '/';
-    // let isCouponEditorRoute: boolean = location.pathname === '/coupon_editor';
     let isUsersRoute: boolean = location.pathname === '/users';
-    // let isUserEditorRoute: boolean = location.pathname === '/user_editor';
     let isCompaniesRoute: boolean = location.pathname === '/companies';
-    // let isCompanyEditorRoute: boolean = location.pathname === '/comapny_editor';
     let isCategoriesRoute: boolean = location.pathname === '/categories';
-    // let isCategoryEditorRoute: boolean = location.pathname === '/category_editor';
 
 
     useEffect(() => {

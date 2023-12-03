@@ -166,7 +166,7 @@ function UserEditor() {
                             value={formData.userType}
                             onChange={selectionChanged}
                         >
-                            <option value=''> </option>
+                            <option value=''>Select User Type</option>
                             {userTypes.map((type, index) => (
                                 <option key={index} value={type}>
                                     {type}
@@ -183,7 +183,7 @@ function UserEditor() {
                                 value={getCompanyNameById(formData.companyId)}
                                 onChange={selectionChanged}
                             >
-                                <option value=''> </option>
+                                <option value=''>Select Company</option>
                                 {companies.map((company) => (
                                     <option key={company.id} value={company.id}>
                                         {company.name}
