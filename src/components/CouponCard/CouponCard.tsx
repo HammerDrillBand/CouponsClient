@@ -35,7 +35,6 @@ function CouponCard(props: ICoupon) {
         setIsOpen(false);
     };
 
-
     async function onPurchaseClicked() {
         let newPurchase: IPurchase = {
             couponId: props.id,
@@ -51,18 +50,23 @@ function CouponCard(props: ICoupon) {
             companyId: 0,
             companyName: ''
         }
-        await axios.post("http://localhost:8080/purchases", newPurchase)
-            .then(async () => {
-                alert("Thank you for your purchase");
-                closeModal();
-                let responseCoupons = await axios.get("http://localhost:8080/coupons/available");
-                let coupons: ICoupon[] = responseCoupons.data;
-                dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
-            })
-            .catch(error => {
+        try {
+            await axios.post("http://localhost:8080/purchases", newPurchase)
+                .then(async () => {
+                    alert("Thank you for your purchase");
+                    closeModal();
+                    // let responseCoupons = await axios.get(`http://localhost:8080/coupons/byFilters?page=1&categoryIds=${[]}&companyIds=${[]}`);
+                    // let coupons: ICoupon[] = responseCoupons.data;
+                    // dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
+                    navigate(`/`);
+                })
+                .catch(error => {
+                    alert(error.response.data.errorMessage);
+                })
+            } catch (error: any) {
                 alert(error.response.data.errorMessage);
-            })
-    };
+            }
+        };
 
     function onEditClicked() {
         let editedCoupon: ICoupon = {
@@ -89,8 +93,8 @@ function CouponCard(props: ICoupon) {
     let imageDataUrl = `data:image/jpeg;base64,${imageDataByte64}`;
 
     let backgroundStyle = {
-      backgroundImage: `url(${imageDataUrl})`,
-    };  
+        backgroundImage: `url(${imageDataUrl})`,
+    };
 
     function getUserType(): string | null {
         let storedToken = localStorage.getItem('authToken');
@@ -102,7 +106,7 @@ function CouponCard(props: ICoupon) {
             return userTypeFromToken;
         }
         return null;
-    }
+    };
 
     return (
         <div className='CouponCard' style={backgroundStyle}>

@@ -15,11 +15,14 @@ function FiltersMenu() {
     const navigate = useNavigate();
     let categories: ICategory[] = useSelector((state: AppState) => state.categories);
     let companies: ICompany[] = useSelector((state: AppState) => state.companies);
-    let maxCouponPrice: number = useSelector((state: AppState) => state.maxPrice);
+    // let maxCouponPrice: number = useSelector((state: AppState) => state.maxPrice);
     let isLoading: boolean = useSelector((state: AppState) => state.isLoading);
 
     let [minPrice, setMinPrice] = useState<number>(0);
     let [maxPrice, setMaxPrice] = useState<number>(0);
+    let [filteredMinPrice, setFilteredMinPrice] = useState<number>(0);
+    let [filteredMaxPrice, setFilteredMaxPrice] = useState<number>(0);
+
     let [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     let [selectedCompanies, setSelectedCompanies] = useState<number[]>([]);
 
@@ -29,15 +32,12 @@ function FiltersMenu() {
     let isCompaniesRoute: boolean = location.pathname === '/companies';
     let isCategoriesRoute: boolean = location.pathname === '/categories';
 
-
     useEffect(() => {
-        if (maxCouponPrice > 0) {
-            setMaxPrice(maxCouponPrice);
-        }
         getUserType();
-    }, [maxCouponPrice, companies]);
+        getPrices();
+    }, [maxPrice, companies]);
 
-    if (categories.length === 0 || companies.length === 0 || maxCouponPrice === 0) {
+    if (categories.length === 0 || companies.length === 0) {
         return <div>Loading...</div>;
     };
 
@@ -59,13 +59,28 @@ function FiltersMenu() {
         dispatch({ type: ActionType.FilterByCompanyIds, payload: { selectedCompanies: updatedSelectedCompanies } });
     };
 
+    async function getPrices() {
+        try {
+            let minPriceValue = await getMinPrice();
+            let maxPriceValue = await getMaxPrice();
+
+            setMinPrice(minPriceValue);
+            setFilteredMinPrice(minPriceValue);
+            setMaxPrice(maxPriceValue);
+            setFilteredMaxPrice(maxPriceValue);
+
+        } catch (error) {
+            console.error('Error fetching min and max prices:', error);
+        }
+    };
+
     function minPriceChanged(newMinPrice: number) {
-        setMinPrice(newMinPrice);
+        setFilteredMinPrice(newMinPrice);
         dispatch({ type: ActionType.FilterByMinPrice, payload: { minPrice: newMinPrice } });
     };
 
     function maxPriceChanged(newMaxPrice: number) {
-        setMaxPrice(newMaxPrice);
+        setFilteredMaxPrice(newMaxPrice);
         dispatch({ type: ActionType.FilterByMaxPrice, payload: { maxPrice: newMaxPrice } });
     };
 
@@ -84,6 +99,19 @@ function FiltersMenu() {
         }
         return null;
     };
+
+    async function getMinPrice() {
+        let responseMinPrice = await axios.get('http://localhost:8080/coupons/minPrice');
+        let minPrice: number = responseMinPrice.data;
+        return minPrice;
+    };
+
+    async function getMaxPrice() {
+        let responseMaxPrice = await axios.get('http://localhost:8080/coupons/maxPrice');
+        let maxPrice: number = responseMaxPrice.data;
+        return maxPrice;
+    };
+
 
     function goToCouponCreator() {
         dispatch({ type: ActionType.resetEditedCoupon });
@@ -130,21 +158,21 @@ function FiltersMenu() {
 
             {/* {!isUserEditorRoute && (
                 <> */}
-                    <h2>Select Category</h2>
-                    {categories.map(category => (
-                        <div key={category.id}>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    value={category.name}
-                                    checked={selectedCategories.includes(category.id)}
-                                    onChange={() => categorySelectionChanged(category.id)}
-                                />
-                                {category.name}
-                            </label>
-                        </div>
-                    ))}
-                {/* </>
+            <h2>Select Category</h2>
+            {categories.map(category => (
+                <div key={category.id}>
+                    <label>
+                        <input
+                            type="checkbox"
+                            value={category.name}
+                            checked={selectedCategories.includes(category.id)}
+                            onChange={() => categorySelectionChanged(category.id)}
+                        />
+                        {category.name}
+                    </label>
+                </div>
+            ))}
+            {/* </>
             )} */}
 
             {getUserType() !== 'COMPANY' && (
@@ -171,20 +199,25 @@ function FiltersMenu() {
                     <h2>Select Price</h2>
                     <div className="range-slider-container">
                         <div className="slider">
-                            <span>Min: {minPrice}</span>
+                            <span>Current Lowest: {minPrice}</span>
+                            <br />
+                            <span>Current Highest: {maxPrice}</span>
+                            <br />
+                            <span>From: </span>
                             <input
-                                type="range"
-                                min="0"
-                                max={maxCouponPrice}
-                                value={minPrice}
+                                type="number"
+                                min={minPrice}
+                                max={maxPrice}
+                                value={filteredMinPrice}
                                 onChange={event => minPriceChanged(+event.target.value)}
                             />
-                            <span>Max: {maxPrice}</span>
+                            <br />
+                            <span>To: </span>
                             <input
-                                type="range"
-                                min="0"
-                                max={maxCouponPrice}
-                                value={maxPrice}
+                                type="number"
+                                min={minPrice}
+                                max={maxPrice}
+                                value={filteredMaxPrice}
                                 onChange={event => maxPriceChanged(+event.target.value)}
                             />
                         </div>

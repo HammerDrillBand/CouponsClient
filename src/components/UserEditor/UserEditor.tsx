@@ -59,7 +59,6 @@ function UserEditor() {
     };
 
     async function onSaveChangesClicked() {
-        debugger;
         let adaptedUser = {
             id: formData.id,
             username: formData.username,

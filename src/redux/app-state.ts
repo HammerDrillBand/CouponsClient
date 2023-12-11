@@ -7,12 +7,13 @@ import { IUser } from "../models/IUser";
 export class AppState {
     public companies: ICompany[] = [];
     public categories: ICategory[] = [];
-    public coupons: ICoupon[] = [];
+    // public coupons: ICoupon[] = [];
     public users: IUser[] = [];
     public isLoggedIn: boolean = false;
     public FilteredByCategoryId: number[] = [];
     public FilteredByCompanyId: number[] = [];
-    public maxPrice: number = 0;
+    // public minPrice: number = 0;
+    // public maxPrice: number = 0;
     public FilteredByMinPrice: number = 0;
     public FilteredByMaxPrice: number = 0;
     public purchase: IPurchase | EmptyPurchase = {};

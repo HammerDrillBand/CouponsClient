@@ -63,11 +63,10 @@ function PurchasesList() {
             let decodedToken: any = jwt_decode(storedToken);
             let decodedTokenData = JSON.parse(decodedToken.sub);
             let userTypeFromToken = decodedTokenData.userType;
-            debugger;
             return userTypeFromToken;
         }
         return null;
-    }
+    };
 
     function getCompanyId(): number | null {
         let storedToken = localStorage.getItem('authToken');
@@ -79,7 +78,7 @@ function PurchasesList() {
             return companyIdFromToken;
         }
         return null;
-    }
+    };
 
     function getUserId(): number | null {
         let storedToken = localStorage.getItem('authToken');
@@ -88,11 +87,10 @@ function PurchasesList() {
             let decodedToken: any = jwt_decode(storedToken);
             let decodedTokenData = JSON.parse(decodedToken.sub);
             let userIdFromToken = decodedTokenData.id;
-            debugger;
             return userIdFromToken;
         }
         return null;
-    }
+    };
 
     return (
         <div className="PurchasesList">

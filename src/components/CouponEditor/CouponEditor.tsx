@@ -87,7 +87,7 @@ function CouponEditor() {
                     imageData: newImagedata,
                 });
             };
-            reader.readAsDataURL(file);
+            // reader.readAsDataURL(file);
         }
         setIsChangesMade(true);
     };
@@ -131,7 +131,7 @@ function CouponEditor() {
                 await axios.put(`http://localhost:8080/coupons`, shortCoupon);
             }
 
-            updateCouponsState();
+            // updateCouponsState();
 
             if (isNewCoupon) {
                 alert("Coupon created successfully");
@@ -148,7 +148,7 @@ function CouponEditor() {
         try {
             await axios.delete(`http://localhost:8080/coupons/${formData.id}`);
 
-            updateCouponsState();
+            // updateCouponsState();
 
             alert("Coupon deleted successfully");
             navigate(`/`);
@@ -157,30 +157,32 @@ function CouponEditor() {
         };
     };
 
-    async function updateCouponsState() {
-        let responseCoupons;
-        if (getUserType() == 'COMPANY') {
-            responseCoupons = await axios.get(`http://localhost:8080/coupons/byCompanyId?companyId=${getCompanyId()}`);
-        } else if (getUserType() == 'ADMIN') {
-            responseCoupons = await axios.get('http://localhost:8080/coupons');
-        } else {
-            responseCoupons = await axios.get('http://localhost:8080/coupons/available');
-        }
-        let coupons: ICoupon[] = responseCoupons.data;
-        dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
-    };
+    // async function updateCouponsState() {
+    //     // let responseCoupons;
+    //     // if (getUserType() == 'COMPANY') {
+    //     //     responseCoupons = await axios.get(`http://localhost:8080/coupons/byCompanyId?companyId=${getCompanyId()}`);
+    //     // } else if (getUserType() == 'ADMIN') {
+    //     //     responseCoupons = await axios.get('http://localhost:8080/coupons');
+    //     // } else {
+    //     //     responseCoupons = await axios.get('http://localhost:8080/coupons/available');
+    //     // }
 
-    function getCompanyId(): number | null {
-        let storedToken = localStorage.getItem('authToken');
-        if (storedToken) {
-            axios.defaults.headers.common['Authorization'] = storedToken;
-            let decodedToken: any = jwt_decode(storedToken);
-            let decodedTokenData = JSON.parse(decodedToken.sub);
-            let companyIdFromToken = decodedTokenData.companyId;
-            return companyIdFromToken;
-        };
-        return null;
-    };
+    //     let responseCoupons = await axios.get(`http://localhost:8080/coupons/byFilters?page=1&categoryIds=${[]}&companyIds=${[]}`);
+    //       let coupons: ICoupon[] = responseCoupons.data;
+    //     dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
+    // };
+
+    // function getCompanyId(): number | null {
+    //     let storedToken = localStorage.getItem('authToken');
+    //     if (storedToken) {
+    //         axios.defaults.headers.common['Authorization'] = storedToken;
+    //         let decodedToken: any = jwt_decode(storedToken);
+    //         let decodedTokenData = JSON.parse(decodedToken.sub);
+    //         let companyIdFromToken = decodedTokenData.companyId;
+    //         return companyIdFromToken;
+    //     };
+    //     return null;
+    // };
 
     function getUserType(): string | null {
         let storedToken = localStorage.getItem('authToken');
@@ -190,7 +192,7 @@ function CouponEditor() {
             let decodedTokenData = JSON.parse(decodedToken.sub);
             let userTypeFromToken = decodedTokenData.userType;
             return userTypeFromToken;
-        };
+        }
         return null;
     };
 

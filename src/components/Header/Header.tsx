@@ -63,19 +63,19 @@ function Header() {
 
     function goToHome() {
         navigate('/')
-    }
+    };
 
     function goToUsersList() {
         navigate('/users')
-    }
+    };
 
     function goToCompaniesList() {
         navigate('/companies')
-    }
+    };
 
     function goToCategoriesList() {
         navigate('/categories')
-    }
+    };
 
     function getUserType(): string | null {
         let storedToken = localStorage.getItem('authToken');
@@ -87,7 +87,7 @@ function Header() {
             return userTypeFromToken;
         }
         return null;
-    }
+    };
 
     function getCompanyId(): number | null {
         let storedToken = localStorage.getItem('authToken');
@@ -99,7 +99,7 @@ function Header() {
             return companyIdFromToken;
         }
         return null;
-    }
+    };
 
     function getUserId(): number | null {
         let storedToken = localStorage.getItem('authToken');
@@ -107,11 +107,12 @@ function Header() {
             axios.defaults.headers.common['Authorization'] = storedToken;
             let decodedToken: any = jwt_decode(storedToken);
             let decodedTokenData = JSON.parse(decodedToken.sub);
-            let userIdFromToken = decodedTokenData.userId;
+            let userIdFromToken = decodedTokenData.id;
+            debugger;
             return userIdFromToken;
         }
         return null;
-    }
+    };
 
 
     return (
