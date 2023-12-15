@@ -5,18 +5,38 @@ import { AppState } from '../../redux/app-state';
 import { useNavigate } from 'react-router-dom';
 import { ActionType } from '../../redux/action-type';
 import { ICategory } from '../../models/ICategory';
+import axios from 'axios';
 
 function CategoriesList() {
 
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
-    let categories: ICategory[] = useSelector<AppState, ICategory[]>((state: AppState) => state.categories);
+    // let categories: ICategory[] = useSelector<AppState, ICategory[]>((state: AppState) => state.categories);
+    let [categories, setCategories] = useState<ICategory[]>(useSelector<AppState, ICategory[]>((state: AppState) => state.categories))
+
     let [isLoading, setIsLoading] = useState(true);
+    let [currentPage, setCurrentPage] = useState<number>(1);
+    let [totalPages, setTotalPages] = useState<number>(1);
 
     useEffect(() => {
-        setIsLoading(false)
-    }, []);
+        getCategories();
+        setIsLoading(false);
+    }, [currentPage]);
+
+    async function getCategories() {
+        try {
+            let responseCategories = await axios.get(`http://localhost:8080/categories/byPage?page=${currentPage}`);
+            let { categories, totalPages } = responseCategories.data;
+            setCategories(categories);
+            setTotalPages(totalPages || 0);
+            setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
+            navigate(`?page=${currentPage}`);
+        } catch (error: any) {
+            console.error("Error fetching categories:", error);
+            setIsLoading(false)
+        }
+    }
 
 
     if (isLoading) {
@@ -31,6 +51,10 @@ function CategoriesList() {
 
     return (
         <div className="CategoriesList">
+            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>Previous Page</button>
+            {currentPage} of {totalPages}
+            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>Next Page</button>
+
             <table>
                 <thead>
                     <tr>

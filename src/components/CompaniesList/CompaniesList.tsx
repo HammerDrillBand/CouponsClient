@@ -5,19 +5,37 @@ import { AppState } from '../../redux/app-state';
 import { ICompany } from '../../models/ICompany';
 import { useNavigate } from 'react-router-dom';
 import { ActionType } from '../../redux/action-type';
+import axios from 'axios';
 
 function CompaniesList() {
 
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
-    let companies: ICompany[] = useSelector<AppState, ICompany[]>((state: AppState) => state.companies);
-    let [isLoading, setIsLoading] = useState(true);
+    // let companies: ICompany[] = useSelector<AppState, ICompany[]>((state: AppState) => state.companies);
+    let [companies, setCompanies] = useState<ICompany[]>(useSelector<AppState, ICompany[]>((state: AppState) => state.companies))
+    let [isLoading, setIsLoading] = useState<boolean>(true);
+    let [currentPage, setCurrentPage] = useState<number>(1);
+    let [totalPages, setTotalPages] = useState<number>(1);
 
     useEffect(() => {
-        setIsLoading(false)
-    }, []);
+        getCompanies();
+        setIsLoading(false);
+    }, [currentPage]);
 
+    async function getCompanies() {
+        try {
+            let responseCompanies = await axios.get(`http://localhost:8080/companies/byPage?page=${currentPage}`);
+            let { companies, totalPages } = responseCompanies.data;
+            setCompanies(companies);
+            setTotalPages(totalPages || 0);
+            setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
+            navigate(`?page=${currentPage}`);
+        } catch (error: any) {
+            console.error("Error fetching companies:", error);
+            setIsLoading(false)
+        }
+    }
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -31,6 +49,10 @@ function CompaniesList() {
 
     return (
         <div className="CompaniesList">
+            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>Previous Page</button>
+            {currentPage} of {totalPages}
+            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>Next Page</button>
+
             <table>
                 <thead>
                     <tr>

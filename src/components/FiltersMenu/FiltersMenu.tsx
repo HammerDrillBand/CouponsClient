@@ -124,6 +124,7 @@ function FiltersMenu() {
     };
 
     function goToCompanyCreator() {
+        debugger;
         dispatch({ type: ActionType.resetEditedCompany });
         navigate('/company_editor');
     };

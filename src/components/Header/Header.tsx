@@ -108,7 +108,6 @@ function Header() {
             let decodedToken: any = jwt_decode(storedToken);
             let decodedTokenData = JSON.parse(decodedToken.sub);
             let userIdFromToken = decodedTokenData.id;
-            debugger;
             return userIdFromToken;
         }
         return null;

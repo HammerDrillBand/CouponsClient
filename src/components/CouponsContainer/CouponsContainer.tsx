@@ -25,17 +25,17 @@ function CouponsContainer() {
     let [currentPage, setCurrentPage] = useState<number>(1);
     let [totalPages, setTotalPages] = useState<number>(1);
 
-    // let [isLoading, setIsLoading] = useState(true);
+    let [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getCoupons();
-        // setIsLoading(false);
+        setIsLoading(false);
     }, [selectedCategoryIds, selectedCompanyIds, currentPage, selectedMinPrice, selectedMaxPrice]);
     // }, [coupons, selectedCategoryIds, selectedCompanyIds, selectedMinPrice, selectedMaxPrice, currentPage]);
 
-    // if (isLoading) {
-    //     return <div>Loading...</div>;
-    // }
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     async function getCoupons() {
         try {
@@ -56,12 +56,12 @@ function CouponsContainer() {
             &minPrice=${minPrice}
             &maxPrice=${maxPrice}`);
 
-            let { coupons, totalPages }: ICouponPageResult = response.data;
+            let { coupons, totalPages } = response.data;
             // let coupons: ICoupon[] = responseCoupons.coupons;
             setCoupons(coupons || []);
             setTotalPages(totalPages || 0);
 
-            setCurrentPage((prevPage) => Math.max(1, Math.min(prevPage, totalPages)));
+            setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
             navigate(`?page=${currentPage}`);
 
         } catch (error: any) {

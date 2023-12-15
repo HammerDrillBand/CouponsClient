@@ -58,7 +58,7 @@ function CouponCard(props: ICoupon) {
                     // let responseCoupons = await axios.get(`http://localhost:8080/coupons/byFilters?page=1&categoryIds=${[]}&companyIds=${[]}`);
                     // let coupons: ICoupon[] = responseCoupons.data;
                     // dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
-                    navigate(`/`);
+                    window.location.reload();
                 })
                 .catch(error => {
                     alert(error.response.data.errorMessage);

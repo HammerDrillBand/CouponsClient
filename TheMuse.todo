@@ -29,27 +29,27 @@ TheMuse:
         - Users
             - Finish the UsersEditor in accordance with all changes done in the CouponsEditor @done
             - Make password editable @done
-            - Add pagination
+            - Add pagination @done
             - See unnecessary code in Coupons and check if equivalent can be deleted as well
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done
             - Test all add, edit and delete functions
         - Companies
             - Create CompaniesEditor and CompaniesList @done
-            - Add pagination
+            - Add pagination @done
             - See unnecessary code in Coupons and check if equivalent can be deleted as well
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done
             - Test all add, edit and delete functions
         - Categories
             - Create CategoriesEditor and CategoriesList @done
-            - Add pagination
+            - Add pagination @done
             - See unnecessary code in Coupons and check if equivalent can be deleted as well
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done
             - Test all add, edit and delete functions
         - Purchases
-            - Add pagination
+            - Add pagination @done
             - See unnecessary code in Coupons and check if equivalent can be deleted as well
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done

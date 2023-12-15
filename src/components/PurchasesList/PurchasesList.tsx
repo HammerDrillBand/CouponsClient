@@ -6,30 +6,41 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../redux/app-state';
 import moment from 'moment';
 import jwt_decode from 'jwt-decode'
+import { useNavigate } from 'react-router-dom';
 
 function PurchasesList() {
 
+    let navigate = useNavigate();
     let [purchases, setPurchases] = useState<IPurchase[]>([]);
     let [isLoading, setIsLoading] = useState(true);
     let selectedCategoryIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCategoryId);
     let selectedCompanyIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCompanyId);
+    let [currentPage, setCurrentPage] = useState<number>(1);
+    let [totalPages, setTotalPages] = useState<number>(1);
 
     useEffect(() => {
         getPurchases();
-    }, [selectedCategoryIds, selectedCompanyIds]);
+        setIsLoading(false);
+    }, [selectedCategoryIds, selectedCompanyIds, currentPage]);
 
     async function getPurchases() {
         let responsePurchases;
+        let userType: string | null = getUserType();
         try {
-            if (getUserType() == 'CUSTOMER') {
-                responsePurchases = await axios.get(`http://localhost:8080/purchases/byUserId?userId=${getUserId()}`);
-            } else if (getUserType() == 'COMPANY') {
-                responsePurchases = await axios.get(`http://localhost:8080/purchases/byCompanyId?companyId=${getCompanyId()}`);
+            if (userType == 'CUSTOMER') {
+                responsePurchases = await axios.get(`http://localhost:8080/purchases/byUserId?page=${currentPage}`);
+            } else if (userType == 'COMPANY') {
+                responsePurchases = await axios.get(`http://localhost:8080/purchases/byCompanyId?page=${currentPage}`);
             } else {
-                responsePurchases = await axios.get(`http://localhost:8080/purchases`);
+                responsePurchases = await axios.get(`http://localhost:8080/purchases/byPage?page=${currentPage}`);
             }
-            setPurchases(responsePurchases.data);
-            setIsLoading(false)
+
+            let { purchases, totalPages } = responsePurchases.data;
+
+            setPurchases(purchases);
+            setTotalPages(totalPages || 0);
+            setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
+            navigate(`?page=${currentPage}`);
         } catch (error: any) {
             console.error("Error fetching purchases:", error);
             setIsLoading(false)
@@ -56,7 +67,7 @@ function PurchasesList() {
         return formattedDateString
     };
 
-    function getUserType(): string | null{
+    function getUserType(): string | null {
         let storedToken = localStorage.getItem('authToken');
         if (storedToken) {
             axios.defaults.headers.common['Authorization'] = storedToken;
@@ -94,6 +105,10 @@ function PurchasesList() {
 
     return (
         <div className="PurchasesList">
+            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>Previous Page</button>
+            {currentPage} of {totalPages}
+            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>Next Page</button>
+
             <table>
                 <thead>
                     <tr>

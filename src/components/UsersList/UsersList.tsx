@@ -17,19 +17,23 @@ function UsersList() {
     let [isLoading, setIsLoading] = useState(true);
     let selectedCompanyIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCompanyId);
     let companies: ICompany[] = useSelector<AppState, ICompany[]>((state: AppState) => state.companies);
+    let [currentPage, setCurrentPage] = useState<number>(1);
+    let [totalPages, setTotalPages] = useState<number>(1);
 
     useEffect(() => {
         getUsers();
-    }, [selectedCompanyIds]);
+        setIsLoading(false);
+    }, [selectedCompanyIds, currentPage]);
 
     async function getUsers() {
-        let responseUsers;
         try {
-            responseUsers = await axios.get(`http://localhost:8080/users`);
-            setUsers(responseUsers.data);
-            setIsLoading(false)
+            let responseUsers = await axios.get(`http://localhost:8080/users/byPage?page=${currentPage}`);
+            let { users, totalPages } = responseUsers.data;
+            setUsers(users);
+            setTotalPages(totalPages || 0);
+            setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
+            navigate(`?page=${currentPage}`);
         } catch (error: any) {
-            alert(error.response.data.errorMessage);
             console.error("Error fetching users:", error);
             setIsLoading(false)
         }
@@ -58,6 +62,10 @@ function UsersList() {
 
     return (
         <div className="UsersList">
+            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>Previous Page</button>
+            {currentPage} of {totalPages}
+            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>Next Page</button>
+
             <table>
                 <thead>
                     <tr>
