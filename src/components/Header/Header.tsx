@@ -7,7 +7,7 @@ import Register from "../Register/Register";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../redux/app-state";
 import { ActionType } from "../../redux/action-type";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from 'jwt-decode'
 
@@ -19,6 +19,12 @@ function Header() {
 
     let [loginModalIsOpen, setLoginIsOpen] = useState(false);
     let [registerModalIsOpen, setRegisterIsOpen] = useState(false);
+
+    let location = useLocation();
+    let isCouponsRoute: boolean = location.pathname === '/';
+    let isUsersRoute: boolean = location.pathname === '/users';
+    let isCompaniesRoute: boolean = location.pathname === '/companies';
+    let isCategoriesRoute: boolean = location.pathname === '/categories';
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -62,19 +68,40 @@ function Header() {
     };
 
     function goToHome() {
-        navigate('/')
+        navigate('/');
     };
 
     function goToUsersList() {
-        navigate('/users')
+        navigate('/users');
     };
 
     function goToCompaniesList() {
-        navigate('/companies')
+        navigate('/companies');
     };
 
     function goToCategoriesList() {
-        navigate('/categories')
+        navigate('/categories');
+    };
+
+    function goToCouponCreator() {
+        dispatch({ type: ActionType.resetEditedCoupon });
+        navigate('/coupon_editor');
+    };
+
+    function goToUserCreator() {
+        dispatch({ type: ActionType.resetEditedUser });
+        navigate('/user_editor');
+    };
+
+    function goToCompanyCreator() {
+        debugger;
+        dispatch({ type: ActionType.resetEditedCompany });
+        navigate('/company_editor');
+    };
+
+    function goToCategoryCreator() {
+        dispatch({ type: ActionType.resetEditedCategory });
+        navigate('/category_editor');
     };
 
     function getUserType(): string | null {
@@ -113,7 +140,6 @@ function Header() {
         return null;
     };
 
-
     return (
         <div className="Header">
             <img className="Logo" src={logo} alt="TheMUSE logo" onClick={goToHome} />
@@ -129,6 +155,15 @@ function Header() {
                     </div>
                 )}
             </div>
+
+            {(getUserType() === "ADMIN" || getUserType() === "COMPANY") && (
+                <>
+                    {isCouponsRoute && <button onClick={goToCouponCreator}>Add New Coupon</button>}
+                    {isUsersRoute && <button onClick={goToUserCreator}>Add New User</button>}
+                    {isCompaniesRoute && <button onClick={goToCompanyCreator}>Add New Company</button>}
+                    {isCategoriesRoute && <button onClick={goToCategoryCreator}>Add New Category</button>}
+                </>
+            )}
 
             {isLoggedIn && (
                 <div className="dropdown">

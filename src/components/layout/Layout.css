@@ -2,37 +2,34 @@
   height: 100vh;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 10% 87% 3%;
+  grid-template-rows: 10% auto 3%;
 }
 
-.layout > header, footer {
+.layout > header, .layout > footer {
   grid-column: span 12;
 }
 
-.filters-menu-container {
+.filters-menu {
   grid-column: span 2;
   display: flex;
   flex-direction: column;
 }
 
 .filters-menu {
-  max-height: 100%;
+  max-width: 100%;
   overflow: hidden;
-  transition: max-height 0.5s ease-in-out;
 }
 
 .filters-menu.hidden {
-  max-height: 0;
+  max-width: 0;
 }
 
-.main-with-filters {
+.main {
   grid-column: span 10;
   max-height: 100%;
-  overflow: hidden;
 }
 
 .main-full-width {
   grid-column: span 12;
   max-height: 100%;
-  overflow: hidden;
 }

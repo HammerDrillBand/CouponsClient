@@ -1,6 +1,6 @@
 TheMuse:
     - General
-        - make filters menu dissappear when irrelevant
+        - make filters menu dissappear when irrelevant @done
         - Add remaining 'Add' and 'List' buttons in menu for resources when editors are completed @done
         - make Admin able to edit and add on server side, like done for Coupons @done
         - Edit all CSS
@@ -24,33 +24,33 @@ TheMuse:
             - Notify if no changes made and unable to press 'Save Changes' button in resources (Make boolean variable isChangesMade)(Done in coupons) @HighPriority @done
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done
-            - Test all add, edit and delete functions for all types of users
+            - Test all add, edit and delete functions for all types of users @done
             - Make page# a path variable and send it as such to the controller, and not as parameter @done
         - Users
             - Finish the UsersEditor in accordance with all changes done in the CouponsEditor @done
             - Make password editable @done
             - Add pagination @done
-            - See unnecessary code in Coupons and check if equivalent can be deleted as well
+            - See unnecessary code in Coupons and check if equivalent can be deleted as well @done
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done
-            - Test all add, edit and delete functions
+            - Test all add, edit and delete functions @done
         - Companies
             - Create CompaniesEditor and CompaniesList @done
             - Add pagination @done
-            - See unnecessary code in Coupons and check if equivalent can be deleted as well
+            - See unnecessary code in Coupons and check if equivalent can be deleted as well @done
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done
-            - Test all add, edit and delete functions
+            - Test all add, edit and delete functions @done
         - Categories
             - Create CategoriesEditor and CategoriesList @done
             - Add pagination @done
-            - See unnecessary code in Coupons and check if equivalent can be deleted as well
+            - See unnecessary code in Coupons and check if equivalent can be deleted as well @done
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done
-            - Test all add, edit and delete functions
+            - Test all add, edit and delete functions @done
         - Purchases
             - Add pagination @done
-            - See unnecessary code in Coupons and check if equivalent can be deleted as well
+            - See unnecessary code in Coupons and check if equivalent can be deleted as well @done
             - Correct all URL paths @done
             - Catch errors coming from server after each axios request @done
-            - Test add function
+            - Test add function @done

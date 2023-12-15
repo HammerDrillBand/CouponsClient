@@ -12,7 +12,6 @@ import { ICompany } from '../../models/ICompany';
 function FiltersMenu() {
 
     let dispatch = useDispatch();
-    const navigate = useNavigate();
     let categories: ICategory[] = useSelector((state: AppState) => state.categories);
     let companies: ICompany[] = useSelector((state: AppState) => state.companies);
     let isLoading: boolean = useSelector((state: AppState) => state.isLoading);
@@ -28,8 +27,6 @@ function FiltersMenu() {
     let location = useLocation();
     let isCouponsRoute: boolean = location.pathname === '/';
     let isUsersRoute: boolean = location.pathname === '/users';
-    let isCompaniesRoute: boolean = location.pathname === '/companies';
-    let isCategoriesRoute: boolean = location.pathname === '/categories';
 
     useEffect(() => {
         getUserType();
@@ -111,72 +108,47 @@ function FiltersMenu() {
         return maxPrice;
     };
 
-
-    function goToCouponCreator() {
-        dispatch({ type: ActionType.resetEditedCoupon });
-        navigate('/coupon_editor');
-    };
-
-    function goToUserCreator() {
-        dispatch({ type: ActionType.resetEditedUser });
-        navigate('/user_editor');
-    };
-
-    function goToCompanyCreator() {
-        debugger;
-        dispatch({ type: ActionType.resetEditedCompany });
-        navigate('/company_editor');
-    };
-
-    function goToCategoryCreator() {
-        dispatch({ type: ActionType.resetEditedCategory });
-        navigate('/category_editor');
-    };
-
     return (
         <>
-            {(getUserType() === "ADMIN" || getUserType() === "COMPANY") && (
+            {!isUsersRoute &&
                 <>
-                    {isCouponsRoute && <button onClick={goToCouponCreator}>Add New Coupon</button>}
-                    {isUsersRoute && <button onClick={goToUserCreator}>Add New User</button>}
-                    {isCompaniesRoute && <button onClick={goToCompanyCreator}>Add New Company</button>}
-                    {isCategoriesRoute && <button onClick={goToCategoryCreator}>Add New Category</button>}
-                </>
-            )}
-
-            <h2>Select Category</h2>
-            {categories.map(category => (
-                <div key={category.id}>
-                    <label>
-                        <input
-                            type="checkbox"
-                            value={category.name}
-                            checked={selectedCategories.includes(category.id)}
-                            onChange={() => categorySelectionChanged(category.id)}
-                        />
-                        {category.name}
-                    </label>
-                </div>
-            ))}
-
-            {getUserType() !== 'COMPANY' && (
-                <>
-                    <h2>Select Provider</h2>
-                    {Array.isArray(companies) && companies.map(company => (
-                        <div key={company.id}>
+                    <h2>Select Category</h2>
+                    {categories.map(category => (
+                        <div key={category.id}>
                             <label>
                                 <input
                                     type="checkbox"
-                                    value={company.name}
-                                    checked={selectedCompanies.includes(company.id)}
-                                    onChange={() => companySelectionChanged(company.id)}
+                                    value={category.name}
+                                    checked={selectedCategories.includes(category.id)}
+                                    onChange={() => categorySelectionChanged(category.id)}
                                 />
-                                {company.name}
+                                {category.name}
                             </label>
                         </div>
                     ))}
                 </>
-            )}
+            }
+
+            <>
+                {getUserType() !== 'COMPANY' && (
+                    <>
+                        <h2>Select Provider</h2>
+                        {Array.isArray(companies) && companies.map(company => (
+                            <div key={company.id}>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        value={company.name}
+                                        checked={selectedCompanies.includes(company.id)}
+                                        onChange={() => companySelectionChanged(company.id)}
+                                    />
+                                    {company.name}
+                                </label>
+                            </div>
+                        ))}
+                    </>
+                )}
+            </>
 
             {isCouponsRoute && (
                 <>

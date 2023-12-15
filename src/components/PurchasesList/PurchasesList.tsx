@@ -79,30 +79,6 @@ function PurchasesList() {
         return null;
     };
 
-    function getCompanyId(): number | null {
-        let storedToken = localStorage.getItem('authToken');
-        if (storedToken) {
-            axios.defaults.headers.common['Authorization'] = storedToken;
-            let decodedToken: any = jwt_decode(storedToken);
-            let decodedTokenData = JSON.parse(decodedToken.sub);
-            let companyIdFromToken = decodedTokenData.companyId;
-            return companyIdFromToken;
-        }
-        return null;
-    };
-
-    function getUserId(): number | null {
-        let storedToken = localStorage.getItem('authToken');
-        if (storedToken) {
-            axios.defaults.headers.common['Authorization'] = storedToken;
-            let decodedToken: any = jwt_decode(storedToken);
-            let decodedTokenData = JSON.parse(decodedToken.sub);
-            let userIdFromToken = decodedTokenData.id;
-            return userIdFromToken;
-        }
-        return null;
-    };
-
     return (
         <div className="PurchasesList">
             <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>Previous Page</button>

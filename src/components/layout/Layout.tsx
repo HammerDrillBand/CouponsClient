@@ -1,12 +1,12 @@
 import './Layout.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import CouponsContainer from '../CouponsContainer/CouponsContainer';
 import FiltersMenu from '../FiltersMenu/FiltersMenu';
 import PurchasesList from '../PurchasesList/PurchasesList';
 import CouponEditor from '../CouponEditor/CouponEditor';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import UsersList from '../UsersList/UsersList';
 import UserEditor from '../UserEditor/UserEditor';
 import CompaniesList from '../CompaniesList/CompaniesList';
@@ -15,19 +15,22 @@ import CategoriesList from '../CategoriesList/CategoriesList';
 import CategoryEditor from '../CategoryEditor/CategoryEditor';
 
 function Layout() {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
+  let location = useLocation();
 
   useEffect(() => {
-    if (performance.navigation.type !== 1) return;
-
     navigate('/');
   }, []);
 
-  let [showFiltersMenu, setShowFiltersMenu] = useState(true);
-
-  let toggleFiltersMenu = () => {
-    setShowFiltersMenu(!showFiltersMenu);
-  };
+  function isFiltersMenuShown(): boolean{
+    if(location.pathname.includes('_editor')){
+      return false;
+    }
+    if(location.pathname === '/companies' || location.pathname === '/categories'){
+      return false;
+    }
+    return true;
+  }
 
   return (
     <section className="layout">
@@ -35,16 +38,11 @@ function Layout() {
         <Header />
       </header>
 
-      <aside className="filters-menu-container">
-        <div className={`filters-menu ${showFiltersMenu ? 'visible' : 'hidden'}`}>
-          <FiltersMenu />
-        </div>
-        <button className="roll-button" onClick={toggleFiltersMenu}>
-          {showFiltersMenu ? '⮜' : '⮞'}
-        </button>
+      <aside className="filters-menu">
+        {isFiltersMenuShown() && <FiltersMenu />}
       </aside>
 
-      <main className={showFiltersMenu ? 'main-with-filters' : 'main-full-width'}>
+      <main className={!isFiltersMenuShown() ? 'main-full-width' : 'main'}>
         <div className="main-content">
           <Routes>
             <Route path='/' element={<CouponsContainer />} />
