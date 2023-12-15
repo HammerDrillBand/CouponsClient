@@ -12,7 +12,6 @@ function CompaniesList() {
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
-    // let companies: ICompany[] = useSelector<AppState, ICompany[]>((state: AppState) => state.companies);
     let [companies, setCompanies] = useState<ICompany[]>(useSelector<AppState, ICompany[]>((state: AppState) => state.companies))
     let [isLoading, setIsLoading] = useState<boolean>(true);
     let [currentPage, setCurrentPage] = useState<number>(1);

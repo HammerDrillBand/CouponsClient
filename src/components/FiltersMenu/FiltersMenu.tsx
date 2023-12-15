@@ -15,7 +15,6 @@ function FiltersMenu() {
     const navigate = useNavigate();
     let categories: ICategory[] = useSelector((state: AppState) => state.categories);
     let companies: ICompany[] = useSelector((state: AppState) => state.companies);
-    // let maxCouponPrice: number = useSelector((state: AppState) => state.maxPrice);
     let isLoading: boolean = useSelector((state: AppState) => state.isLoading);
 
     let [minPrice, setMinPrice] = useState<number>(0);
@@ -35,7 +34,7 @@ function FiltersMenu() {
     useEffect(() => {
         getUserType();
         getPrices();
-    }, [maxPrice, companies]);
+    }, [maxPrice, companies, categories]);
 
     if (categories.length === 0 || companies.length === 0) {
         return <div>Loading...</div>;
@@ -136,29 +135,15 @@ function FiltersMenu() {
 
     return (
         <>
-            {(getUserType() == "ADMIN" || getUserType() == "COMPANY") && (
-                isCouponsRoute && (
-                    <button onClick={goToCouponCreator}>Add New Coupon</button>
-                )
-            )}
-            {(getUserType() == "ADMIN" || getUserType() == "COMPANY") && (
-                isUsersRoute && (
-                    <button onClick={goToUserCreator}>Add New User</button>
-                )
-            )}
-            {(getUserType() == "ADMIN" || getUserType() == "COMPANY") && (
-                isCompaniesRoute && (
-                    <button onClick={goToCompanyCreator}>Add New Company</button>
-                )
-            )}
-            {(getUserType() == "ADMIN" || getUserType() == "COMPANY") && (
-                isCategoriesRoute && (
-                    <button onClick={goToCategoryCreator}>Add New Category</button>
-                )
+            {(getUserType() === "ADMIN" || getUserType() === "COMPANY") && (
+                <>
+                    {isCouponsRoute && <button onClick={goToCouponCreator}>Add New Coupon</button>}
+                    {isUsersRoute && <button onClick={goToUserCreator}>Add New User</button>}
+                    {isCompaniesRoute && <button onClick={goToCompanyCreator}>Add New Company</button>}
+                    {isCategoriesRoute && <button onClick={goToCategoryCreator}>Add New Category</button>}
+                </>
             )}
 
-            {/* {!isUserEditorRoute && (
-                <> */}
             <h2>Select Category</h2>
             {categories.map(category => (
                 <div key={category.id}>
@@ -173,8 +158,6 @@ function FiltersMenu() {
                     </label>
                 </div>
             ))}
-            {/* </>
-            )} */}
 
             {getUserType() !== 'COMPANY' && (
                 <>

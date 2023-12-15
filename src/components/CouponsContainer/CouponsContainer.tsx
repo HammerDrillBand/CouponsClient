@@ -2,21 +2,17 @@ import './CouponsContainer.css'
 import CouponCard from '../CouponCard/CouponCard';
 import moment from 'moment';
 import { AppState } from '../../redux/app-state';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ICoupon } from '../../models/ICoupon';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ICategory } from '../../models/ICategory';
 import { ICompany } from '../../models/ICompany';
-import { ActionType } from '../../redux/action-type';
-import { ICouponPageResult } from '../../models/ICouponPageResult';
 import { useNavigate } from 'react-router-dom';
 
 function CouponsContainer() {
-    // let dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // let coupons = useSelector<AppState, ICoupon[]>((state: AppState) => state.coupons);
     let selectedCategoryIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCategoryId);
     let selectedCompanyIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCompanyId);
     let selectedMinPrice: number = useSelector<AppState, number>((state: AppState) => state.FilteredByMinPrice);
@@ -31,7 +27,6 @@ function CouponsContainer() {
         getCoupons();
         setIsLoading(false);
     }, [selectedCategoryIds, selectedCompanyIds, currentPage, selectedMinPrice, selectedMaxPrice]);
-    // }, [coupons, selectedCategoryIds, selectedCompanyIds, selectedMinPrice, selectedMaxPrice, currentPage]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -57,7 +52,6 @@ function CouponsContainer() {
             &maxPrice=${maxPrice}`);
 
             let { coupons, totalPages } = response.data;
-            // let coupons: ICoupon[] = responseCoupons.coupons;
             setCoupons(coupons || []);
             setTotalPages(totalPages || 0);
 
@@ -68,16 +62,6 @@ function CouponsContainer() {
             alert(error.response.data.errorMessage);
         }
     }
-
-    // if (selectedCategoryIds.length > 0) {
-    //     filteredCoupons = filteredCoupons.filter(coupon => selectedCategoryIds.includes(coupon.categoryId));
-    // }
-
-    // if (selectedCompanyIds.length > 0) {
-    //     filteredCoupons = filteredCoupons.filter(coupon => selectedCompanyIds.includes(coupon.companyId));
-    // }
-
-    // filteredCoupons = filteredCoupons.filter(coupon => coupon.price >= selectedMinPrice && coupon.price <= selectedMaxPrice);
 
     async function getCategoryIds() {
         if (selectedCategoryIds.length == 0) {

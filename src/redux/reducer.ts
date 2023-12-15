@@ -9,10 +9,8 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
 
     switch (action.type) {
         case ActionType.PageLoaded:
-            // newAppState.coupons = action.payload.coupons;
             newAppState.companies = action.payload.companies;
             newAppState.categories = action.payload.categories;
-            // newAppState.maxPrice = action.payload.maxPrice;
             newAppState.FilteredByMaxPrice = action.payload.maxPrice;
             newAppState.isLoading = false;
             break;
@@ -33,18 +31,6 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
             break;
         case ActionType.FilterByMaxPrice:
             newAppState.FilteredByMaxPrice = action.payload.maxPrice;
-            break;
-        // case ActionType.setMinPrice:
-        //     newAppState.minPrice = action.payload.minPrice;
-        //     break;
-        // case ActionType.setMaxPrice:
-        //     newAppState.maxPrice = action.payload.maxPrice;
-        //     break;
-        // case ActionType.UpdateCoupons:
-        //     newAppState.coupons = action.payload.coupons;
-        //     break;
-        case ActionType.UpdateUsers:
-            newAppState.users = action.payload.users;
             break;
         case ActionType.UpdateCompanies:
             newAppState.companies = action.payload.companies;

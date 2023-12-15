@@ -11,4 +11,3 @@ export interface INewUser {
     password: string;
     userType: string;
 }
-

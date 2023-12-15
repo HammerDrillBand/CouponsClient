@@ -13,5 +13,7 @@ export interface IPurchase {
     companyName: string;
 }
 
-export interface EmptyPurchase { }
-
+export interface INewPurchase {
+    couponId: number;
+    amount: number;
+}

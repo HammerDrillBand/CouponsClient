@@ -12,7 +12,6 @@ function CategoriesList() {
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
-    // let categories: ICategory[] = useSelector<AppState, ICategory[]>((state: AppState) => state.categories);
     let [categories, setCategories] = useState<ICategory[]>(useSelector<AppState, ICategory[]>((state: AppState) => state.categories))
 
     let [isLoading, setIsLoading] = useState(true);

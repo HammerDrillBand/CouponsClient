@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ICoupon } from '../../models/ICoupon';
 import './CouponCard.css'
 import Modal from 'react-modal';
-import { IPurchase } from '../../models/IPurchase';
+import { INewPurchase, IPurchase } from '../../models/IPurchase';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionType } from '../../redux/action-type';
@@ -36,37 +36,24 @@ function CouponCard(props: ICoupon) {
     };
 
     async function onPurchaseClicked() {
-        let newPurchase: IPurchase = {
+        let newPurchase: INewPurchase = {
             couponId: props.id,
             amount: quantity,
-            id: 0,
-            userId: 0,
-            username: '',
-            date: '',
-            couponName: '',
-            couponDescription: '',
-            categoryId: 0,
-            categoryName: '',
-            companyId: 0,
-            companyName: ''
         }
         try {
             await axios.post("http://localhost:8080/purchases", newPurchase)
                 .then(async () => {
                     alert("Thank you for your purchase");
                     closeModal();
-                    // let responseCoupons = await axios.get(`http://localhost:8080/coupons/byFilters?page=1&categoryIds=${[]}&companyIds=${[]}`);
-                    // let coupons: ICoupon[] = responseCoupons.data;
-                    // dispatch({ type: ActionType.UpdateCoupons, payload: { coupons } });
                     window.location.reload();
                 })
                 .catch(error => {
                     alert(error.response.data.errorMessage);
                 })
-            } catch (error: any) {
-                alert(error.response.data.errorMessage);
-            }
-        };
+        } catch (error: any) {
+            alert(error.response.data.errorMessage);
+        }
+    };
 
     function onEditClicked() {
         let editedCoupon: ICoupon = {

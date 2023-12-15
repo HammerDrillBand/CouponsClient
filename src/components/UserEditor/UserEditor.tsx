@@ -66,16 +66,14 @@ function UserEditor() {
             ...(formData.userType == 'COMPANY' && { companyId: formData.companyId }),
             userType: formData.userType,
         };
-    
+
         try {
             if (isNewUser) {
                 await axios.post(`http://localhost:8080/users`, adaptedUser);
             } else {
                 await axios.put(`http://localhost:8080/users`, adaptedUser);
             }
-    
-            updateUsersState();
-    
+
             if (isNewUser) {
                 alert("User created successfully");
             } else {
@@ -86,24 +84,16 @@ function UserEditor() {
             alert(error.response.data.errorMessage);
         }
     };
-    
+
     async function onDeleteClicked() {
         try {
             await axios.delete(`http://localhost:8080/users/${formData.id}`);
-
-            updateUsersState();
 
             alert("User deleted successfully");
             navigate(`/users`);
         } catch (error: any) {
             alert(error.response.data.errorMessage);
         };
-    };
-
-    async function updateUsersState() {
-        let responseUsers = await axios.get(`http://localhost:8080/users`);
-        let users: IUser[] = responseUsers.data;
-        dispatch({ type: ActionType.UpdateUsers, payload: { users } });
     };
 
     function getUserType(): string | null {
