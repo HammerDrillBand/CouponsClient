@@ -26,8 +26,11 @@ function UsersList() {
     }, [selectedCompanyIds, currentPage]);
 
     async function getUsers() {
+        let companyIds: number[] = await getCompanyIds();
+
         try {
-            let responseUsers = await axios.get(`http://localhost:8080/users/byPage?page=${currentPage}`);
+            let responseUsers = await axios.get(`http://localhost:8080/users/byFilters?page=${currentPage}
+            &companyIds=${companyIds}`);
             let { users, totalPages } = responseUsers.data;
             setUsers(users);
             setTotalPages(totalPages || 0);
@@ -39,14 +42,19 @@ function UsersList() {
         }
     };
 
-    if (isLoading) {
-        return <div>Loading...</div>;
+    async function getCompanyIds() {
+        if (selectedCompanyIds.length == 0) {
+            let responseCompanies = await axios.get('http://localhost:8080/companies');
+            let companies: ICompany[] = responseCompanies.data;
+            let companyIds: number[] = companies.map(company => company.id);
+            return companyIds;
+        }
+        return selectedCompanyIds;
     };
 
-    let filteredUsers: IUser[] = users;
 
-    if (selectedCompanyIds.length > 0) {
-        filteredUsers = filteredUsers.filter(user => selectedCompanyIds.includes(user.companyId));
+    if (isLoading) {
+        return <div>Loading...</div>;
     };
 
     function onEditClicked(id: number) {
@@ -77,8 +85,8 @@ function UsersList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredUsers.length > 0 ? (
-                        filteredUsers.map((user) => (
+                    {users.length > 0 ? (
+                        users.map((user) => (
                             <tr key={user.id}>
                                 <td>{user.id}</td>
                                 <td>{user.username}</td>

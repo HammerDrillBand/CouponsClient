@@ -7,6 +7,8 @@ import { AppState } from '../../redux/app-state';
 import moment from 'moment';
 import jwt_decode from 'jwt-decode'
 import { useNavigate } from 'react-router-dom';
+import { ICompany } from '../../models/ICompany';
+import { ICategory } from '../../models/ICategory';
 
 function PurchasesList() {
 
@@ -24,16 +26,12 @@ function PurchasesList() {
     }, [selectedCategoryIds, selectedCompanyIds, currentPage]);
 
     async function getPurchases() {
-        let responsePurchases;
-        let userType: string | null = getUserType();
+        let categoryIds: number[] = await getCategoryIds();
+        let companyIds: number[] = await getCompanyIds();
         try {
-            if (userType == 'CUSTOMER') {
-                responsePurchases = await axios.get(`http://localhost:8080/purchases/byUserId?page=${currentPage}`);
-            } else if (userType == 'COMPANY') {
-                responsePurchases = await axios.get(`http://localhost:8080/purchases/byCompanyId?page=${currentPage}`);
-            } else {
-                responsePurchases = await axios.get(`http://localhost:8080/purchases/byPage?page=${currentPage}`);
-            }
+            let responsePurchases = await axios.get(`http://localhost:8080/purchases/byFilters?page=${currentPage}
+            &companyIds=${companyIds}
+            &categoryIds=${categoryIds}`);
 
             let { purchases, totalPages } = responsePurchases.data;
 
@@ -47,18 +45,28 @@ function PurchasesList() {
         }
     }
 
+    async function getCategoryIds() {
+        if (selectedCategoryIds.length == 0) {
+            let responseCategories = await axios.get('http://localhost:8080/categories');
+            let categories: ICategory[] = responseCategories.data;
+            let categoryIds: number[] = categories.map(category => category.id);
+            return categoryIds;
+        }
+        return selectedCategoryIds;
+    };
+
+    async function getCompanyIds() {
+        if (selectedCompanyIds.length == 0) {
+            let responseCompanies = await axios.get('http://localhost:8080/companies');
+            let companies: ICompany[] = responseCompanies.data;
+            let companyIds: number[] = companies.map(company => company.id);
+            return companyIds;
+        }
+        return selectedCompanyIds;
+    };
+
     if (isLoading) {
         return <div>Loading...</div>;
-    }
-
-    let filteredPurchases: IPurchase[] = purchases;
-
-    if (selectedCategoryIds.length > 0) {
-        filteredPurchases = filteredPurchases.filter(purchase => selectedCategoryIds.includes(purchase.categoryId));
-    }
-
-    if (selectedCompanyIds.length > 0) {
-        filteredPurchases = filteredPurchases.filter(purchase => selectedCompanyIds.includes(purchase.companyId));
     }
 
     function formatDate(date: string): string {
@@ -105,8 +113,8 @@ function PurchasesList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredPurchases.length > 0 ? (
-                        filteredPurchases.map((purchase) => (
+                    {purchases.length > 0 ? (
+                        purchases.map((purchase) => (
                             <tr key={purchase.id}>
                                 <td>{purchase.couponName}</td>
                                 <td>{purchase.couponDescription}</td>

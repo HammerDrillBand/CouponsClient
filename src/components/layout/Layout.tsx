@@ -22,11 +22,11 @@ function Layout() {
     navigate('/');
   }, []);
 
-  function isFiltersMenuShown(): boolean{
-    if(location.pathname.includes('_editor')){
+  function isFiltersMenuShown(): boolean {
+    if (location.pathname.includes('_editor')) {
       return false;
     }
-    if(location.pathname === '/companies' || location.pathname === '/categories'){
+    if (location.pathname === '/companies' || location.pathname === '/categories') {
       return false;
     }
     return true;
@@ -38,9 +38,11 @@ function Layout() {
         <Header />
       </header>
 
-      <aside className="filters-menu">
-        {isFiltersMenuShown() && <FiltersMenu />}
-      </aside>
+      {isFiltersMenuShown() &&
+        <aside className="filters-menu">
+          <FiltersMenu />
+        </aside>
+      }
 
       <main className={!isFiltersMenuShown() ? 'main-full-width' : 'main'}>
         <div className="main-content">
