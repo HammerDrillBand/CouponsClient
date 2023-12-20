@@ -12,6 +12,9 @@
     background-repeat: no-repeat;
     text-shadow: 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white;
 }
+.CouponCard.notAvailable {
+    border-color: #aa3737;
+}
 #name{
     font-size: 2em;
     font-family:Georgia, 'Times New Roman', Times, serif;
@@ -38,8 +41,7 @@
     display: inline-block;
 }
 .disabled-button {
-    background-color: #ccc; /* Change the background color */
-    color: #888; /* Change the text color */
-    cursor: not-allowed; /* Change the cursor style */
-    /* Add any other styling you want for disabled buttons */
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
 }

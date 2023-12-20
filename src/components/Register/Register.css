@@ -1,4 +1,4 @@
-input{
+/* input{
     clear: both;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 20px;
@@ -27,4 +27,4 @@ input:focus{
 input:invalid{
     background-color: #dfbabf;
     transition: all 5s;
-}
+} */

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import './Header.css';
-import logo from "./logo.png";
+import logo from "../../Images/logo.png";
 import Login from "../Login/Login";
 import Modal from 'react-modal';
 import Register from "../Register/Register";
@@ -27,8 +27,8 @@ function Header() {
     let isCompaniesRoute: boolean = location.pathname === '/companies';
     let isCategoriesRoute: boolean = location.pathname === '/categories';
 
-    useEffect(() => {   
-        setLoginStatus(); 
+    useEffect(() => {
+        setLoginStatus();
         setSearchText("");
         resetFilters();
     }, [isLoggedIn, location.pathname]);
@@ -154,10 +154,10 @@ function Header() {
         setSearchText(searchText);
     };
 
-    function setLoginStatus(){
+    function setLoginStatus() {
         let storedToken = localStorage.getItem('authToken');
         if (storedToken) {
-          dispatch({ type: ActionType.Login });
+            dispatch({ type: ActionType.Login });
         };
         if (isLoggedIn) {
             setLoginIsOpen(false);
@@ -170,29 +170,24 @@ function Header() {
             <img className="Logo" src={logo} alt="TheMUSE logo" onClick={goToHome} />
             <div className="HeaderContent">
                 {isLoggedIn ? (
-                    <div className="WelcomeContainer">
+                    <div>
                         <div className="Welcome">Welcome, {localStorage.getItem('username')}</div>
                     </div>
                 ) : (
-                    <div className="ButtonContainer">
-                        <button className="HeaderButton" onClick={openRegisterModal}>Register</button>
-                        <button className="HeaderButton" onClick={openLoginModal}>Login</button>
-                    </div>
+                    <>
+                        <div>
+                            <button className="HeaderButton" onClick={openRegisterModal}>Register</button>
+                        </div>
+                        <div>
+                            <button className="HeaderButton" onClick={openLoginModal}>Login</button>
+                        </div>
+                    </>
                 )}
             </div>
 
-            {(getUserType() === "ADMIN" || getUserType() === "COMPANY") && (
-                <>
-                    {isCouponsRoute && <button onClick={goToCouponCreator}>Add New Coupon</button>}
-                    {isUsersRoute && <button onClick={goToUserCreator}>Add New User</button>}
-                    {isCompaniesRoute && <button onClick={goToCompanyCreator}>Add New Company</button>}
-                    {isCategoriesRoute && <button onClick={goToCategoryCreator}>Add New Category</button>}
-                </>
-            )}
-
             {isLoggedIn && (
                 <div className="dropdown">
-                    <button className="dropbtn">Menu</button>
+                    <button className="HeaderButton">Menu</button>
                     <div className="dropdown-content">
                         <a href="#" onClick={goToHome}>Coupons</a>
                         {getUserType() == 'ADMIN' && (
@@ -200,13 +195,24 @@ function Header() {
                                 <a href="#" onClick={goToUsersList}>Users</a>
                                 <a href="#" onClick={goToCompaniesList}>Companies</a>
                                 <a href="#" onClick={goToCategoriesList}>Categories</a>
+                                <a href="#" onClick={seeUserPurchases}>Purchases History</a>
+                                <a href="#" onClick={userLoggedOut} className="withBorder">Logout</a>
                             </>
                         )}
-                        <a href="#" onClick={seeUserPurchases}>Purchases History</a>
-                        <a href="#" onClick={userLoggedOut}>Logout</a>
                     </div>
-                </div>)}
-                <input
+                </div>
+            )}
+
+            {(getUserType() === "ADMIN" || getUserType() === "COMPANY") && (
+                <>
+                    {isCouponsRoute && <button onClick={goToCouponCreator} className="HeaderButton">Add New Coupon</button>}
+                    {isUsersRoute && <button onClick={goToUserCreator} className="HeaderButton">Add New User</button>}
+                    {isCompaniesRoute && <button onClick={goToCompanyCreator} className="HeaderButton">Add New Company</button>}
+                    {isCategoriesRoute && <button onClick={goToCategoryCreator} className="HeaderButton">Add New Category</button>}
+                </>
+            )}
+            <input
+                className="SearchBar"
                 type="text"
                 value={searchText}
                 onChange={(event) => searchTextChanged(event.target.value)}

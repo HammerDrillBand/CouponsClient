@@ -70,9 +70,9 @@ function PurchasesList() {
 
     return (
         <div className="PurchasesList">
-            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>Previous Page</button>
-            {currentPage} of {totalPages}
-            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>Next Page</button>
+            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>◄</button>
+            Page {currentPage} of {totalPages}
+            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>►</button>
 
             <table>
                 <thead>

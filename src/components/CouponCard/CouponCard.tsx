@@ -96,7 +96,7 @@ function CouponCard(props: ICoupon) {
     };
 
     return (
-        <div className='CouponCard' style={backgroundStyle}>
+        <div className={`CouponCard ${props.isAvailable ? '' : 'notAvailable'}`} style={backgroundStyle}>
             <span id='name'><br />{props.name}</span><br />
             <span id='price'>NIS {props.price}</span><br /><br />
             <span id='quantity'>Available amount: {availableAmount}</span><br /><br />
