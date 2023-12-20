@@ -97,7 +97,7 @@ function CouponCard(props: ICoupon) {
 
     return (
         <div className='CouponCard' style={backgroundStyle}>
-            <span id='name'><br /><br /><br />{props.name}</span><br />
+            <span id='name'><br />{props.name}</span><br />
             <span id='price'>NIS {props.price}</span><br /><br />
             <span id='quantity'>Available amount: {availableAmount}</span><br /><br />
             <button onClick={openModal}>More Details</button>

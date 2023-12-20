@@ -22,7 +22,6 @@ function Login() {
             localStorage.setItem('username', username);
 
             dispatch({ type: ActionType.Login });
-            navigate('/');
             window.location.reload();
         }
         catch (error: any) {

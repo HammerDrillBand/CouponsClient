@@ -4,6 +4,11 @@ TheMuse:
         - Add remaining 'Add' and 'List' buttons in menu for resources when editors are completed @done
         - make Admin able to edit and add on server side, like done for Coupons @done
         - Edit all CSS
+        - Add search in the header @done
+        - Inspect permissions in controllers. Make all used function receive token
+        - change events to "any" and remove unnecessary functions in all editors. Check all functions @done
+        - Remove unused functions in server
+        - remove getInitialData from app.tsx. All components load data individually @done
     - Resources
         - Coupons
             - isAvailable @done

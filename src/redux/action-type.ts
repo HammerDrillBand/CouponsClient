@@ -1,11 +1,11 @@
 export enum ActionType {
-    PageLoaded,
     Login,
     Logout,
     FilterByCategoryIds,
     FilterByCompanyIds,
     FilterByMinPrice,
     FilterByMaxPrice,
+    filterByText,
     UpdateCompanies,
     UpdateCategories,
     EditCoupon,
@@ -15,5 +15,6 @@ export enum ActionType {
     resetEditedCoupon,
     resetEditedUser,
     resetEditedCompany,
-    resetEditedCategory
+    resetEditedCategory,
+    resetFilters
 }

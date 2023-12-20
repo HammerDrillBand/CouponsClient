@@ -12,8 +12,9 @@ function CategoriesList() {
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
-    let [categories, setCategories] = useState<ICategory[]>(useSelector<AppState, ICategory[]>((state: AppState) => state.categories))
+    let searchText: string = useSelector<AppState, string>((state: AppState) => state.searchText);
 
+    let [categories, setCategories] = useState<ICategory[]>(useSelector<AppState, ICategory[]>((state: AppState) => state.categories))
     let [isLoading, setIsLoading] = useState(true);
     let [currentPage, setCurrentPage] = useState<number>(1);
     let [totalPages, setTotalPages] = useState<number>(1);
@@ -21,12 +22,15 @@ function CategoriesList() {
     useEffect(() => {
         getCategories();
         setIsLoading(false);
-    }, [currentPage]);
+    }, [currentPage, searchText]);
 
     async function getCategories() {
         try {
-            let responseCategories = await axios.get(`http://localhost:8080/categories/byPage?page=${currentPage}`);
+            let responseCategories = await axios.get(`http://localhost:8080/categories/byFilters?page=${currentPage}
+            &searchText=${searchText}`);
+
             let { categories, totalPages } = responseCategories.data;
+            
             setCategories(categories);
             setTotalPages(totalPages || 0);
             setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));

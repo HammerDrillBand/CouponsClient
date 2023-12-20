@@ -33,17 +33,8 @@ function CategoryEditor() {
         return <div>Loading...</div>;
     }
 
-    let inputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+    function inputChanged(event: any) {
         let { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-        setIsChangesMade(true);
-    };
-
-    let selectionChanged = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,

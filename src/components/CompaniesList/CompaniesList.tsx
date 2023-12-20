@@ -12,6 +12,8 @@ function CompaniesList() {
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
+    let searchText: string = useSelector<AppState, string>((state: AppState) => state.searchText);
+
     let [companies, setCompanies] = useState<ICompany[]>(useSelector<AppState, ICompany[]>((state: AppState) => state.companies))
     let [isLoading, setIsLoading] = useState<boolean>(true);
     let [currentPage, setCurrentPage] = useState<number>(1);
@@ -20,12 +22,15 @@ function CompaniesList() {
     useEffect(() => {
         getCompanies();
         setIsLoading(false);
-    }, [currentPage]);
+    }, [currentPage, searchText]);
 
     async function getCompanies() {
         try {
-            let responseCompanies = await axios.get(`http://localhost:8080/companies/byPage?page=${currentPage}`);
+            let responseCompanies = await axios.get(`http://localhost:8080/companies/byFilters?page=${currentPage}
+            &searchText=${searchText}`);
+
             let { companies, totalPages } = responseCompanies.data;
+            
             setCompanies(companies);
             setTotalPages(totalPages || 0);
             setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));

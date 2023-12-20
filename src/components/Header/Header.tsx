@@ -17,8 +17,9 @@ function Header() {
     let navigate = useNavigate();
     let isLoggedIn: boolean = useSelector((state: AppState) => state.isLoggedIn);
 
-    let [loginModalIsOpen, setLoginIsOpen] = useState(false);
-    let [registerModalIsOpen, setRegisterIsOpen] = useState(false);
+    let [loginModalIsOpen, setLoginIsOpen] = useState<boolean>(false);
+    let [registerModalIsOpen, setRegisterIsOpen] = useState<boolean>(false);
+    let [searchText, setSearchText] = useState<string>("")
 
     let location = useLocation();
     let isCouponsRoute: boolean = location.pathname === '/';
@@ -26,12 +27,11 @@ function Header() {
     let isCompaniesRoute: boolean = location.pathname === '/companies';
     let isCategoriesRoute: boolean = location.pathname === '/categories';
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            setLoginIsOpen(false);
-            setRegisterIsOpen(false);
-        }
-    }, [isLoggedIn]);
+    useEffect(() => {   
+        setLoginStatus(); 
+        setSearchText("");
+        resetFilters();
+    }, [isLoggedIn, location.pathname]);
 
     function openLoginModal() {
         setLoginIsOpen(true);
@@ -58,6 +58,7 @@ function Header() {
     };
 
     function seeUserPurchases() {
+        resetFilters();
         if (getUserType() == 'CUSTOMER') {
             navigate(`/purchases?userId=${getUserId()}`);
         } else if (getUserType() == 'COMPANY') {
@@ -68,18 +69,22 @@ function Header() {
     };
 
     function goToHome() {
-        navigate('/');
+        resetFilters();
+        window.location.reload();
     };
 
     function goToUsersList() {
+        resetFilters();
         navigate('/users');
     };
 
     function goToCompaniesList() {
+        resetFilters();
         navigate('/companies');
     };
 
     function goToCategoriesList() {
+        resetFilters();
         navigate('/categories');
     };
 
@@ -102,6 +107,10 @@ function Header() {
     function goToCategoryCreator() {
         dispatch({ type: ActionType.resetEditedCategory });
         navigate('/category_editor');
+    };
+
+    function resetFilters() {
+        dispatch({ type: ActionType.resetFilters });
     };
 
     function getUserType(): string | null {
@@ -138,6 +147,22 @@ function Header() {
             return userIdFromToken;
         }
         return null;
+    };
+
+    function searchTextChanged(searchText: string): void {
+        dispatch({ type: ActionType.filterByText, payload: { searchText } });
+        setSearchText(searchText);
+    };
+
+    function setLoginStatus(){
+        let storedToken = localStorage.getItem('authToken');
+        if (storedToken) {
+          dispatch({ type: ActionType.Login });
+        };
+        if (isLoggedIn) {
+            setLoginIsOpen(false);
+            setRegisterIsOpen(false);
+        }
     };
 
     return (
@@ -181,6 +206,12 @@ function Header() {
                         <a href="#" onClick={userLoggedOut}>Logout</a>
                     </div>
                 </div>)}
+                <input
+                type="text"
+                value={searchText}
+                onChange={(event) => searchTextChanged(event.target.value)}
+                placeholder="Search"
+            />
 
             <Modal className='HeaderModal' isOpen={loginModalIsOpen} onRequestClose={closeLoginModal}>
                 <Login />

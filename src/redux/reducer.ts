@@ -8,12 +8,6 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
     let newAppState = { ...oldAppState };
 
     switch (action.type) {
-        case ActionType.PageLoaded:
-            newAppState.companies = action.payload.companies;
-            newAppState.categories = action.payload.categories;
-            newAppState.FilteredByMaxPrice = action.payload.maxPrice;
-            newAppState.isLoading = false;
-            break;
         case ActionType.Login:
             newAppState.isLoggedIn = true;
             break;
@@ -50,7 +44,6 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
         case ActionType.EditCategory:
             newAppState.editedCategory = action.payload.editedCategory;
             break;
-
         case ActionType.resetEditedCoupon:
             newAppState.editedCoupon =
             {
@@ -93,6 +86,16 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
                 id: -1,
                 name: ""
             };
+            break;
+        case ActionType.filterByText:
+            newAppState.searchText = action.payload.searchText;
+            break;
+        case ActionType.resetFilters:
+            newAppState.FilteredByCategoryId = [];
+            newAppState.FilteredByCompanyId = [];
+            newAppState.FilteredByMinPrice = 0;
+            newAppState.FilteredByMaxPrice = 0;
+            newAppState.searchText = "";
             break;
     }
     return newAppState;

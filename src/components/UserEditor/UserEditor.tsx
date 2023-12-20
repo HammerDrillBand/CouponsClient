@@ -40,17 +40,8 @@ function UserEditor() {
         return <div>Loading...</div>;
     }
 
-    let userInputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+    function userInputChanged(event: any) {
         let { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-        setIsChangesMade(true);
-    };
-
-    let selectionChanged = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
@@ -153,7 +144,7 @@ function UserEditor() {
                             id='userType'
                             name='userType'
                             value={formData.userType}
-                            onChange={selectionChanged}
+                            onChange={userInputChanged}
                         >
                             <option value=''>Select User Type</option>
                             {userTypes.map((type, index) => (
@@ -170,7 +161,7 @@ function UserEditor() {
                                 id='comapnyId'
                                 name='companyId'
                                 value={getCompanyNameById(formData.companyId)}
-                                onChange={selectionChanged}
+                                onChange={userInputChanged}
                             >
                                 <option value=''>Select Company</option>
                                 {companies.map((company) => (

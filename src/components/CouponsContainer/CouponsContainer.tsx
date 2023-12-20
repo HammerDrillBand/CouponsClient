@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import { ICoupon } from '../../models/ICoupon';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ICategory } from '../../models/ICategory';
-import { ICompany } from '../../models/ICompany';
 import { useNavigate } from 'react-router-dom';
 
 function CouponsContainer() {
@@ -17,6 +15,7 @@ function CouponsContainer() {
     let selectedCompanyIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCompanyId);
     let selectedMinPrice: number = useSelector<AppState, number>((state: AppState) => state.FilteredByMinPrice);
     let selectedMaxPrice: number = useSelector<AppState, number>((state: AppState) => state.FilteredByMaxPrice);
+    let searchText: string = useSelector<AppState, string>((state: AppState) => state.searchText);
     let [coupons, setCoupons] = useState<ICoupon[]>([]);
     let [currentPage, setCurrentPage] = useState<number>(1);
     let [totalPages, setTotalPages] = useState<number>(1);
@@ -26,7 +25,7 @@ function CouponsContainer() {
     useEffect(() => {
         getCoupons();
         setIsLoading(false);
-    }, [selectedCategoryIds, selectedCompanyIds, currentPage, selectedMinPrice, selectedMaxPrice]);
+    }, [selectedCategoryIds, selectedCompanyIds, currentPage, selectedMinPrice, selectedMaxPrice, searchText]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -34,8 +33,6 @@ function CouponsContainer() {
 
     async function getCoupons() {
         try {
-            let categoryIds: number[] = await getCategoryIds();
-            let companyIds: number[] = await getCompanyIds();
             let minPrice: number = await getMinPrice();
             let maxPrice: number = await getMaxPrice();
 
@@ -46,15 +43,16 @@ function CouponsContainer() {
             }
 
             let response = await axios.get(`http://localhost:8080/coupons/byFilters?page=${currentPage}
-            &categoryIds=${categoryIds}
-            &companyIds=${companyIds}
+            &categoryIds=${selectedCategoryIds}
+            &companyIds=${selectedCompanyIds}
             &minPrice=${minPrice}
-            &maxPrice=${maxPrice}`);
+            &maxPrice=${maxPrice}
+            &searchText=${searchText}`);
 
             let { coupons, totalPages } = response.data;
+
             setCoupons(coupons || []);
             setTotalPages(totalPages || 0);
-
             setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
             navigate(`?page=${currentPage}`);
 
@@ -62,26 +60,6 @@ function CouponsContainer() {
             alert(error.response.data.errorMessage);
         }
     }
-
-    async function getCategoryIds() {
-        if (selectedCategoryIds.length == 0) {
-            let responseCategories = await axios.get('http://localhost:8080/categories');
-            let categories: ICategory[] = responseCategories.data;
-            let categoryIds: number[] = categories.map(category => category.id);
-            return categoryIds;
-        }
-        return selectedCategoryIds;
-    };
-
-    async function getCompanyIds() {
-        if (selectedCompanyIds.length == 0) {
-            let responseCompanies = await axios.get('http://localhost:8080/companies');
-            let companies: ICompany[] = responseCompanies.data;
-            let companyIds: number[] = companies.map(company => company.id);
-            return companyIds;
-        }
-        return selectedCompanyIds;
-    };
 
     async function getMinPrice() {
         if (selectedMinPrice == 0) {
@@ -109,9 +87,9 @@ function CouponsContainer() {
 
     return (
         <div className="CouponsContainer">
-            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>Previous Page</button>
-            {currentPage} of {totalPages}
-            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>Next Page</button>
+            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>◄</button>
+            Page {currentPage} of {totalPages}
+            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>►</button>
 
             <div>
                 {coupons.length > 0 ? (

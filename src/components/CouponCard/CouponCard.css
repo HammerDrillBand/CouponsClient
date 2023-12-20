@@ -1,5 +1,4 @@
 .CouponCard{
-    flex: 1;
     display: inline-block;
     width: 400px;
     height: 400px;
@@ -11,6 +10,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    text-shadow: 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white;
 }
 #name{
     font-size: 2em;

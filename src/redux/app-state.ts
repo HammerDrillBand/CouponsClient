@@ -61,4 +61,5 @@ export class AppState {
         id: -1,
         name: ""
     };
+    public searchText: string = "";
 }

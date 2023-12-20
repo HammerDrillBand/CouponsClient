@@ -13,25 +13,29 @@ function UsersList() {
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
-    let [users, setUsers] = useState<IUser[]>([]);
-    let [isLoading, setIsLoading] = useState(true);
     let selectedCompanyIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCompanyId);
     let companies: ICompany[] = useSelector<AppState, ICompany[]>((state: AppState) => state.companies);
+    let searchText: string = useSelector<AppState, string>((state: AppState) => state.searchText);
+
     let [currentPage, setCurrentPage] = useState<number>(1);
     let [totalPages, setTotalPages] = useState<number>(1);
+    let [users, setUsers] = useState<IUser[]>([]);
+    let [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getUsers();
         setIsLoading(false);
-    }, [selectedCompanyIds, currentPage]);
+    }, [selectedCompanyIds, currentPage, searchText]);
 
     async function getUsers() {
-        let companyIds: number[] = await getCompanyIds();
-
         try {
+            debugger;
             let responseUsers = await axios.get(`http://localhost:8080/users/byFilters?page=${currentPage}
-            &companyIds=${companyIds}`);
+            &companyIds=${selectedCompanyIds}
+            &searchText=${searchText}`);
+
             let { users, totalPages } = responseUsers.data;
+            
             setUsers(users);
             setTotalPages(totalPages || 0);
             setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
@@ -41,17 +45,6 @@ function UsersList() {
             setIsLoading(false)
         }
     };
-
-    async function getCompanyIds() {
-        if (selectedCompanyIds.length == 0) {
-            let responseCompanies = await axios.get('http://localhost:8080/companies');
-            let companies: ICompany[] = responseCompanies.data;
-            let companyIds: number[] = companies.map(company => company.id);
-            return companyIds;
-        }
-        return selectedCompanyIds;
-    };
-
 
     if (isLoading) {
         return <div>Loading...</div>;

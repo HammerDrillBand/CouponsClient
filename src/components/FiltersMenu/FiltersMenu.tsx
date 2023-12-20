@@ -3,7 +3,7 @@ import './FiltersMenu.css'
 import { AppState } from '../../redux/app-state';
 import { useEffect, useState } from 'react';
 import { ActionType } from '../../redux/action-type';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import jwt_decode from 'jwt-decode'
 import { ICategory } from '../../models/ICategory';
@@ -12,15 +12,13 @@ import { ICompany } from '../../models/ICompany';
 function FiltersMenu() {
 
     let dispatch = useDispatch();
-    let categories: ICategory[] = useSelector((state: AppState) => state.categories);
-    let companies: ICompany[] = useSelector((state: AppState) => state.companies);
-    let isLoading: boolean = useSelector((state: AppState) => state.isLoading);
 
+    let [categories, setCategories] = useState<ICategory[]>()
+    let [companies, setCompanies] = useState<ICompany[]>()
     let [minPrice, setMinPrice] = useState<number>(0);
     let [maxPrice, setMaxPrice] = useState<number>(0);
     let [filteredMinPrice, setFilteredMinPrice] = useState<number>(0);
     let [filteredMaxPrice, setFilteredMaxPrice] = useState<number>(0);
-
     let [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     let [selectedCompanies, setSelectedCompanies] = useState<number[]>([]);
 
@@ -29,13 +27,39 @@ function FiltersMenu() {
     let isUsersRoute: boolean = location.pathname === '/users';
 
     useEffect(() => {
+        getCategories();
+        getCompanies();
         getUserType();
         getPrices();
-    }, [maxPrice, companies, categories]);
+        setFilteredMaxPrice(maxPrice);
+        setFilteredMinPrice(minPrice);
+        setSelectedCategories([]);
+        setSelectedCompanies([]);
+    }, [location.pathname]);
 
-    if (categories.length === 0 || companies.length === 0) {
-        return <div>Loading...</div>;
+    async function getCategories() {
+        try {
+            let responseCategories = await axios.get('http://localhost:8080/categories');
+            setCategories(responseCategories.data);
+        } catch (error: any) {
+            alert(error.response.data.errorMessage);
+        }
     };
+
+    async function getCompanies() {
+        try {
+            let responseCompanies;
+            if (getUserType() == 'COMPANY') {
+                responseCompanies = await axios.get(`http://localhost:8080/companies/${getCompanyId()}`);
+            } else {
+                responseCompanies = await axios.get('http://localhost:8080/companies');
+            }
+            setCompanies(responseCompanies.data);
+        } catch (error: any) {
+            alert(error.response.data.errorMessage);
+        }
+    };
+
 
     function categorySelectionChanged(categoryId: number) {
         let updatedSelectedCategories = selectedCategories.includes(categoryId)
@@ -64,7 +88,6 @@ function FiltersMenu() {
             setFilteredMinPrice(minPriceValue);
             setMaxPrice(maxPriceValue);
             setFilteredMaxPrice(maxPriceValue);
-
         } catch (error) {
             console.error('Error fetching min and max prices:', error);
         }
@@ -78,10 +101,6 @@ function FiltersMenu() {
     function maxPriceChanged(newMaxPrice: number) {
         setFilteredMaxPrice(newMaxPrice);
         dispatch({ type: ActionType.FilterByMaxPrice, payload: { maxPrice: newMaxPrice } });
-    };
-
-    if (isLoading) {
-        return <div>Loading...</div>;
     };
 
     function getUserType(): string | null {
@@ -108,12 +127,24 @@ function FiltersMenu() {
         return maxPrice;
     };
 
+    function getCompanyId(): number | null {
+        let storedToken = localStorage.getItem('authToken');
+        if (storedToken) {
+          axios.defaults.headers.common['Authorization'] = storedToken;
+          let decodedToken: any = jwt_decode(storedToken);
+          let decodedTokenData = JSON.parse(decodedToken.sub);
+          let companyIdFromToken = decodedTokenData.companyId;
+          return companyIdFromToken;
+        }
+        return null;
+      }    
+
     return (
         <>
             {!isUsersRoute &&
                 <>
                     <h2>Select Category</h2>
-                    {categories.map(category => (
+                    {Array.isArray(categories) && categories.map(category => (
                         <div key={category.id}>
                             <label>
                                 <input

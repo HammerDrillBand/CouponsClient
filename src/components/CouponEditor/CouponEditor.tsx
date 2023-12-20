@@ -49,16 +49,7 @@ function CouponEditor() {
         return <div>Loading...</div>;
     };
 
-    let inputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-        setIsChangesMade(true);
-    };
-
-    let selectionChanged = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    function inputChanged(event: any) {
         let { name, value, type } = event.target;
 
         if (type === 'checkbox') {
@@ -75,7 +66,7 @@ function CouponEditor() {
         setIsChangesMade(true);
     };
 
-    let imageInputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+    function imageInputChanged (event: React.ChangeEvent<HTMLInputElement>) {
         let file = event.target.files && event.target.files[0];
         if (file) {
             let reader = new FileReader();
@@ -87,6 +78,7 @@ function CouponEditor() {
                     imageData: newImagedata,
                 });
             };
+            reader.readAsDataURL(file);
         }
         setIsChangesMade(true);
     };
@@ -191,7 +183,7 @@ function CouponEditor() {
                                 id='comapnyId'
                                 name='companyId'
                                 value={getCompanyNameById(formData.companyId)}
-                                onChange={selectionChanged}
+                                onChange={inputChanged}
                             >
                                 <option value=''>Select Company</option>
                                 {companies.map((company) => (
@@ -268,7 +260,7 @@ function CouponEditor() {
                             id='category'
                             name='categoryId'
                             value={formData.categoryId}
-                            onChange={selectionChanged}
+                            onChange={inputChanged}
                         >
                             <option value=''>Select Category</option>
                             {categories.map((category) => (
@@ -303,7 +295,7 @@ function CouponEditor() {
                             id='isAvailable'
                             name='isAvailable'
                             checked={formData.isAvailable ? true : false}
-                            onChange={selectionChanged}
+                            onChange={inputChanged}
                         />
                     </div>
                     <button

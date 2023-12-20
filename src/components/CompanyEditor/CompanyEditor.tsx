@@ -38,17 +38,9 @@ function CompanyEditor() {
         return <div>Loading...</div>;
     }
 
-    let inputChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-        setIsChangesMade(true);
-    };
+    function inputChanged(event: any) {
 
-    let selectionChanged = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = event.target;
+        let { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value,
@@ -134,7 +126,7 @@ function CompanyEditor() {
                             id='companyType'
                             name='companyType'
                             value={formData.companyType}
-                            onChange={selectionChanged}
+                            onChange={inputChanged}
                         >
                             <option value=''>Select Company Type</option>
                             {ComapnyTypes.map((type, index) => (

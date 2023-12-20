@@ -7,31 +7,32 @@ import { AppState } from '../../redux/app-state';
 import moment from 'moment';
 import jwt_decode from 'jwt-decode'
 import { useNavigate } from 'react-router-dom';
-import { ICompany } from '../../models/ICompany';
-import { ICategory } from '../../models/ICategory';
 
 function PurchasesList() {
 
     let navigate = useNavigate();
-    let [purchases, setPurchases] = useState<IPurchase[]>([]);
-    let [isLoading, setIsLoading] = useState(true);
+
     let selectedCategoryIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCategoryId);
     let selectedCompanyIds: number[] = useSelector<AppState, number[]>((state: AppState) => state.FilteredByCompanyId);
+    let searchText: string = useSelector<AppState, string>((state: AppState) => state.searchText);
+
     let [currentPage, setCurrentPage] = useState<number>(1);
     let [totalPages, setTotalPages] = useState<number>(1);
+    let [purchases, setPurchases] = useState<IPurchase[]>([]);
+    let [isLoading, setIsLoading] = useState(true);
+
 
     useEffect(() => {
         getPurchases();
         setIsLoading(false);
-    }, [selectedCategoryIds, selectedCompanyIds, currentPage]);
+    }, [selectedCategoryIds, selectedCompanyIds, currentPage, searchText]);
 
     async function getPurchases() {
-        let categoryIds: number[] = await getCategoryIds();
-        let companyIds: number[] = await getCompanyIds();
         try {
             let responsePurchases = await axios.get(`http://localhost:8080/purchases/byFilters?page=${currentPage}
-            &companyIds=${companyIds}
-            &categoryIds=${categoryIds}`);
+            &companyIds=${selectedCompanyIds}
+            &categoryIds=${selectedCategoryIds}
+            &searchText=${searchText}`);
 
             let { purchases, totalPages } = responsePurchases.data;
 
@@ -44,26 +45,6 @@ function PurchasesList() {
             setIsLoading(false)
         }
     }
-
-    async function getCategoryIds() {
-        if (selectedCategoryIds.length == 0) {
-            let responseCategories = await axios.get('http://localhost:8080/categories');
-            let categories: ICategory[] = responseCategories.data;
-            let categoryIds: number[] = categories.map(category => category.id);
-            return categoryIds;
-        }
-        return selectedCategoryIds;
-    };
-
-    async function getCompanyIds() {
-        if (selectedCompanyIds.length == 0) {
-            let responseCompanies = await axios.get('http://localhost:8080/companies');
-            let companies: ICompany[] = responseCompanies.data;
-            let companyIds: number[] = companies.map(company => company.id);
-            return companyIds;
-        }
-        return selectedCompanyIds;
-    };
 
     if (isLoading) {
         return <div>Loading...</div>;
