@@ -9,6 +9,11 @@ TheMuse:
         - change events to "any" and remove unnecessary functions in all editors. Check all functions @done
         - Remove unused functions in server
         - remove getInitialData from app.tsx. All components load data individually @done
+        - Companies selction field in the Filters Menu does not scroll when overflow. CSS same as categories
+        - Light-green stripe at the bottom of the page. Find how to delete
+        - Coupon cards in container do not behave as required in CSS (flex) @done
+        - Align all contents of coupon card to the center vertically and horizontally @done
+        - make all CSS responsive
     - Resources
         - Coupons
             - isAvailable @done

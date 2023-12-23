@@ -33,8 +33,8 @@ function Layout() {
   }
 
   return (
-    <section className="layout">
-      <header>
+    <section className={`layout ${isFiltersMenuShown() ? '' : 'no-aside'}`}>
+      <header className='header'>
         <Header />
       </header>
 
@@ -44,8 +44,8 @@ function Layout() {
         </aside>
       }
 
-      <main className={!isFiltersMenuShown() ? 'main-full-width' : 'main'}>
-        <div className="main-content">
+      <main className='main'>
+        <div>
           <Routes>
             <Route path='/' element={<CouponsContainer />} />
             <Route path="/coupon_editor" element={<CouponEditor />} />
@@ -60,7 +60,7 @@ function Layout() {
         </div>
       </main>
 
-      <footer>
+      <footer className='footer'>
         <Footer />
       </footer>
     </section>

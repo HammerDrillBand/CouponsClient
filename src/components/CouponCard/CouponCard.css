@@ -1,47 +1,156 @@
-.CouponCard{
-    display: inline-block;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
+.CouponCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 25vmin;
+    height: 25vmin;
+    border-radius: 2vmin;
     border: 5px solid;
-    border-color:rgb(165, 126, 42);
-    text-align:center;
-    font-size: 20px;
+    border-color: rgb(165, 126, 42);
+    text-align: center;
+    font-size: 1.2vmin;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    margin-bottom: 2vmin;
     text-shadow: 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white;
 }
+
 .CouponCard.notAvailable {
     border-color: #aa3737;
 }
-#name{
-    font-size: 2em;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+
+#Name {
+    font-size: 2rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 600;
 }
-#price{
-    font-weight: 800;
+
+#Price {
+    font-weight: 500;
 }
+
+#Quantity {
+    font-weight: 600;
+}
+
 .Modal {
-    border-radius: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5vmin;
     border: 5px solid;
     border-color: rgb(165, 126, 42);
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
-    padding-bottom: 50px;
+    width: 50vmin;
+    height: 50vmin;
+    padding-bottom: 2vmin;
     background-color: rgba(46, 22, 2, 0.8);
     z-index: 1000;
     text-align: center;
     color: aliceblue;
 }
-#number{
-    display: inline-block;
+
+.numberInput {
+    background-color: antiquewhite;
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1vmin;
+    text-align: center;
+    height: 3vh;
+    width: 10vmin;
 }
+
+.numberInput:hover {
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+    background-color: rgb(128, 156, 198);
+}
+
+.numberInput:focus {
+    outline: none;
+    border: 0.5vmin solid;
+    border-color: rgba(0, 123, 255, 0.8);
+}
+
+.ReturnButton {
+    background-color: rgb(250, 215, 215);
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 5vmin;
+    width: 10vmin;
+    cursor: pointer;
+}
+
+.ReturnButton:hover {
+    background-color: rgb(128, 156, 198);
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+}
+
+.NeutralButton {
+    grid-area: button2;
+    background-color: rgb(215, 221, 250);
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 5vmin;
+    width: 10vmin;
+    cursor: pointer;
+}
+
+.NeutralButton:hover {
+    background-color: rgb(128, 156, 198);
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+}
+
+.BuyButton {
+    grid-area: button2;
+    background-color: rgb(223, 250, 215);
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 5vmin;
+    width: 10vmin;
+    cursor: pointer;
+}
+
+.BuyButton:hover {
+    background-color: rgb(128, 156, 198);
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+}
+
 .disabled-button {
     background-color: #ccc;
     color: #888;
     cursor: not-allowed;
+
+    grid-area: button2;
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 5vmin;
+    width: 10vmin;
 }

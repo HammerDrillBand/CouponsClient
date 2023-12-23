@@ -87,11 +87,13 @@ function CouponsContainer() {
 
     return (
         <div className="CouponsContainer">
+            <div className='Pages'>
             <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>◄</button>
             Page {currentPage} of {totalPages}
             <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>►</button>
+            </div>
 
-            <div>
+            <div className='Coupons'>
                 {coupons.length > 0 ? (
                     coupons
                         .map((coupon) =>

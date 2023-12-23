@@ -91,11 +91,16 @@ export function reduce(oldAppState: AppState = appStateInitialValue, action: Act
             newAppState.searchText = action.payload.searchText;
             break;
         case ActionType.resetFilters:
+            newAppState.isFiltersReset = true;
             newAppState.FilteredByCategoryId = [];
             newAppState.FilteredByCompanyId = [];
             newAppState.FilteredByMinPrice = 0;
             newAppState.FilteredByMaxPrice = 0;
             newAppState.searchText = "";
+            newAppState.isFiltersReset = true;
+            break;
+        case ActionType.setIsFiltersReset:
+            newAppState.isFiltersReset = false;
             break;
     }
     return newAppState;

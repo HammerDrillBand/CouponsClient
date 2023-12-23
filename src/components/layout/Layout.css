@@ -1,31 +1,31 @@
 .layout {
-  height: 100vh;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  height: 100vh;
   grid-template-rows: 10% auto 3%;
+  grid-template-columns: 15% 85%;
+  grid-template-areas: 
+  'header header'
+  'aside main'
+  'footer footer';
 }
 
-.layout > header, .layout > footer {
-  grid-column: span 12;
+.layout.no-aside {
+  grid-template-columns: 0% 100%;
+}
+
+.header {
+  grid-area: header;
+}
+
+.footer {
+  grid-area: footer;
 }
 
 .filters-menu {
-  grid-column: span 2;
-  display: flex;
-  flex-direction: column;
-}
-
-.filters-menu {
-  max-width: 100%;
-  overflow: hidden;
+  grid-area: aside;
 }
 
 .main {
-  grid-column: span 10;
-  height: 100%;
-}
-
-.main-full-width {
-  grid-column: span 12;
-  height: 100%;
+  grid-area: main;
+  overflow-y: auto;
 }

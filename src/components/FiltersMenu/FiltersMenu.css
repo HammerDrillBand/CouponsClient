@@ -1,0 +1,147 @@
+.FiltersMenu {
+    display: grid;
+    grid-template-rows: 30vmin 30vmin 20vmin 7vmin;
+    grid-template-columns: 100%;
+    grid-template-areas:
+        'categories'
+        'companies'
+        'prices'
+        'resetButton';
+    justify-content: center;
+}
+
+.categories {
+    grid-area: categories;
+}
+
+.companies {
+    grid-area: companies;
+}
+
+.companies,
+.categories {
+    width: 100%;
+    overflow-y: auto;
+    margin-left: 1vmin;
+}
+
+.prices {
+    overflow-y: auto;
+    grid-area: prices;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.resetButton {
+    grid-area: resetButton;
+    background-color: rgb(215, 221, 250);
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 6vh;
+    width: 8vw;
+    cursor: pointer;
+    padding: 1vmin;
+    margin: 0 auto;
+}
+
+.resetButton:hover {
+    background-color: rgb(128, 156, 198);
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+}
+
+.checkbox {
+    --borderColor: rgb(165, 126, 42);
+    --borderWidth: .125em;
+}
+
+.checkbox label {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    margin: 1vmin auto;
+}
+
+.checkbox input[type=checkbox] {
+    -webkit-appearance: none;
+    appearance: none;
+    vertical-align: middle;
+    background: antiquewhite;
+    font-size: 1.8em;
+    border-radius: 0.125em;
+    display: inline-block;
+    border: var(--borderWidth) solid var(--borderColor);
+    width: 1em;
+    height: 1em;
+    position: relative;
+}
+
+.checkbox input[type=checkbox]:before,
+.checkbox input[type=checkbox]:after {
+    content: "";
+    position: absolute;
+    background: var(--borderColor);
+    width: calc(var(--borderWidth) * 3);
+    height: var(--borderWidth);
+    top: 50%;
+    left: 10%;
+    transform-origin: left center;
+}
+
+.checkbox input[type=checkbox]:before {
+    transform: rotate(45deg) translate(calc(var(--borderWidth) / -2), calc(var(--borderWidth) / -2)) scaleX(0);
+    transition: transform 200ms ease-in 200ms;
+}
+
+.checkbox input[type=checkbox]:after {
+    width: calc(var(--borderWidth) * 5);
+    transform: rotate(-45deg) translateY(calc(var(--borderWidth) * 2)) scaleX(0);
+    transform-origin: left center;
+    transition: transform 200ms ease-in;
+}
+
+.checkbox input[type=checkbox]:checked:before {
+    transform: rotate(45deg) translate(calc(var(--borderWidth) / -2), calc(var(--borderWidth) / -2)) scaleX(1);
+    transition: transform 200ms ease-in;
+}
+
+.checkbox input[type=checkbox]:checked:after {
+    width: calc(var(--borderWidth) * 5);
+    transform: rotate(-45deg) translateY(calc(var(--borderWidth) * 2)) scaleX(1);
+    transition: transform 200ms ease-out 200ms;
+}
+
+.checkbox input[type=checkbox]:focus {
+    outline: calc(var(--borderWidth) / 2) dotted rgba(0, 0, 0, 0.25);
+}
+
+.numberInput {
+    background-color: antiquewhite;
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1vmin;
+    text-align: center;
+    height: 3vh;
+    width: 50%;
+}
+
+.numberInput:hover {
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+    background-color: rgb(128, 156, 198);
+}
+
+.numberInput:focus {
+    outline: none;
+    border: 0.5vmin solid;
+    border-color: rgba(0, 123, 255, 0.8);
+}

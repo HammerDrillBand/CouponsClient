@@ -3,13 +3,11 @@ import axios from 'axios';
 import { useDispatch } from "react-redux";
 import './Login.css';
 import { ActionType } from '../../redux/action-type';
-import { useNavigate } from 'react-router-dom';
 
 function Login() {
     let [username, setUsername] = useState("");
     let [password, setPassword] = useState("");
     let dispatch = useDispatch();
-    let navigate = useNavigate();
 
     async function onLoginClicked() {
         let loginDetails = { username, password };
@@ -33,11 +31,11 @@ function Login() {
         <div className="Login">
             <br />
             <br />
-            <input type='email' placeholder='Enter your email' onChange={event => setUsername(event.target.value)} />
+            <input className='Input' type='email' placeholder='Enter your email' onChange={event => setUsername(event.target.value)} />
             <br />
-            <input type='password' placeholder='Password' onChange={event => setPassword(event.target.value)} />
+            <input className='Input' type='password' placeholder='Password' onChange={event => setPassword(event.target.value)} />
             <br />
-            <button onClick={onLoginClicked}>Login</button>
+            <button onClick={onLoginClicked} className='LoginButton'>Login</button>
             <br />
             <br />
         </div>

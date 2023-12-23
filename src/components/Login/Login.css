@@ -1,30 +1,58 @@
-/* input{
-    clear: both;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 20px;
+.Login{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.Input, .LoginButton{
+    margin: 10%;
+}
+.Input{
+    grid-area: search;
+    background-color: antiquewhite;
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
     text-align: center;
-    background-color: rgb(243, 238, 208);
-    width: 250px;
-    height: 50px;
-    margin-bottom: 1%;
-    border-radius: 50%;
-    cursor:pointer;
-    display: flex;
-    justify-content: center;
-    box-sizing: border-box;
-    transition: all 1s;
+    height: 3vh;
+    width: 200%;
 }
-input:hover{
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+.Input:hover{
     transform: scale(1.10);
-    transition: all 0.5s;
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+    background-color: rgb(128, 156, 198);
 }
-input:focus{
-    color: #000000;
-    background-color: #cce4e9;
+.Input:focus{
+    outline: none;
+    border: 0.5vmin solid;
+    border-color: rgba(0, 123, 255, 0.8);
+}
+.Input:invalid{
+    background-color: #dfbabf;
     transition: all 1s;
 }
-input:invalid{
-    background-color: #dfbabf;
-    transition: all 5s;
-} */
+
+.LoginButton{
+    grid-area: button2;
+    background-color: rgb(223, 250, 215);
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 6vmin;
+    width: 10vmin;
+    cursor: pointer;
+}
+
+.LoginButton:hover{
+    background-color: rgb(128, 156, 198);
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+}
+

@@ -62,4 +62,5 @@ export class AppState {
         name: ""
     };
     public searchText: string = "";
+    public isFiltersReset: boolean = false;
 }

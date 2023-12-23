@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './FiltersMenu.css'
-import { AppState } from '../../redux/app-state';
 import { useEffect, useState } from 'react';
 import { ActionType } from '../../redux/action-type';
 import { useLocation } from "react-router-dom";
@@ -130,88 +129,92 @@ function FiltersMenu() {
     function getCompanyId(): number | null {
         let storedToken = localStorage.getItem('authToken');
         if (storedToken) {
-          axios.defaults.headers.common['Authorization'] = storedToken;
-          let decodedToken: any = jwt_decode(storedToken);
-          let decodedTokenData = JSON.parse(decodedToken.sub);
-          let companyIdFromToken = decodedTokenData.companyId;
-          return companyIdFromToken;
+            axios.defaults.headers.common['Authorization'] = storedToken;
+            let decodedToken: any = jwt_decode(storedToken);
+            let decodedTokenData = JSON.parse(decodedToken.sub);
+            let companyIdFromToken = decodedTokenData.companyId;
+            return companyIdFromToken;
         }
         return null;
-      }    
+    }
+
+    function resetFilters() {
+        dispatch({ type: ActionType.resetFilters });
+        setSelectedCategories([]);
+        setSelectedCompanies([]);
+    };
 
     return (
-        <>
+        <div className='FiltersMenu'>
             {!isUsersRoute &&
-                <>
+                <div className='categories'>
                     <h2>Select Category</h2>
                     {Array.isArray(categories) && categories.map(category => (
-                        <div key={category.id}>
-                            <label>
+                        <div key={category.id} className='checkbox'>
+                            <label className='container'>
                                 <input
                                     type="checkbox"
                                     value={category.name}
                                     checked={selectedCategories.includes(category.id)}
                                     onChange={() => categorySelectionChanged(category.id)}
                                 />
+                                <div className="checkmark"></div>
                                 {category.name}
                             </label>
                         </div>
                     ))}
-                </>
+                </div>
             }
 
-            <>
+            <div>
                 {getUserType() !== 'COMPANY' && (
-                    <>
+                    <div className='companies'>
                         <h2>Select Provider</h2>
                         {Array.isArray(companies) && companies.map(company => (
-                            <div key={company.id}>
-                                <label>
+                            <div key={company.id} className='checkbox'>
+                                <label className='container'>
                                     <input
                                         type="checkbox"
                                         value={company.name}
                                         checked={selectedCompanies.includes(company.id)}
                                         onChange={() => companySelectionChanged(company.id)}
                                     />
+                                    <div className="checkmark"></div>
                                     {company.name}
                                 </label>
                             </div>
                         ))}
-                    </>
+                    </div>
                 )}
-            </>
+            </div>
 
             {isCouponsRoute && (
-                <>
+                <div className='prices'>
                     <h2>Select Price</h2>
-                    <div className="range-slider-container">
-                        <div className="slider">
-                            <span>Current Lowest: {minPrice}</span>
-                            <br />
-                            <span>Current Highest: {maxPrice}</span>
-                            <br />
-                            <span>From: </span>
-                            <input
-                                type="number"
-                                min={minPrice}
-                                max={maxPrice}
-                                value={filteredMinPrice}
-                                onChange={event => minPriceChanged(+event.target.value)}
-                            />
-                            <br />
-                            <span>To: </span>
-                            <input
-                                type="number"
-                                min={minPrice}
-                                max={maxPrice}
-                                value={filteredMaxPrice}
-                                onChange={event => maxPriceChanged(+event.target.value)}
-                            />
-                        </div>
-                    </div>
-                </>
+
+                    <span>From: </span><br/>
+                    <input
+                        className='numberInput'
+                        type="number"
+                        min={minPrice}
+                        max={maxPrice}
+                        value={filteredMinPrice}
+                        onChange={event => minPriceChanged(+event.target.value)}
+                    />
+                    <br />
+                    <span>To: </span><br/>
+                    <input
+                        className='numberInput'
+                        type="number"
+                        min={minPrice}
+                        max={maxPrice}
+                        value={filteredMaxPrice}
+                        onChange={event => maxPriceChanged(+event.target.value)}
+                    />
+                </div>
             )}
-        </>
+            <button onClick={resetFilters} className='resetButton'>Reset</button>
+        </div>
     );
 };
 

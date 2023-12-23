@@ -16,5 +16,6 @@ export enum ActionType {
     resetEditedUser,
     resetEditedCompany,
     resetEditedCategory,
-    resetFilters
+    resetFilters,
+    setIsFiltersReset
 }

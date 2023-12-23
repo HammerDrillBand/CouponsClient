@@ -1,86 +1,86 @@
 .Header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
+    display: grid;
+    grid-template-rows: 10vh;
+    grid-template-columns: 10% 10% 10% auto 20%;
+    grid-template-areas: 'logo button1 button2 hello search';
     background-image: url(../../Images/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    align-items: center;
 }
 
 .Logo {
-    display: inline-block;
+    grid-area: logo;
     padding: 2%;
     max-height: 96%;
     border-radius: 50%;
     cursor: pointer;
 }
 
-.HeaderModal {
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 5px solid;
-    border-color: rgb(165, 126, 42);
-    margin-right: auto;
-    margin-left: auto;
-    background-color: rgba(46, 22, 2, 0.8);
-    border-radius: 50%;
-    box-shadow: -10px 5px 10px rgb(39, 3, 3), -10px 5px 50px rgb(39, 10, 9);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.AddButton{
+    background-color: rgb(223, 250, 215);
 }
 
-.HeaderButton {
-    background-color: rgb(218, 198, 168);
-    border: double;
-    border-radius: 15px;
-    padding: 16px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s, transform 0.3s;
+.HeaderButton{
+    background-color: rgb(215, 221, 250);
+}
+
+.AddButton, .HeaderButton{
+    grid-area: button2;
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 1.2em;
-    text-align: center;
+    font-size: 1.5vmin;
+    height: 6vh;
+    width: 8vw;
+    cursor: pointer;
 }
 
-.HeaderButton:hover {
+.AddButton:hover, .HeaderButton:hover{
     background-color: rgb(128, 156, 198);
     transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
 }
 
 .Welcome {
+    grid-area: hello;
+    text-align: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: rgb(70, 70, 70);
-    font-size: 2em;
+    font-size: 2vmin;
     font-weight: 600;
     text-shadow: 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white, 0px 0px 15px white;
 }
 
 .dropdown {
+    grid-area: button1;
     position: relative;
-    display: inline-block;
+    cursor: pointer;
 }
 
 .dropdown-content {
+    border-radius: 1vmin;
+    border: solid rgb(165, 126, 42);
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    width: 8vw;
+    box-shadow: 0vh 0.5vh 1vh 0vh rgba(0, 0, 0, 0.2);
+    font-size: 1.2vmin;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     z-index: 1;
 }
 
 .dropdown-content a {
+    border-radius: 1vmin;
     color: black;
-    padding: 12px 16px;
+    padding: 0.75vmin;
     text-decoration: none;
     display: block;
+    transition: 0.3s;
 }
 
 .dropdown-content a.withBorder {
@@ -90,6 +90,8 @@
 
 .dropdown-content a:hover {
     background-color: #a3b4ff;
+    font-weight: 700;
+    transition: 0.3s;
 }
 
 .dropdown:hover .dropdown-content {
@@ -97,56 +99,72 @@
 }
 
 .SearchBar {
-    padding: 16px;
-    border: double;
-    border-radius: 15px;
-    width: 20%;
+    grid-area: search;
+    background-color: antiquewhite;
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
     transition: 0.3s;
-    margin-right: 2%;
+    margin-right: 1vw;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 1.2em;
+    font-size: 1.5vmin;
     text-align: center;
+    height: 3vh;
 }
 
 .SearchBar:hover {
     transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+    background-color: rgb(128, 156, 198);
 }
 
 .SearchBar:focus {
     outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.8);
+    border: 0.5vmin solid;
     border-color: rgba(0, 123, 255, 0.8);
 }
 
+.HeaderModal {
+    width: 50vmin;
+    height: 50vmin;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid;
+    border-color: rgb(165, 126, 42);
+    background-color: rgba(46, 22, 2, 0.8);
+    border-radius: 50%;
+    box-shadow: -10px 5px 10px rgb(39, 3, 3), -10px 5px 50px rgb(39, 10, 9);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
-@media only screen and (max-width: 768px) {
-    .Header {
-        flex-direction: column;
-        text-align: center;
-    }
+#Login{
+    grid-area: button2;
+}
 
-    .HeaderContent {
-        margin-top: 10px;
-    }
+#Register{
+    grid-area: button1;
+}
 
-    .Logo {
-        margin-bottom: 10px;
-    }
+.ReturnButton{
+    background-color: rgb(250, 215, 215);
+    border: solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 6vmin;
+    width: 10vmin;
+    cursor: pointer;
+}
 
-    .HeaderButton, .SearchBar {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .SearchBar {
-        width: 80%;
-    }
-
-    .dropdown {
-        width: 100%;
-    }
-
-    .dropdown-content {
-        width: 100%;
-    }
+.ReturnButton:hover{
+    background-color: rgb(128, 156, 198);
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
 }

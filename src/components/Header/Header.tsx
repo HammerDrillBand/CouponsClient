@@ -16,6 +16,7 @@ function Header() {
     let dispatch = useDispatch();
     let navigate = useNavigate();
     let isLoggedIn: boolean = useSelector((state: AppState) => state.isLoggedIn);
+    let isFiltersReset: boolean = useSelector((state: AppState) => state.isFiltersReset);
 
     let [loginModalIsOpen, setLoginIsOpen] = useState<boolean>(false);
     let [registerModalIsOpen, setRegisterIsOpen] = useState<boolean>(false);
@@ -29,9 +30,8 @@ function Header() {
 
     useEffect(() => {
         setLoginStatus();
-        setSearchText("");
         resetFilters();
-    }, [isLoggedIn, location.pathname]);
+    }, [isLoggedIn, location.pathname, isFiltersReset]);
 
     function openLoginModal() {
         setLoginIsOpen(true);
@@ -110,7 +110,9 @@ function Header() {
     };
 
     function resetFilters() {
+        setSearchText("");
         dispatch({ type: ActionType.resetFilters });
+        dispatch({ type: ActionType.setIsFiltersReset });
     };
 
     function getUserType(): string | null {
@@ -168,23 +170,6 @@ function Header() {
     return (
         <div className="Header">
             <img className="Logo" src={logo} alt="TheMUSE logo" onClick={goToHome} />
-            <div className="HeaderContent">
-                {isLoggedIn ? (
-                    <div>
-                        <div className="Welcome">Welcome, {localStorage.getItem('username')}</div>
-                    </div>
-                ) : (
-                    <>
-                        <div>
-                            <button className="HeaderButton" onClick={openRegisterModal}>Register</button>
-                        </div>
-                        <div>
-                            <button className="HeaderButton" onClick={openLoginModal}>Login</button>
-                        </div>
-                    </>
-                )}
-            </div>
-
             {isLoggedIn && (
                 <div className="dropdown">
                     <button className="HeaderButton">Menu</button>
@@ -196,21 +181,41 @@ function Header() {
                                 <a href="#" onClick={goToCompaniesList}>Companies</a>
                                 <a href="#" onClick={goToCategoriesList}>Categories</a>
                                 <a href="#" onClick={seeUserPurchases}>Purchases History</a>
-                                <a href="#" onClick={userLoggedOut} className="withBorder">Logout</a>
                             </>
                         )}
+                        <a href="#" onClick={userLoggedOut} className="withBorder">Logout</a>
                     </div>
                 </div>
             )}
 
             {(getUserType() === "ADMIN" || getUserType() === "COMPANY") && (
                 <>
-                    {isCouponsRoute && <button onClick={goToCouponCreator} className="HeaderButton">Add New Coupon</button>}
-                    {isUsersRoute && <button onClick={goToUserCreator} className="HeaderButton">Add New User</button>}
-                    {isCompaniesRoute && <button onClick={goToCompanyCreator} className="HeaderButton">Add New Company</button>}
-                    {isCategoriesRoute && <button onClick={goToCategoryCreator} className="HeaderButton">Add New Category</button>}
+                    {isCouponsRoute && <button onClick={goToCouponCreator} className="AddButton">Add New Coupon</button>}
+                    {isUsersRoute && <button onClick={goToUserCreator} className="AddButton">Add New User</button>}
+                    {isCompaniesRoute && <button onClick={goToCompanyCreator} className="AddButton">Add New Company</button>}
+                    {isCategoriesRoute && <button onClick={goToCategoryCreator} className="AddButton">Add New Category</button>}
                 </>
             )}
+
+            {!isLoggedIn && (
+                <>
+                    <div>
+                        <button className="HeaderButton" id="Register" onClick={openRegisterModal}>Register</button>
+                    </div>
+                    <div>
+                        <button className="HeaderButton" id="Login" onClick={openLoginModal}>Login</button>
+                    </div>
+                </>
+            )}
+
+            <div>
+                {isLoggedIn && (
+                    <div>
+                        <div className="Welcome">Welcome, {localStorage.getItem('username')}</div>
+                    </div>
+                )}
+            </div>
+
             <input
                 className="SearchBar"
                 type="text"
@@ -221,12 +226,12 @@ function Header() {
 
             <Modal className='HeaderModal' isOpen={loginModalIsOpen} onRequestClose={closeLoginModal}>
                 <Login />
-                <button onClick={closeLoginModal}>Cancel and return</button>
+                <button onClick={closeLoginModal} className="ReturnButton">Cancel and return</button>
             </Modal>
 
             <Modal className='HeaderModal' isOpen={registerModalIsOpen} onRequestClose={closeRegisterModal}>
                 <Register />
-                <button onClick={closeRegisterModal}>Cancel and return</button>
+                <button onClick={closeRegisterModal} className="ReturnButton">Cancel and return</button>
             </Modal>
         </div>
     );

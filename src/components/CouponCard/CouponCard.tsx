@@ -97,45 +97,45 @@ function CouponCard(props: ICoupon) {
 
     return (
         <div className={`CouponCard ${props.isAvailable ? '' : 'notAvailable'}`} style={backgroundStyle}>
-            <span id='name'><br />{props.name}</span><br />
-            <span id='price'>NIS {props.price}</span><br /><br />
-            <span id='quantity'>Available amount: {availableAmount}</span><br /><br />
-            <button onClick={openModal}>More Details</button>
+            <div id='Name'><br />{props.name}</div>
+            <div id='Price'>NIS {props.price}</div>
+            <div id='Quantity'>Available amount: {availableAmount}</div>
+            <button onClick={openModal} className='NeutralButton'>More</button>
 
             <Modal className='Modal' isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <span id='name'><br />{props.name}</span><br /><br />
-                <span id='description'>{props.description}</span><br /><br />
-                <span id='startDate'>Valid from: {props.startDate}</span>
-                <span id='endDate'> to: {props.endDate}</span><br /><br />
-                <span id='category'>Category: {props.categoryName}</span><br /><br />
-                <span id='company'>Provided by: {props.companyName}</span><br /><br />
-                <span id='quantity'>Available amount: {availableAmount}</span><br /><br />
-                <span id='price'>NIS {props.price}</span><br /><br />
+                <div>{props.name}</div>
+                <div>{props.description}</div>
+                <div>Valid from: {props.startDate}</div>
+                <div> to: {props.endDate}</div>
+                <div>Category: {props.categoryName}</div>
+                <div>Provided by: {props.companyName}</div>
+                <div>Available amount: {availableAmount}</div>
+                <div>NIS {props.price}</div>
                 {getUserType() == "CUSTOMER" ? (
                     <>
+                        <div>Choose Amount to Buy:</div>
                         <input type="number"
-                            id="number"
+                            className='numberInput'
                             value={quantity}
                             step={1}
                             min={0}
                             max={props.amount}
-                            onChange={event => setQuantity(+event.target.value)} /><br />
+                            onChange={event => setQuantity(+event.target.value)} />
                         <button
                             onClick={onPurchaseClicked}
                             disabled={!isLoggedIn || props.amount === 0 || quantity > availableAmount}
-                            className={!isLoggedIn || quantity > availableAmount ? 'disabled-button' : ''}>
+                            className={!isLoggedIn || quantity > availableAmount || quantity == 0 ? 'disabled-button' : 'BuyButton'}>
                             Buy now
                         </button>
                     </>
                 ) : (
                     <>
                         {getUserType() == "ADMIN" || getUserType() == "COMPANY" ? (
-                            <button onClick={onEditClicked}>Edit</button>
+                            <button onClick={onEditClicked} className='NeutralButton'>Edit</button>
                         ) : null}
                     </>
                 )}
-                <br />
-                <button onClick={closeModal}>Cancel and return</button>
+                <button onClick={closeModal} className='ReturnButton'>Cancel and return</button>
             </Modal>
         </div>
     );

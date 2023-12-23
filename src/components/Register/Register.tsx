@@ -38,13 +38,13 @@ function Register() {
     return (
         <div className="Register">
             <br />
-            <input type='email' placeholder='Enter your email' onChange={event => setUsername(event.target.value)} />
+            <input className='Input' type='email' placeholder='Enter your email' onChange={event => setUsername(event.target.value)} />
             <br />
-            <input type='password' placeholder='Enter new password' onChange={event => setPassword(event.target.value)} />
+            <input className='Input' type='password' placeholder='Enter new password' onChange={event => setPassword(event.target.value)} />
             <br />
-            <input type='password' placeholder='Confirm new password' onChange={event => setPasswordVerification(event.target.value)} />
+            <input className='Input' type='password' placeholder='Confirm new password' onChange={event => setPasswordVerification(event.target.value)} />
             <br />
-            <button onClick={onRegisterClicked}>Register</button>
+            <button onClick={onRegisterClicked} className='RegisterButton'>Register</button>
             <br />
             <br />
         </div>
