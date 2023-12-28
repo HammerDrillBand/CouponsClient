@@ -1,0 +1,99 @@
+.UserEditor {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.Label {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 2vmin;
+    margin-right: 1vmin;
+}
+
+.EditorLineItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
+    width: 100vmin;
+    margin-top: 1vmin;
+}
+
+.EditorInput {
+    background-color: antiquewhite;
+    border: 0.3vmin solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-size: 1vmin;
+    text-align: center;
+    height: 3vmin;
+    width: 30vmin;
+    font-size: 1.5vmin;
+}
+
+.EditorInput:hover {
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+}
+
+.EditorInput:focus {
+    outline: none;
+    border: 0.5vmin solid;
+    border-color: rgba(0, 123, 255, 0.8);
+}
+
+.SaveButton {
+    background-color: rgb(223, 250, 215);
+}
+
+.DeleteButton {
+    background-color: rgb(250, 215, 215);
+}
+
+.ChangePasswordButton {
+    background-color: rgb(215, 221, 250);
+}
+
+.SaveButton,
+.DeleteButton,
+.ChangePasswordButton {
+    border: 0.3vmin solid rgb(165, 126, 42);
+    border-radius: 1vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 4vh;
+    width: 12vw;
+    cursor: pointer;
+    margin-left: 2vmin;
+}
+
+.SaveButton:hover,
+.DeleteButton:hover,
+.ChangePasswordButton:hover {
+    background-color: rgb(128, 156, 198);
+    transform: scale(1.10);
+    border: 0.5vmin solid;
+    border-color: #4fffe7;
+}
+
+
+.disabled-button {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    width: 12vw;
+    height: 4vh;
+    margin-left: 2vmin;
+}
+
+.ButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1vmin;
+}

@@ -1,19 +1,25 @@
-.CouponsContainer{
+.CouponsContainer {
     display: grid;
     grid-template-rows: 3vmin auto;
     grid-template-columns: 100%;
     grid-template-areas:
         'Pages'
         'Coupons'
-        ;
+    ;
     justify-content: center;
 }
 
-.Pages{
+.Pages {
     grid-area: Pages;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    margin: 1.8vmin 0.5vmin;
+    font-weight: 600;
 }
 
-.Coupons{
+.Coupons {
     grid-area: Coupons;
     display: flex;
     justify-content: space-evenly;
@@ -21,4 +27,27 @@
     align-content: space-evenly;
     overflow-y: auto;
     max-height: 100%;
+}
+
+.PageButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(215, 221, 250);
+    border: 0.3vmin solid rgb(44, 42, 165);
+    border-radius: 0.5vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 2vmin;
+    width: 2vmin;
+    cursor: pointer;
+    padding: 1vmin;
+    margin-left: 2vmin;
+    margin-right: 2vmin;
+}
+
+.PageButton:hover {
+    background-color: rgb(130, 198, 128);
+    border-color: #64ff4f;
 }

@@ -30,7 +30,7 @@ function CategoriesList() {
             &searchText=${searchText}`);
 
             let { categories, totalPages } = responseCategories.data;
-            
+
             setCategories(categories);
             setTotalPages(totalPages || 0);
             setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
@@ -54,16 +54,26 @@ function CategoriesList() {
 
     return (
         <div className="CategoriesList">
-            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>◄</button>
-            Page {currentPage} of {totalPages}
-            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>►</button>
+            <div className='Pages'>
+                <button
+                    onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}
+                    className='PageButton'>
+                    ◄
+                </button>
+                Page {currentPage} of {totalPages}
+                <button
+                    onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}
+                    className='PageButton'>
+                    ►
+                </button>
+            </div>
 
             <table>
                 <thead>
                     <tr>
                         <td>ID</td>
                         <td>Name</td>
-                        <td>Edit</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,7 +82,11 @@ function CategoriesList() {
                             <tr key={category.id}>
                                 <td>{category.id}</td>
                                 <td>{category.name}</td>
-                                <td><button onClick={() => onEditClicked(category.id)}>Edit</button></td>
+                                <td><button
+                                    className='EditButton'
+                                    onClick={() => onEditClicked(category.id)}>
+                                    Edit
+                                </button></td>
                             </tr>
                         ))
                     ) : (

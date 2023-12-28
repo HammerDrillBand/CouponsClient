@@ -66,7 +66,7 @@ function CouponEditor() {
         setIsChangesMade(true);
     };
 
-    function imageInputChanged (event: React.ChangeEvent<HTMLInputElement>) {
+    function imageInputChanged(event: React.ChangeEvent<HTMLInputElement>) {
         let file = event.target.files && event.target.files[0];
         if (file) {
             let reader = new FileReader();
@@ -166,20 +166,16 @@ function CouponEditor() {
             {getUserType() != 'CUSTOMER' ? (
                 <>
                     {!isNewCoupon && (
-                        <div>
-                            <label>Coupon #: {formData.id}</label>
+                        <div className='EditorLineItem'>
+                            <label className='Label'>Coupon #: {formData.id}</label>
                         </div>
                     )}
-                    {(!isNewCoupon && getUserType() == 'ADMIN') && (
-                        <div>
-                            <label>Company:</label>
-                            <div>{getCompanyNameById(formData.companyId)}</div>
-                        </div>
-                    )}
+
                     {(isNewCoupon && getUserType() == 'ADMIN') && (
-                        <div>
-                            <label>Company:</label>
+                        <div className='EditorLineItem'>
+                            <label className='Label'>Company:</label>
                             <select
+                                className='EditorInput'
                                 id='comapnyId'
                                 name='companyId'
                                 value={getCompanyNameById(formData.companyId)}
@@ -194,9 +190,10 @@ function CouponEditor() {
                             </select>
                         </div>
                     )}
-                    <div>
-                        <label>Name:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Name:</label>
                         <input
+                            className='EditorInput'
                             type='text'
                             id='name'
                             name='name'
@@ -204,9 +201,10 @@ function CouponEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Description:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Description:</label>
                         <input
+                            className='DescriptionBox'
                             type='text'
                             id='description'
                             name='description'
@@ -214,9 +212,10 @@ function CouponEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Valid From:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Valid From:</label>
                         <input
+                            className='EditorInput'
                             type='date'
                             id='startDate'
                             name='startDate'
@@ -224,9 +223,10 @@ function CouponEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Valid to:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Valid to:</label>
                         <input
+                            className='EditorInput'
                             type='date'
                             id='endDate'
                             name='endDate'
@@ -234,9 +234,10 @@ function CouponEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Available Amount:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Available Amount:</label>
                         <input
+                            className='EditorInput'
                             type='number'
                             id='amount'
                             name='amount'
@@ -244,9 +245,10 @@ function CouponEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Price:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Price:</label>
                         <input
+                            className='EditorInput'
                             type='number'
                             id='price'
                             name='price'
@@ -254,9 +256,10 @@ function CouponEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Category:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Category:</label>
                         <select
+                            className='EditorInput'
                             id='category'
                             name='categoryId'
                             value={formData.categoryId}
@@ -270,15 +273,25 @@ function CouponEditor() {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <label>Image:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Image:</label>
                         <input
+                            className='EditorInput'
                             type='file'
                             id='image'
                             name='image'
                             accept='image/jpeg'
                             onChange={imageInputChanged}
                         />
+                        <button
+                            onClick={clearImageData}
+                            className={`${formData.imageData ? 'ClearButton' : 'disabled-button'}`}
+                            disabled={!formData.imageData}
+                        >
+                            Clear Image
+                        </button>
+                    </div>
+                    <div className='ImageBox'>
                         {formData.imageData && (
                             <img
                                 src={`data:image/jpeg;base64,${formData.imageData}`}
@@ -286,28 +299,35 @@ function CouponEditor() {
                                 className='coupon-image'
                             />
                         )}
-                        <button onClick={clearImageData}>Clear Image</button>
                     </div>
-                    <div>
-                        <label>Currently available:</label>
-                        <input
-                            type='checkbox'
-                            id='isAvailable'
-                            name='isAvailable'
-                            checked={formData.isAvailable ? true : false}
-                            onChange={inputChanged}
-                        />
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Currently available:</label>
+                        <div className='checkbox'>
+                            <input
+                                type='checkbox'
+                                id='isAvailable'
+                                name='isAvailable'
+                                checked={formData.isAvailable ? true : false}
+                                onChange={inputChanged}
+                            />
+                        </div>
                     </div>
-                    <button
-                        onClick={onSaveChangesClicked}
-                        disabled={!isChangesMade}>
-                        Save Changes
-                    </button>
-                    {!isNewCoupon && (
-                        <button onClick={onDeleteClicked}>
-                            Delete This Coupon
+                    <div className='ButtonContainer'>
+                        <button
+                            className={`${isChangesMade ? 'SaveButton' : 'disabled-button'}`}
+                            onClick={onSaveChangesClicked}
+                            disabled={!isChangesMade}>
+                            Save Changes
                         </button>
-                    )}
+                        {!isNewCoupon && (
+                            <button
+                                className='DeleteButton'
+                                onClick={onDeleteClicked}>
+                                Delete This Coupon
+                            </button>
+                        )}
+                    </div>
+
                 </>
             ) : (
                 <div>Why are you even here?!</div>

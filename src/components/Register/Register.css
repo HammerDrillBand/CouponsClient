@@ -6,12 +6,12 @@
 }
 
 .Input, .LoginButton{
-    margin: 10%;
+    margin: 1vmin;
 }
 .Input{
     grid-area: search;
     background-color: antiquewhite;
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -39,7 +39,7 @@
 .RegisterButton{
     grid-area: button2;
     background-color: rgb(223, 250, 215);
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;

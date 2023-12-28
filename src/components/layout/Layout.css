@@ -1,7 +1,7 @@
 .layout {
   display: grid;
   height: 100vh;
-  grid-template-rows: 10% auto 3%;
+  grid-template-rows: 10% 87% 3%;
   grid-template-columns: 15% 85%;
   grid-template-areas: 
   'header header'

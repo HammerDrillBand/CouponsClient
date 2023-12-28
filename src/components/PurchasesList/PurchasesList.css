@@ -1,12 +1,13 @@
 .PurchasesList {
-    margin: 20px;
+    margin: 1vmin;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 1vmin;
     background-color: rgba(255, 255, 255, 0.6);
+    font-size: 1.5vmin;
 }
 
 thead {
@@ -15,49 +16,55 @@ thead {
 }
 
 thead th {
-    border-bottom: 2px solid #ddd;
+    border-bottom: 0.2vmin solid #ddd;
 }
 
 th, td {
-    padding: 12px;
+    padding: 0.6vmin;
     text-align: left;
 }
 
 td {
-    border-bottom: 1px solid #000000;
+    border-bottom: 0.2vmin solid #000000;
 }
 
 tbody tr:hover {
     background-color: #f5f5f5;
 }
 
-button {
-    margin-bottom: 10px;
-    padding: 10px;
-    font-size: 14px;
-}
-
 p {
     color: #555;
 }
 
-@media screen and (max-width: 600px) {
-    table, thead, tbody, th, td, tr {
-        display: block;
-    }
+.Pages {
+    grid-area: Pages;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    margin: 1.8vmin 0.5vmin;
+    font-weight: 600;
+}
 
-    th, td {
-        text-align: center;
-        padding: 8px;
-    }
+.PageButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(215, 221, 250);
+    border: 0.3vmin solid rgb(44, 42, 165);
+    border-radius: 0.5vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 2vmin;
+    width: 2vmin;
+    cursor: pointer;
+    padding: 1vmin;
+    margin-left: 2vmin;
+    margin-right: 2vmin;
+}
 
-    tbody tr {
-        margin-bottom: 20px;
-    }
-
-    thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
+.PageButton:hover {
+    background-color: rgb(130, 198, 128);
+    border-color: #64ff4f;
 }

@@ -1,27 +1,5 @@
 .App {
-  /* text-align: center; */
   background-image: url(Images/wall_background.jpg);
   background-attachment: fixed;
   background-size: cover;
 }
-/* button{
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  background-color: rgb(224, 181, 117);
-  width: 250px;
-  height: 50px;
-  border: 1;
-  border-radius: 50%;
-  color: rgb(70,70,70);
-  cursor: pointer;
-  display: inline-block;
-  font-size: 20px;
-  font-weight: 600;
-  position: relative;
-  text-align: center;
-  transition: all 0.5s;
-}
-button:hover {
-  box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
-  transform: scale(1.10);
-  border-radius: 0%;
-} */

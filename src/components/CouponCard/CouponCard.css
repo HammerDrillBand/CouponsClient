@@ -6,7 +6,7 @@
     width: 25vmin;
     height: 25vmin;
     border-radius: 2vmin;
-    border: 5px solid;
+    border: 0.4vmin solid;
     border-color: rgb(165, 126, 42);
     text-align: center;
     font-size: 1.2vmin;
@@ -22,17 +22,22 @@
 }
 
 #Name {
-    font-size: 2rem;
+    font-size: 2vmin;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 600;
 }
 
 #Price {
+    font-size: 1.5vmin;
     font-weight: 500;
+    color: #8637aa;
 }
 
 #Quantity {
-    font-weight: 600;
+    font-size: 2vmin;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 300;
+    color: #4837aa;
 }
 
 .Modal {
@@ -41,14 +46,13 @@
     align-items: center;
     justify-content: space-evenly;
     border-radius: 5vmin;
-    border: 5px solid;
+    border: 0.4vmin solid;
     border-color: rgb(165, 126, 42);
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 50vmin;
-    height: 50vmin;
     padding-bottom: 2vmin;
     background-color: rgba(46, 22, 2, 0.8);
     z-index: 1000;
@@ -58,14 +62,14 @@
 
 .numberInput {
     background-color: antiquewhite;
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1vmin;
     text-align: center;
     height: 3vh;
-    width: 10vmin;
+    max-width: 5vmin;
 }
 
 .numberInput:hover {
@@ -83,7 +87,7 @@
 
 .ReturnButton {
     background-color: rgb(250, 215, 215);
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -103,7 +107,7 @@
 .NeutralButton {
     grid-area: button2;
     background-color: rgb(215, 221, 250);
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -123,7 +127,7 @@
 .BuyButton {
     grid-area: button2;
     background-color: rgb(223, 250, 215);
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -140,17 +144,53 @@
     border-color: #4fffe7;
 }
 
-.disabled-button {
+.DisabledModalButton {
     background-color: #ccc;
     color: #888;
     cursor: not-allowed;
-
-    grid-area: button2;
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1.5vmin;
     height: 5vmin;
     width: 10vmin;
+}
+
+.ModalName{
+    font-size: 3vmin;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 600;
+    text-decoration: underline overline #ff9028;
+    margin-top: 1.5vmin;
+}
+
+.ModalDescription{
+    font-size: 2vmin;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 300;
+    margin-top: 1vmin;
+    border: solid;
+    padding: 1vmin;
+    border-radius: 1vmin;
+}
+
+.ModalLabel{
+    font-size: 2vmin;
+    font-weight: 700;
+    margin-right: 1vmin;
+}
+
+.ModalData{
+    font-size: 2vmin;
+    text-decoration: underline;
+}
+
+.LineItem{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: row;
+    margin: 1vmin;
 }

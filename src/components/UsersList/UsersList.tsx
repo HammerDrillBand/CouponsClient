@@ -29,13 +29,12 @@ function UsersList() {
 
     async function getUsers() {
         try {
-            debugger;
             let responseUsers = await axios.get(`http://localhost:8080/users/byFilters?page=${currentPage}
             &companyIds=${selectedCompanyIds}
             &searchText=${searchText}`);
 
             let { users, totalPages } = responseUsers.data;
-            
+
             setUsers(users);
             setTotalPages(totalPages || 0);
             setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
@@ -63,9 +62,19 @@ function UsersList() {
 
     return (
         <div className="UsersList">
-            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>◄</button>
-            Page {currentPage} of {totalPages}
-            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>►</button>
+            <div className='Pages'>
+                <button
+                    onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}
+                    className='PageButton'>
+                    ◄
+                </button>
+                Page {currentPage} of {totalPages}
+                <button
+                    onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}
+                    className='PageButton'>
+                    ►
+                </button>
+            </div>
 
             <table>
                 <thead>
@@ -74,7 +83,7 @@ function UsersList() {
                         <td>Username</td>
                         <td>User Type</td>
                         <td>Company</td>
-                        <td>Edit</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,7 +94,11 @@ function UsersList() {
                                 <td>{user.username}</td>
                                 <td>{user.userType}</td>
                                 <td>{getCompanyName(user.companyId)}</td>
-                                <td><button onClick={() => onEditClicked(user.id)}>Edit</button></td>
+                                <td><button
+                                    className='EditButton'
+                                    onClick={() => onEditClicked(user.id)}>
+                                    Edit
+                                </button></td>
                             </tr>
                         ))
                     ) : (

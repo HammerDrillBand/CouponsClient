@@ -100,13 +100,14 @@ function CategoryEditor() {
             {getUserType() == 'ADMIN' ? (
                 <>
                     {!isNewCategory && (
-                        <div>
-                            <label>Category #: {formData.id}</label>
+                        <div className='EditorLineItem'>
+                            <label className='Label'>Category #: {formData.id}</label>
                         </div>
                     )}
-                    <div>
-                        <label>Name:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Name:</label>
                         <input
+                            className='EditorInput'
                             type='text'
                             id='name'
                             name='name'
@@ -114,17 +115,21 @@ function CategoryEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <button
-                        onClick={onSaveChangesClicked}
-                        disabled={!isChangesMade}>
-                        Save Changes
-                    </button>
-                    {!isNewCategory && (
-                        <button onClick={onDeleteClicked}>
-                            Delete This Category
+                    <div className='ButtonContainer'>
+                        <button
+                            className={`${isChangesMade ? 'SaveButton' : 'disabled-button'}`}
+                            onClick={onSaveChangesClicked}
+                            disabled={!isChangesMade}>
+                            Save Changes
                         </button>
-                    )}
-
+                        {!isNewCategory && (
+                            <button
+                                className='DeleteButton'
+                                onClick={onDeleteClicked}>
+                                Delete This Category
+                            </button>
+                        )}
+                    </div>
                 </>
             ) : (
                 <div>Why are you even here?!</div>

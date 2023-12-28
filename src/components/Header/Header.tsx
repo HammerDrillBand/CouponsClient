@@ -27,6 +27,7 @@ function Header() {
     let isUsersRoute: boolean = location.pathname === '/users';
     let isCompaniesRoute: boolean = location.pathname === '/companies';
     let isCategoriesRoute: boolean = location.pathname === '/categories';
+    let isEditorRoute: boolean = location.pathname.includes('editor');
 
     useEffect(() => {
         setLoginStatus();
@@ -99,7 +100,6 @@ function Header() {
     };
 
     function goToCompanyCreator() {
-        debugger;
         dispatch({ type: ActionType.resetEditedCompany });
         navigate('/company_editor');
     };
@@ -180,9 +180,9 @@ function Header() {
                                 <a href="#" onClick={goToUsersList}>Users</a>
                                 <a href="#" onClick={goToCompaniesList}>Companies</a>
                                 <a href="#" onClick={goToCategoriesList}>Categories</a>
-                                <a href="#" onClick={seeUserPurchases}>Purchases History</a>
                             </>
                         )}
+                        <a href="#" onClick={seeUserPurchases}>Purchases History</a>
                         <a href="#" onClick={userLoggedOut} className="withBorder">Logout</a>
                     </div>
                 </div>
@@ -195,6 +195,12 @@ function Header() {
                     {isCompaniesRoute && <button onClick={goToCompanyCreator} className="AddButton">Add New Company</button>}
                     {isCategoriesRoute && <button onClick={goToCategoryCreator} className="AddButton">Add New Category</button>}
                 </>
+            )}
+
+            {(getUserType() == "CUSTOMER" || isEditorRoute) && (
+                <div>
+                    {/* Blank placeholder in place of button 2, to keep the 'hello' message in it's designated place*/}
+                </div>
             )}
 
             {!isLoggedIn && (
@@ -211,7 +217,7 @@ function Header() {
             <div>
                 {isLoggedIn && (
                     <div>
-                        <div className="Welcome">Welcome, {localStorage.getItem('username')}</div>
+                        <div className="Welcome">Hello, {localStorage.getItem('username')}</div>
                     </div>
                 )}
             </div>

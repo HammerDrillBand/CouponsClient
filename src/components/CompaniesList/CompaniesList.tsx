@@ -30,7 +30,7 @@ function CompaniesList() {
             &searchText=${searchText}`);
 
             let { companies, totalPages } = responseCompanies.data;
-            
+
             setCompanies(companies);
             setTotalPages(totalPages || 0);
             setCurrentPage((currentPage) => Math.max(1, Math.min(currentPage, totalPages)));
@@ -53,9 +53,19 @@ function CompaniesList() {
 
     return (
         <div className="CompaniesList">
-            <button onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}>◄</button>
-            Page {currentPage} of {totalPages}
-            <button onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}>►</button>
+            <div className='Pages'>
+                <button
+                    onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}
+                    className='PageButton'>
+                    ◄
+                </button>
+                Page {currentPage} of {totalPages}
+                <button
+                    onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}
+                    className='PageButton'>
+                    ►
+                </button>
+            </div>
 
             <table>
                 <thead>
@@ -66,7 +76,7 @@ function CompaniesList() {
                         <td>Registry Number</td>
                         <td>Address</td>
                         <td>Contact Email</td>
-                        <td>Edit</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,7 +89,11 @@ function CompaniesList() {
                                 <td>{company.registryNumber}</td>
                                 <td>{company.address}</td>
                                 <td>{company.contactEmail}</td>
-                                <td><button onClick={() => onEditClicked(company.id)}>Edit</button></td>
+                                <td><button
+                                    className='EditButton'
+                                    onClick={() => onEditClicked(company.id)}>
+                                    Edit
+                                </button></td>
                             </tr>
                         ))
                     ) : (

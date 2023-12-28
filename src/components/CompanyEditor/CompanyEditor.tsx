@@ -106,13 +106,14 @@ function CompanyEditor() {
             {getUserType() == 'ADMIN' ? (
                 <>
                     {!isNewComapny && (
-                        <div>
-                            <label>Company #: {formData.id}</label>
+                        <div className='EditorLineItem'>
+                            <label className='Label'>Company #: {formData.id}</label>
                         </div>
                     )}
-                    <div>
-                        <label>Name:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Name:</label>
                         <input
+                            className='EditorInput'
                             type='text'
                             id='name'
                             name='name'
@@ -120,9 +121,10 @@ function CompanyEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Company Type:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Company Type:</label>
                         <select
+                            className='EditorInput'
                             id='companyType'
                             name='companyType'
                             value={formData.companyType}
@@ -136,9 +138,10 @@ function CompanyEditor() {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <label>Registry Number:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Registry Number:</label>
                         <input
+                            className='EditorInput'
                             type='number'
                             id='registryNumber'
                             name='registryNumber'
@@ -146,9 +149,10 @@ function CompanyEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Address:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Address:</label>
                         <input
+                            className='EditorInput'
                             type='text'
                             id='address'
                             name='address'
@@ -156,9 +160,10 @@ function CompanyEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-                    <div>
-                        <label>Contact Email:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Contact Email:</label>
                         <input
+                            className='EditorInput'
                             type='text'
                             id='contactEmail'
                             name='contactEmail'
@@ -166,19 +171,22 @@ function CompanyEditor() {
                             onChange={inputChanged}
                         />
                     </div>
-
-
-                    <button
-                        onClick={onSaveChangesClicked}
-                        disabled={!isChangesMade}>
-                        Save Changes
-                    </button>
-                    {!isNewComapny && (
-                        <button onClick={onDeleteClicked}>
-                            Delete This Company
+                    <div className='ButtonContainer'>
+                        <button
+                            className={`${isChangesMade ? 'SaveButton' : 'disabled-button'}`}
+                            onClick={onSaveChangesClicked}
+                            disabled={!isChangesMade}>
+                            Save Changes
                         </button>
-                    )}
+                        {!isNewComapny && (
+                            <button
+                                className='DeleteButton'
+                                onClick={onDeleteClicked}>
+                                Delete This Company
+                            </button>
+                        )}
 
+                    </div>
                 </>
             ) : (
                 <div>Why are you even here?!</div>

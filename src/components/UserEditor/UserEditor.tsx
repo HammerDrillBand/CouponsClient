@@ -16,7 +16,9 @@ function UserEditor() {
 
     let user: IUser = useSelector((state: AppState) => state.editedUser);
     let companies: ICompany[] = useSelector((state: AppState) => state.companies);
+
     let userTypes = ["ADMIN", "COMPANY", "CUSTOMER"];
+
     let [isChangesMade, setIsChangesMade] = useState<boolean>(false);
     let [isChangingPassword, setIsChangingPassword] = useState<boolean>(false);
 
@@ -109,13 +111,14 @@ function UserEditor() {
             {getUserType() == 'ADMIN' ? (
                 <>
                     {!isNewUser && (
-                        <div>
-                            <label>User #: {formData.id}</label>
+                        <div className='EditorLineItem'>
+                            <label className='Label'>User #: {formData.id}</label>
                         </div>
                     )}
-                    <div>
-                        <label>Username:</label>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>Username:</label>
                         <input
+                            className='EditorInput'
                             type='text'
                             id='username'
                             name='username'
@@ -123,24 +126,31 @@ function UserEditor() {
                             onChange={userInputChanged}
                         />
                     </div>
-                    {(isChangingPassword || isNewUser) ?
-                        <div>
-                            <label>Password:</label>
-                            <input
-                                type='password'
-                                id='password'
-                                name='password'
-                                value={formData.password}
-                                onChange={userInputChanged}
-                            />
-                        </div>
-                        :
-                        <button onClick={() => setIsChangingPassword(true)}>
-                            Change Password
-                        </button>}
-                    <div>
-                        <label>User Type:</label>
+                    <div className='EditorLineItem'>
+
+                        {(isChangingPassword || isNewUser) ?
+                            <>
+                                <label className='Label'>Password:</label>
+                                <input
+                                    className='EditorInput'
+                                    type='password'
+                                    id='password'
+                                    name='password'
+                                    value={formData.password}
+                                    onChange={userInputChanged}
+                                />
+                            </>
+                            :
+                            <button
+                            className='ChangePasswordButton'
+                            onClick={() => setIsChangingPassword(true)}>
+                                Change Password
+                            </button>}
+                    </div>
+                    <div className='EditorLineItem'>
+                        <label className='Label'>User Type:</label>
                         <select
+                            className='EditorInput'
                             id='userType'
                             name='userType'
                             value={formData.userType}
@@ -155,9 +165,10 @@ function UserEditor() {
                         </select>
                     </div>
                     {formData.userType == 'COMPANY' && (
-                        <div>
-                            <label>Company:</label>
+                        <div className='EditorLineItem'>
+                            <label className='Label'>Company:</label>
                             <select
+                                className='EditorInput'
                                 id='comapnyId'
                                 name='companyId'
                                 value={getCompanyNameById(formData.companyId)}
@@ -172,17 +183,22 @@ function UserEditor() {
                             </select>
                         </div>
                     )}
-                    <button
-                        onClick={onSaveChangesClicked}
-                        disabled={!isChangesMade}>
-                        Save Changes
-                    </button>
-                    {!isNewUser && (
-                        <button onClick={onDeleteClicked}>
-                            Delete This User
-                        </button>
-                    )}
 
+                    <div className='ButtonContainer'>
+                        <button
+                            className={`${isChangesMade ? 'SaveButton' : 'disabled-button'}`}
+                            onClick={onSaveChangesClicked}
+                            disabled={!isChangesMade}>
+                            Save Changes
+                        </button>
+                        {!isNewUser && (
+                            <button
+                                className='DeleteButton'
+                                onClick={onDeleteClicked}>
+                                Delete This User
+                            </button>
+                        )}
+                    </div>
                 </>
             ) : (
                 <div>Why are you even here?!</div>

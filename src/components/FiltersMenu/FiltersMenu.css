@@ -1,6 +1,6 @@
 .FiltersMenu {
     display: grid;
-    grid-template-rows: 30vmin 30vmin 20vmin 7vmin;
+    grid-template-rows: 30vh 30vh 20vh 7vh;
     grid-template-columns: 100%;
     grid-template-areas:
         'categories'
@@ -18,32 +18,35 @@
     grid-area: companies;
 }
 
-.companies,
-.categories {
-    width: 100%;
-    overflow-y: auto;
-    margin-left: 1vmin;
-}
-
 .prices {
-    overflow-y: auto;
     grid-area: prices;
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
 }
+
+.companies,
+.categories,
+.prices {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    margin-left: 1vmin;
+    font-size: 1.2vmin;
+}
+
 
 .resetButton {
     grid-area: resetButton;
     background-color: rgb(215, 221, 250);
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1.5vmin;
-    height: 6vh;
-    width: 8vw;
+    height: 6vmin;
+    width: 8vmin;
     cursor: pointer;
     padding: 1vmin;
     margin: 0 auto;
@@ -58,7 +61,7 @@
 
 .checkbox {
     --borderColor: rgb(165, 126, 42);
-    --borderWidth: .125em;
+    --borderWidth: 0.2vmin;
 }
 
 .checkbox label {
@@ -73,8 +76,8 @@
     appearance: none;
     vertical-align: middle;
     background: antiquewhite;
-    font-size: 1.8em;
-    border-radius: 0.125em;
+    font-size: 2vmin;
+    border-radius: 0.5vmin;
     display: inline-block;
     border: var(--borderWidth) solid var(--borderColor);
     width: 1em;
@@ -121,27 +124,36 @@
     outline: calc(var(--borderWidth) / 2) dotted rgba(0, 0, 0, 0.25);
 }
 
-.numberInput {
+.PriceInput {
     background-color: antiquewhite;
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1vmin;
     text-align: center;
     height: 3vh;
-    width: 50%;
+    width: 12vw;
+    cursor: pointer;
 }
 
-.numberInput:hover {
+.PriceInput:hover {
     transform: scale(1.10);
     border: 0.5vmin solid;
     border-color: #4fffe7;
     background-color: rgb(128, 156, 198);
 }
 
-.numberInput:focus {
+.PriceInput:focus {
     outline: none;
     border: 0.5vmin solid;
     border-color: rgba(0, 123, 255, 0.8);
 }
+
+.FilterLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 2vmin;
+}
+

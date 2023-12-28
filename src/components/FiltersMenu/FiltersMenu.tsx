@@ -39,7 +39,9 @@ function FiltersMenu() {
     async function getCategories() {
         try {
             let responseCategories = await axios.get('http://localhost:8080/categories');
-            setCategories(responseCategories.data);
+            let newCategories = responseCategories.data
+            setCategories(newCategories);
+            dispatch({ type: ActionType.UpdateCategories, payload: { categories: newCategories } });
         } catch (error: any) {
             alert(error.response.data.errorMessage);
         }
@@ -53,7 +55,9 @@ function FiltersMenu() {
             } else {
                 responseCompanies = await axios.get('http://localhost:8080/companies');
             }
-            setCompanies(responseCompanies.data);
+            let newCompanies = responseCompanies.data;
+            setCompanies(newCompanies);
+            dispatch({ type: ActionType.UpdateCompanies, payload: { companies: newCompanies } });
         } catch (error: any) {
             alert(error.response.data.errorMessage);
         }
@@ -147,70 +151,76 @@ function FiltersMenu() {
     return (
         <div className='FiltersMenu'>
             {!isUsersRoute &&
-                <div className='categories'>
-                    <h2>Select Category</h2>
-                    {Array.isArray(categories) && categories.map(category => (
-                        <div key={category.id} className='checkbox'>
-                            <label className='container'>
-                                <input
-                                    type="checkbox"
-                                    value={category.name}
-                                    checked={selectedCategories.includes(category.id)}
-                                    onChange={() => categorySelectionChanged(category.id)}
-                                />
-                                <div className="checkmark"></div>
-                                {category.name}
-                            </label>
-                        </div>
-                    ))}
+                <div>
+                    <label className='FilterLabel'>Select Category</label>
+                    <div className='categories'>
+                        {Array.isArray(categories) && categories.map(category => (
+                            <div key={category.id} className='checkbox'>
+                                <label className='container'>
+                                    <input
+                                        type="checkbox"
+                                        value={category.name}
+                                        checked={selectedCategories.includes(category.id)}
+                                        onChange={() => categorySelectionChanged(category.id)}
+                                    />
+                                    <div className="checkmark"></div>
+                                    {category.name}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             }
 
             <div>
                 {getUserType() !== 'COMPANY' && (
-                    <div className='companies'>
-                        <h2>Select Provider</h2>
-                        {Array.isArray(companies) && companies.map(company => (
-                            <div key={company.id} className='checkbox'>
-                                <label className='container'>
-                                    <input
-                                        type="checkbox"
-                                        value={company.name}
-                                        checked={selectedCompanies.includes(company.id)}
-                                        onChange={() => companySelectionChanged(company.id)}
-                                    />
-                                    <div className="checkmark"></div>
-                                    {company.name}
-                                </label>
-                            </div>
-                        ))}
+                    <div>
+                        <label className='FilterLabel'>Select Provider</label>
+                        <div className='companies'>
+                            {Array.isArray(companies) && companies.map(company => (
+                                <div key={company.id} className='checkbox'>
+                                    <label className='container'>
+                                        <input
+                                            type="checkbox"
+                                            value={company.name}
+                                            checked={selectedCompanies.includes(company.id)}
+                                            onChange={() => companySelectionChanged(company.id)}
+                                        />
+                                        <div className="checkmark"></div>
+                                        {company.name}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>
 
             {isCouponsRoute && (
-                <div className='prices'>
-                    <h2>Select Price</h2>
+                <div>
+                    <label className='FilterLabel'>Select Price</label>
+                    <div className='prices'>
+                        <span>From: </span>
+                        <input
+                            className='PriceInput'
+                            type="number"
+                            min={minPrice}
+                            max={maxPrice}
+                            value={filteredMinPrice}
+                            onChange={event => minPriceChanged(+event.target.value)}
+                        />
+                        <br />
+                        <span>To: </span>
+                        <input
+                            className='PriceInput'
+                            type="number"
+                            min={minPrice}
+                            max={maxPrice}
+                            value={filteredMaxPrice}
+                            onChange={event => maxPriceChanged(+event.target.value)}
+                        />
 
-                    <span>From: </span><br/>
-                    <input
-                        className='numberInput'
-                        type="number"
-                        min={minPrice}
-                        max={maxPrice}
-                        value={filteredMinPrice}
-                        onChange={event => minPriceChanged(+event.target.value)}
-                    />
-                    <br />
-                    <span>To: </span><br/>
-                    <input
-                        className='numberInput'
-                        type="number"
-                        min={minPrice}
-                        max={maxPrice}
-                        value={filteredMaxPrice}
-                        onChange={event => maxPriceChanged(+event.target.value)}
-                    />
+                    </div>
                 </div>
             )}
             <button onClick={resetFilters} className='resetButton'>Reset</button>

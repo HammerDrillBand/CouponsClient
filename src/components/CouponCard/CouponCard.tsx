@@ -103,17 +103,59 @@ function CouponCard(props: ICoupon) {
             <button onClick={openModal} className='NeutralButton'>More</button>
 
             <Modal className='Modal' isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <div>{props.name}</div>
-                <div>{props.description}</div>
-                <div>Valid from: {props.startDate}</div>
-                <div> to: {props.endDate}</div>
-                <div>Category: {props.categoryName}</div>
-                <div>Provided by: {props.companyName}</div>
-                <div>Available amount: {availableAmount}</div>
-                <div>NIS {props.price}</div>
+                <div className='ModalName'>{props.name}</div>
+                <div className='ModalDescription'>{props.description}</div>
+                <div className='LineItem'>
+                    <div className='ModalLabel'>
+                        Valid from:
+                    </div>
+                    <div className='ModalData'>
+                        {props.startDate}
+                    </div>
+                </div>
+                <div className='LineItem'>
+                    <div className='ModalLabel'>
+                        to:
+                    </div>
+                    <div className='ModalData'>
+                        {props.endDate}
+                    </div>
+                </div>
+                <div className='LineItem'>
+                    <div className='ModalLabel'>
+                        Category:
+                    </div>
+                    <div className='ModalData'>
+                        {props.categoryName}
+                    </div>
+                </div>
+                <div className='LineItem'>
+                    <div className='ModalLabel'>
+                        Provided by:
+                    </div>
+                    <div className='ModalData'>
+                        {props.companyName}
+                    </div>
+                </div>
+                <div className='LineItem'>
+                    <div className='ModalLabel'>
+                        Available amount:
+                    </div>
+                    <div className='ModalData'>
+                        {availableAmount}
+                    </div>
+                </div>
+                <div className='LineItem'>
+                    <div className='ModalLabel'>
+                        Unit Cost
+                    </div>
+                    <div className='ModalData'>
+                        {props.price}
+                    </div>
+                </div>
                 {getUserType() == "CUSTOMER" ? (
-                    <>
-                        <div>Choose Amount to Buy:</div>
+                    <div className='LineItem'>
+                        <div className='ModalLabel'>Choose Amount to Buy:</div>
                         <input type="number"
                             className='numberInput'
                             value={quantity}
@@ -123,11 +165,11 @@ function CouponCard(props: ICoupon) {
                             onChange={event => setQuantity(+event.target.value)} />
                         <button
                             onClick={onPurchaseClicked}
-                            disabled={!isLoggedIn || props.amount === 0 || quantity > availableAmount}
-                            className={!isLoggedIn || quantity > availableAmount || quantity == 0 ? 'disabled-button' : 'BuyButton'}>
+                            disabled={props.amount === 0 || quantity > availableAmount}
+                            className={quantity > availableAmount || quantity == 0 ? 'DisabledModalButton' : 'BuyButton'}>
                             Buy now
                         </button>
-                    </>
+                    </div>
                 ) : (
                     <>
                         {getUserType() == "ADMIN" || getUserType() == "COMPANY" ? (

@@ -18,17 +18,18 @@
     cursor: pointer;
 }
 
-.AddButton{
+.AddButton {
     background-color: rgb(223, 250, 215);
 }
 
-.HeaderButton{
+.HeaderButton {
     background-color: rgb(215, 221, 250);
 }
 
-.AddButton, .HeaderButton{
+.AddButton,
+.HeaderButton {
     grid-area: button2;
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -38,7 +39,8 @@
     cursor: pointer;
 }
 
-.AddButton:hover, .HeaderButton:hover{
+.AddButton:hover,
+.HeaderButton:hover {
     background-color: rgb(128, 156, 198);
     transform: scale(1.10);
     border: 0.5vmin solid;
@@ -63,7 +65,7 @@
 
 .dropdown-content {
     border-radius: 1vmin;
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     display: none;
     position: absolute;
     background-color: #f1f1f1;
@@ -101,7 +103,7 @@
 .SearchBar {
     grid-area: search;
     background-color: antiquewhite;
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     margin-right: 1vw;
@@ -131,7 +133,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 5px solid;
+    border: 0.3vmin solid;
     border-color: rgb(165, 126, 42);
     background-color: rgba(46, 22, 2, 0.8);
     border-radius: 50%;
@@ -142,17 +144,17 @@
     transform: translate(-50%, -50%);
 }
 
-#Login{
+#Login {
     grid-area: button2;
 }
 
-#Register{
+#Register {
     grid-area: button1;
 }
 
-.ReturnButton{
+.ReturnButton {
     background-color: rgb(250, 215, 215);
-    border: solid rgb(165, 126, 42);
+    border: 0.3vmin solid rgb(165, 126, 42);
     border-radius: 1vmin;
     transition: 0.3s;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -162,7 +164,7 @@
     cursor: pointer;
 }
 
-.ReturnButton:hover{
+.ReturnButton:hover {
     background-color: rgb(128, 156, 198);
     transform: scale(1.10);
     border: 0.5vmin solid;

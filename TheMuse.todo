@@ -3,17 +3,18 @@ TheMuse:
         - make filters menu dissappear when irrelevant @done
         - Add remaining 'Add' and 'List' buttons in menu for resources when editors are completed @done
         - make Admin able to edit and add on server side, like done for Coupons @done
-        - Edit all CSS
+        - Edit all CSS @done
         - Add search in the header @done
         - Inspect permissions in controllers. Make all used function receive token
         - change events to "any" and remove unnecessary functions in all editors. Check all functions @done
         - Remove unused functions in server
         - remove getInitialData from app.tsx. All components load data individually @done
-        - Companies selction field in the Filters Menu does not scroll when overflow. CSS same as categories
-        - Light-green stripe at the bottom of the page. Find how to delete
+        - Companies selction field in the Filters Menu does not scroll when overflow. CSS same as categories @done
+        - Light-green stripe at the bottom of the page. Find how to delete @done
         - Coupon cards in container do not behave as required in CSS (flex) @done
         - Align all contents of coupon card to the center vertically and horizontally @done
-        - make all CSS responsive
+        - make all CSS responsive @done
+        - Hello 'username' is in the wrong place when in editors (Admin) and when Customer @done
     - Resources
         - Coupons
             - isAvailable @done
