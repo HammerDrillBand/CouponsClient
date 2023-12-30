@@ -54,15 +54,17 @@ function CompaniesList() {
     return (
         <div className="CompaniesList">
             <div className='Pages'>
-                <button
+            <button
                     onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}
-                    className='PageButton'>
+                    className={`${currentPage == 1 ? 'DisabledPageButton' : 'PageButton'}`}
+                    disabled={currentPage == 1}>
                     ◄
                 </button>
                 Page {currentPage} of {totalPages}
                 <button
                     onClick={() => setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1))}
-                    className='PageButton'>
+                    className={`${currentPage == totalPages ? 'DisabledPageButton' : 'PageButton'}`}
+                    disabled={currentPage == totalPages}>
                     ►
                 </button>
             </div>

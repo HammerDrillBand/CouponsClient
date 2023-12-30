@@ -138,7 +138,7 @@ function CouponEditor() {
             await axios.delete(`http://localhost:8080/coupons/${formData.id}`);
 
             alert("Coupon deleted successfully");
-            navigate(`/`);
+            window.location.reload();
         } catch (error: any) {
             alert(error.response.data.errorMessage);
         };
@@ -154,11 +154,6 @@ function CouponEditor() {
             return userTypeFromToken;
         }
         return null;
-    };
-
-    function getCompanyNameById(companyId: number): string | undefined {
-        let company: ICompany | undefined = companies.find((company) => company.id === companyId);
-        return company ? company.name : undefined;
     };
 
     return (
@@ -178,7 +173,7 @@ function CouponEditor() {
                                 className='EditorInput'
                                 id='comapnyId'
                                 name='companyId'
-                                value={getCompanyNameById(formData.companyId)}
+                                value={formData.companyId}
                                 onChange={inputChanged}
                             >
                                 <option value=''>Select Company</option>

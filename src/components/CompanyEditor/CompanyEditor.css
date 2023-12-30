@@ -77,7 +77,7 @@
 }
 
 .disabled-button {
-    background-color: 0.3vmin #ccc;
+    background-color: #ccc;
     color: #888;
     cursor: not-allowed;
     width: 12vw;

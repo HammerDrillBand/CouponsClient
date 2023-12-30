@@ -27,6 +27,7 @@ function Header() {
     let isUsersRoute: boolean = location.pathname === '/users';
     let isCompaniesRoute: boolean = location.pathname === '/companies';
     let isCategoriesRoute: boolean = location.pathname === '/categories';
+    let isPurchasesRoute: boolean = location.pathname === '/purchases';
     let isEditorRoute: boolean = location.pathname.includes('editor');
 
     useEffect(() => {
@@ -197,7 +198,7 @@ function Header() {
                 </>
             )}
 
-            {(getUserType() == "CUSTOMER" || isEditorRoute) && (
+            {(getUserType() == "CUSTOMER" || isEditorRoute || (getUserType()=="ADMIN" && isPurchasesRoute)) && (
                 <div>
                     {/* Blank placeholder in place of button 2, to keep the 'hello' message in it's designated place*/}
                 </div>

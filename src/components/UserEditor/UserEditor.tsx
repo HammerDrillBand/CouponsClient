@@ -101,11 +101,6 @@ function UserEditor() {
         return null;
     };
 
-    function getCompanyNameById(companyId: number): string | undefined {
-        let company: ICompany | undefined = companies.find((company) => company.id === companyId);
-        return company ? company.name : undefined;
-    };
-
     return (
         <div className='UserEditor'>
             {getUserType() == 'ADMIN' ? (
@@ -171,7 +166,7 @@ function UserEditor() {
                                 className='EditorInput'
                                 id='comapnyId'
                                 name='companyId'
-                                value={getCompanyNameById(formData.companyId)}
+                                value={formData.companyId}
                                 onChange={userInputChanged}
                             >
                                 <option value=''>Select Company</option>

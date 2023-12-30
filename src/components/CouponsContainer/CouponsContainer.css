@@ -51,3 +51,21 @@
     background-color: rgb(130, 198, 128);
     border-color: #64ff4f;
 }
+
+.DisabledPageButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ccc;
+    border: 0.3vmin solid #888;
+    border-radius: 0.5vmin;
+    transition: 0.3s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5vmin;
+    height: 2vmin;
+    width: 2vmin;
+    cursor: not-allowed;
+    padding: 1vmin;
+    margin-left: 2vmin;
+    margin-right: 2vmin;
+}

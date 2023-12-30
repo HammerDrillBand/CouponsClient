@@ -5,9 +5,9 @@ TheMuse:
         - make Admin able to edit and add on server side, like done for Coupons @done
         - Edit all CSS @done
         - Add search in the header @done
-        - Inspect permissions in controllers. Make all used function receive token
+        - Inspect permissions in controllers. Make all used function receive token @done
         - change events to "any" and remove unnecessary functions in all editors. Check all functions @done
-        - Remove unused functions in server
+        - Remove unused functions in server @done
         - remove getInitialData from app.tsx. All components load data individually @done
         - Companies selction field in the Filters Menu does not scroll when overflow. CSS same as categories @done
         - Light-green stripe at the bottom of the page. Find how to delete @done
@@ -15,6 +15,9 @@ TheMuse:
         - Align all contents of coupon card to the center vertically and horizontally @done
         - make all CSS responsive @done
         - Hello 'username' is in the wrong place when in editors (Admin) and when Customer @done
+        - Disable/disappear unusable page buttons @done
+        - UserEditor - When editing company not selected @done
+        - Hello message - Admin user in purchases displaced @done
     - Resources
         - Coupons
             - isAvailable @done

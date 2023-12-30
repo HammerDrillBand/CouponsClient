@@ -18,14 +18,7 @@ function Register() {
             let newUserDetails: INewUser = { username, password, userType };
             try {
                 await axios.post("http://localhost:8080/users", newUserDetails);
-                let response = await axios.post("http://localhost:8080/users/login", { username, password });
-                let serverResponse = response.data;
-                let token = 'Bearer ' + serverResponse.token;
-                axios.defaults.headers.common['Authorization'] = token;
-                localStorage.setItem('authToken', token);
-                localStorage.setItem('username', username);
-
-                dispatch({ type: ActionType.Login });
+                login();
             }
             catch (error: any) {
                 alert(error.response.data.errorMessage);
@@ -33,6 +26,18 @@ function Register() {
         } else {
             alert('The passwords entered are not identical')
         }
+    }
+
+    async function login(){
+        let response = await axios.post("http://localhost:8080/users/login", { username, password });
+        let serverResponse = response.data;
+        let token = 'Bearer ' + serverResponse;
+        axios.defaults.headers.common['Authorization'] = token;
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('username', username);
+
+        dispatch({ type: ActionType.Login });
+        window.location.reload();
     }
 
     return (

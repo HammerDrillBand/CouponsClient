@@ -36,7 +36,6 @@
     font-size: 1.2vmin;
 }
 
-
 .resetButton {
     grid-area: resetButton;
     background-color: rgb(215, 221, 250);
