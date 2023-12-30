@@ -27,6 +27,10 @@ function UsersList() {
         setIsLoading(false);
     }, [selectedCompanyIds, currentPage, searchText]);
 
+    if (isLoading) {
+        return <div>Loading...</div>;
+    };
+
     async function getUsers() {
         try {
             let responseUsers = await axios.get(`http://localhost:8080/users/byFilters?page=${currentPage}
@@ -45,10 +49,6 @@ function UsersList() {
         }
     };
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    };
-
     function onEditClicked(id: number) {
         let editedUser: IUser | undefined = users.find(user => user.id === id);
         dispatch({ type: ActionType.EditUser, payload: { editedUser } });
@@ -63,7 +63,7 @@ function UsersList() {
     return (
         <div className="UsersList">
             <div className='Pages'>
-            <button
+                <button
                     onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}
                     className={`${currentPage == 1 ? 'DisabledPageButton' : 'PageButton'}`}
                     disabled={currentPage == 1}>

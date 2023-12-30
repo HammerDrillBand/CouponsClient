@@ -19,7 +19,8 @@ thead th {
     border-bottom: 0.2vmin solid #ddd;
 }
 
-th, td {
+th,
+td {
     padding: 0.6vmin;
     text-align: left;
 }
@@ -93,7 +94,7 @@ p {
     border-color: #4fffe7;
 }
 
-.DisabledPageButton{
+.DisabledPageButton {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -16,10 +16,10 @@ function CouponsContainer() {
     let selectedMinPrice: number = useSelector<AppState, number>((state: AppState) => state.FilteredByMinPrice);
     let selectedMaxPrice: number = useSelector<AppState, number>((state: AppState) => state.FilteredByMaxPrice);
     let searchText: string = useSelector<AppState, string>((state: AppState) => state.searchText);
+
     let [coupons, setCoupons] = useState<ICoupon[]>([]);
     let [currentPage, setCurrentPage] = useState<number>(1);
     let [totalPages, setTotalPages] = useState<number>(1);
-
     let [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

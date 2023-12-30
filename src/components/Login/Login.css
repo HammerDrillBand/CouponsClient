@@ -1,14 +1,16 @@
-.Login{
-    display:flex;
+.Login {
+    display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
 }
 
-.Input, .LoginButton{
+.Input,
+.LoginButton {
     margin: 1vmin;
 }
-.Input{
+
+.Input {
     grid-area: search;
     background-color: antiquewhite;
     border: 0.3vmin solid rgb(165, 126, 42);
@@ -20,23 +22,26 @@
     height: 3vh;
     width: 200%;
 }
-.Input:hover{
+
+.Input:hover {
     transform: scale(1.10);
     border: 0.5vmin solid;
     border-color: #4fffe7;
     background-color: rgb(128, 156, 198);
 }
-.Input:focus{
+
+.Input:focus {
     outline: none;
     border: 0.5vmin solid;
     border-color: rgba(0, 123, 255, 0.8);
 }
-.Input:invalid{
+
+.Input:invalid {
     background-color: #dfbabf;
     transition: all 1s;
 }
 
-.LoginButton{
+.LoginButton {
     grid-area: button2;
     background-color: rgb(223, 250, 215);
     border: 0.3vmin solid rgb(165, 126, 42);
@@ -49,10 +54,9 @@
     cursor: pointer;
 }
 
-.LoginButton:hover{
+.LoginButton:hover {
     background-color: rgb(128, 156, 198);
     transform: scale(1.10);
     border: 0.5vmin solid;
     border-color: #4fffe7;
 }
-

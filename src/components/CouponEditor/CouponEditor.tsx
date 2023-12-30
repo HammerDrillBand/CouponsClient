@@ -18,14 +18,8 @@ function CouponEditor() {
     let coupon: ICoupon = useSelector((state: AppState) => state.editedCoupon);
     let categories: ICategory[] = useSelector((state: AppState) => state.categories);
     let companies: ICompany[] = useSelector((state: AppState) => state.companies);
+
     let [isChangesMade, setIsChangesMade] = useState<boolean>(false);
-
-    useEffect(() => {
-        formatDates();
-        dispatch({ type: ActionType.resetEditedCoupon });
-        setIsLoading(false);
-    }, []);
-
     let [formData, setFormData] = useState<ICoupon>({
         id: coupon.id,
         name: coupon.name,
@@ -41,9 +35,15 @@ function CouponEditor() {
         isAvailable: coupon.isAvailable,
         imageData: coupon.imageData
     });
-
     let [isLoading, setIsLoading] = useState(true);
+
     let isNewCoupon = formData.id == -1;
+
+    useEffect(() => {
+        formatDates();
+        dispatch({ type: ActionType.resetEditedCoupon });
+        setIsLoading(false);
+    }, []);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -158,7 +158,7 @@ function CouponEditor() {
 
     return (
         <div className='CouponEditor'>
-            {getUserType() != 'CUSTOMER' ? (
+            {(getUserType() == 'ADMIN' || getUserType() == 'COMPANY') ? (
                 <>
                     {!isNewCoupon && (
                         <div className='EditorLineItem'>

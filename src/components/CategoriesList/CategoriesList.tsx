@@ -24,6 +24,10 @@ function CategoriesList() {
         setIsLoading(false);
     }, [currentPage, searchText]);
 
+    if (isLoading) {
+        return <div>Loading...</div>;
+    };
+
     async function getCategories() {
         try {
             let responseCategories = await axios.get(`http://localhost:8080/categories/byFilters?page=${currentPage}
@@ -41,11 +45,6 @@ function CategoriesList() {
         }
     }
 
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    };
-
     function onEditClicked(id: number) {
         let editedCategory: ICategory | undefined = categories.find(category => category.id === id);
         dispatch({ type: ActionType.EditCategory, payload: { editedCategory } });
@@ -55,7 +54,7 @@ function CategoriesList() {
     return (
         <div className="CategoriesList">
             <div className='Pages'>
-            <button
+                <button
                     onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}
                     className={`${currentPage == 1 ? 'DisabledPageButton' : 'PageButton'}`}
                     disabled={currentPage == 1}>

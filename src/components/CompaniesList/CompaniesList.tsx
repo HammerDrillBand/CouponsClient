@@ -24,6 +24,10 @@ function CompaniesList() {
         setIsLoading(false);
     }, [currentPage, searchText]);
 
+    if (isLoading) {
+        return <div>Loading...</div>;
+    };
+
     async function getCompanies() {
         try {
             let responseCompanies = await axios.get(`http://localhost:8080/companies/byFilters?page=${currentPage}
@@ -41,10 +45,6 @@ function CompaniesList() {
         }
     }
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    };
-
     function onEditClicked(id: number) {
         let editedCompany: ICompany | undefined = companies.find(company => company.id === id);
         dispatch({ type: ActionType.EditCompany, payload: { editedCompany } });
@@ -54,7 +54,7 @@ function CompaniesList() {
     return (
         <div className="CompaniesList">
             <div className='Pages'>
-            <button
+                <button
                     onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}
                     className={`${currentPage == 1 ? 'DisabledPageButton' : 'PageButton'}`}
                     disabled={currentPage == 1}>

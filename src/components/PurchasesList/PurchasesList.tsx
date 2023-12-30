@@ -21,11 +21,14 @@ function PurchasesList() {
     let [purchases, setPurchases] = useState<IPurchase[]>([]);
     let [isLoading, setIsLoading] = useState(true);
 
-
     useEffect(() => {
         getPurchases();
         setIsLoading(false);
     }, [selectedCategoryIds, selectedCompanyIds, currentPage, searchText]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     async function getPurchases() {
         try {
@@ -44,10 +47,6 @@ function PurchasesList() {
             console.error("Error fetching purchases:", error);
             setIsLoading(false)
         }
-    }
-
-    if (isLoading) {
-        return <div>Loading...</div>;
     }
 
     function formatDate(date: string): string {
@@ -71,7 +70,7 @@ function PurchasesList() {
     return (
         <div className="PurchasesList">
             <div className='Pages'>
-            <button
+                <button
                     onClick={() => setCurrentPage((prevPage) => Math.max(1, prevPage - 1))}
                     className={`${currentPage == 1 ? 'DisabledPageButton' : 'PageButton'}`}
                     disabled={currentPage == 1}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './UserEditor.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../redux/app-state';
@@ -17,16 +17,8 @@ function UserEditor() {
     let user: IUser = useSelector((state: AppState) => state.editedUser);
     let companies: ICompany[] = useSelector((state: AppState) => state.companies);
 
-    let userTypes = ["ADMIN", "COMPANY", "CUSTOMER"];
-
     let [isChangesMade, setIsChangesMade] = useState<boolean>(false);
     let [isChangingPassword, setIsChangingPassword] = useState<boolean>(false);
-
-    useEffect(() => {
-        dispatch({ type: ActionType.resetEditedUser })
-        setIsLoading(false);
-    }, []);
-
     let [formData, setFormData] = useState<IUser>({
         id: user.id,
         username: user.username,
@@ -34,9 +26,15 @@ function UserEditor() {
         userType: user.userType,
         companyId: user.companyId
     });
-
     let [isLoading, setIsLoading] = useState(true);
+
+    let userTypes = ["ADMIN", "COMPANY", "CUSTOMER"];
     let isNewUser: boolean = formData.id == -1;
+
+    useEffect(() => {
+        dispatch({ type: ActionType.resetEditedUser })
+        setIsLoading(false);
+    }, []);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -137,8 +135,8 @@ function UserEditor() {
                             </>
                             :
                             <button
-                            className='ChangePasswordButton'
-                            onClick={() => setIsChangingPassword(true)}>
+                                className='ChangePasswordButton'
+                                onClick={() => setIsChangingPassword(true)}>
                                 Change Password
                             </button>}
                     </div>

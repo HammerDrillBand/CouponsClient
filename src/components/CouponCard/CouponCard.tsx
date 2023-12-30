@@ -2,30 +2,35 @@ import { useEffect, useState } from 'react';
 import { ICoupon } from '../../models/ICoupon';
 import './CouponCard.css'
 import Modal from 'react-modal';
-import { INewPurchase, IPurchase } from '../../models/IPurchase';
+import { INewPurchase } from '../../models/IPurchase';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ActionType } from '../../redux/action-type';
-import { AppState } from '../../redux/app-state';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'
 
 function CouponCard(props: ICoupon) {
 
+    Modal.setAppElement('#root');
+
     let dispatch = useDispatch();
     let navigate = useNavigate();
 
-    Modal.setAppElement('#root');
     let [availableAmount, setAvailableAmount] = useState(props.amount);
-    let isLoggedIn: boolean = useSelector((state: AppState) => state.isLoggedIn);
+    let [modalIsOpen, setIsOpen] = useState(false);
+    let [quantity, setQuantity] = useState(0);
+
+    let imageDataByte64: string = props.imageData;
+    let imageDataUrl = `data:image/jpeg;base64,${imageDataByte64}`;
+
+    let backgroundStyle = {
+        backgroundImage: `url(${imageDataUrl})`,
+    };
 
     useEffect(() => {
         setAvailableAmount(props.amount);
         closeModal();
     }, [availableAmount]);
-
-    let [modalIsOpen, setIsOpen] = useState(false);
-    let [quantity, setQuantity] = useState(0);
 
     function openModal() {
         setIsOpen(true);
@@ -74,13 +79,6 @@ function CouponCard(props: ICoupon) {
 
         dispatch({ type: ActionType.EditCoupon, payload: { editedCoupon } });
         navigate(`/coupon_editor?couponId=${editedCoupon.id}`);
-    };
-
-    let imageDataByte64: string = props.imageData;
-    let imageDataUrl = `data:image/jpeg;base64,${imageDataByte64}`;
-
-    let backgroundStyle = {
-        backgroundImage: `url(${imageDataUrl})`,
     };
 
     function getUserType(): string | null {

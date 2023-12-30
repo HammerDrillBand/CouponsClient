@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './CategoryEditor.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../redux/app-state';
@@ -14,20 +14,20 @@ function CategoryEditor() {
     let navigate = useNavigate();
 
     let category: ICategory = useSelector((state: AppState) => state.editedCategory);
+
     let [isChangesMade, setIsChangesMade] = useState<boolean>(false);
+    let [formData, setFormData] = useState<ICategory>({
+        id: category.id,
+        name: category.name
+    });
+    let [isLoading, setIsLoading] = useState(true);
+
+    let isNewCategory: boolean = formData.id == -1;
 
     useEffect(() => {
         dispatch({ type: ActionType.resetEditedCategory })
         setIsLoading(false);
     }, []);
-
-    let [formData, setFormData] = useState<ICategory>({
-        id: category.id,
-        name: category.name
-    });
-
-    let [isLoading, setIsLoading] = useState(true);
-    let isNewCategory: boolean = formData.id == -1;
 
     if (isLoading) {
         return <div>Loading...</div>;

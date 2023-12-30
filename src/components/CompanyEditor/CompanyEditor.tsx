@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './CompanyEditor.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../redux/app-state';
@@ -14,14 +14,9 @@ function CompanyEditor() {
     let navigate = useNavigate();
 
     let comapny: ICompany = useSelector((state: AppState) => state.editedCompany);
-    let ComapnyTypes = ["PRIVATE_OWNERSHIP", "PARTNERSHIP", "CORPORATION", "LLC"];
+
     let [isChangesMade, setIsChangesMade] = useState<boolean>(false);
-
-    useEffect(() => {
-        dispatch({ type: ActionType.resetEditedCompany })
-        setIsLoading(false);
-    }, []);
-
+    let [isLoading, setIsLoading] = useState(true);
     let [formData, setFormData] = useState<ICompany>({
         id: comapny.id,
         name: comapny.name,
@@ -31,8 +26,13 @@ function CompanyEditor() {
         contactEmail: comapny.contactEmail
     });
 
-    let [isLoading, setIsLoading] = useState(true);
+    let ComapnyTypes = ["PRIVATE_OWNERSHIP", "PARTNERSHIP", "CORPORATION", "LLC"];
     let isNewComapny: boolean = formData.id == -1;
+
+    useEffect(() => {
+        dispatch({ type: ActionType.resetEditedCompany })
+        setIsLoading(false);
+    }, []);
 
     if (isLoading) {
         return <div>Loading...</div>;

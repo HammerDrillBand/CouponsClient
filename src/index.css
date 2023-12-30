@@ -7,11 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body{
+html,
+body {
   height: 100%;
 }
 
-#root{
+#root {
   background-color: lightgreen;
   display: grid;
   overflow-y: hidden;

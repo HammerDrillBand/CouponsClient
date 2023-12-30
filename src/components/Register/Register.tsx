@@ -7,10 +7,11 @@ import { INewUser } from '../../models/IUser';
 
 
 function Register() {
+    let dispatch = useDispatch();
+
     let [username, setUsername] = useState("");
     let [password, setPassword] = useState("");
     let [passwordVerification, setPasswordVerification] = useState("");
-    let dispatch = useDispatch();
 
     async function onRegisterClicked() {
         if (password === passwordVerification) {
@@ -28,7 +29,7 @@ function Register() {
         }
     }
 
-    async function login(){
+    async function login() {
         let response = await axios.post("http://localhost:8080/users/login", { username, password });
         let serverResponse = response.data;
         let token = 'Bearer ' + serverResponse;

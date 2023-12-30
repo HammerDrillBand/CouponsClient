@@ -3,10 +3,10 @@
   height: 100vh;
   grid-template-rows: 10% 87% 3%;
   grid-template-columns: 15% 85%;
-  grid-template-areas: 
-  'header header'
-  'aside main'
-  'footer footer';
+  grid-template-areas:
+    'header header'
+    'aside main'
+    'footer footer';
 }
 
 .layout.no-aside {

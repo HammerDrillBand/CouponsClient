@@ -59,6 +59,17 @@ function Header() {
         window.location.reload();
     };
 
+    function setLoginStatus() {
+        let storedToken = localStorage.getItem('authToken');
+        if (storedToken) {
+            dispatch({ type: ActionType.Login });
+        };
+        if (isLoggedIn) {
+            setLoginIsOpen(false);
+            setRegisterIsOpen(false);
+        }
+    };
+
     function seeUserPurchases() {
         resetFilters();
         if (getUserType() == 'CUSTOMER') {
@@ -157,17 +168,6 @@ function Header() {
         setSearchText(searchText);
     };
 
-    function setLoginStatus() {
-        let storedToken = localStorage.getItem('authToken');
-        if (storedToken) {
-            dispatch({ type: ActionType.Login });
-        };
-        if (isLoggedIn) {
-            setLoginIsOpen(false);
-            setRegisterIsOpen(false);
-        }
-    };
-
     return (
         <div className="Header">
             <img className="Logo" src={logo} alt="TheMUSE logo" onClick={goToHome} />
@@ -198,7 +198,7 @@ function Header() {
                 </>
             )}
 
-            {(getUserType() == "CUSTOMER" || isEditorRoute || (getUserType()=="ADMIN" && isPurchasesRoute)) && (
+            {(getUserType() == "CUSTOMER" || isEditorRoute || (getUserType() == "ADMIN" && isPurchasesRoute)) && (
                 <div>
                     {/* Blank placeholder in place of button 2, to keep the 'hello' message in it's designated place*/}
                 </div>
