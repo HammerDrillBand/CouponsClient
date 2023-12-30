@@ -28,10 +28,7 @@ function FiltersMenu() {
     useEffect(() => {
         getCategories();
         getCompanies();
-        getUserType();
         getPrices();
-        setFilteredMaxPrice(maxPrice);
-        setFilteredMinPrice(minPrice);
         setSelectedCategories([]);
         setSelectedCompanies([]);
     }, [location.pathname]);
@@ -146,6 +143,8 @@ function FiltersMenu() {
         dispatch({ type: ActionType.resetFilters });
         setSelectedCategories([]);
         setSelectedCompanies([]);
+        setFilteredMaxPrice(maxPrice);
+        setFilteredMinPrice(minPrice);
     };
 
     return (
